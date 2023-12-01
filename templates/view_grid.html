@@ -23,12 +23,17 @@
         {% csrf_token %}
 
         <div class="form-row">
+           
             <div class="col-md-4 col-sm-12  form-group">
                 <label for="product">Product*</label>
+               
                 <select id="product" class="form-control" name="product" >
-                    <option value="" selected>Select Product</option>
+                    {% for product in product %}<option value="{{i.id}}" selected>{{product.name}}</option>
+                    {% endfor %}
                 </select>
+           
             </div>
+            
             <div class="col-md-4 col-sm-12  form-group">
                 <label for="product">Vehical Type*</label>
                 <select id="product" class="form-control" name="product" >
