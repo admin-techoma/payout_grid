@@ -1,0 +1,8 @@
+<option value="">Select</option>
+{% for vehical_type in vehical_type %}
+    <option value="{{ vehical_type.vehical_type }}">{{ vehical_type.vehical_type }}</option>
+{% endfor %}
+
+
+{% comment %} def filter_data(data, selected_product):
+    return [entry for entry in data if entry.product == selected_product] {% endcomment %}

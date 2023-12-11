@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>Upload Grid</h3>
+
+    <div class="card">
+      <div class="card-header pb-0">
+        <h5>Upload Grid</h5>
+      </div>
+      <form class="form theme-form" method="POST" action="{% url 'grid:upload_grid' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <div class="mb-3 row">
+                <label class="col-sm-3 col-form-label">Upload File</label>
+                <div class="col-sm-9">
+                  <input class="form-control" type="file" name="myfile">
+                </div>
+              </div>
+            </div>
+          </div>
+         
+        </div>
+        <div class="card-footer text-end">
+          <button class="btn btn-primary" type="submit">Submit</button>
+          <input class="btn btn-light" type="reset" value="Cancel">
+        </div>
+      </form>
+    </div>
+
+   
+        <!-- ... -->
+   <div class="card error-msg border-0 bg-transparent">
+    <h4>Error Found</h4>
+   </div>
+   <div class="table-responsive bg-white">
+<table class="table border ">
+  <thead>
+    <tr>
+      <th scope="row " style="width: 200px;">Row no</td>
+      <th>Error</td>
+    </tr>
+  </thead>
+  <tbody>   
+  {% for i,k in result.row_errors %}
+      <tr>
+        <td scope="row">
+          {{i|add:1}}
+        </td>
+      {% for j in k %}
+        <td colspan="2">  
+          {{j.error}}
+        </td>
+      {% endfor %}
+      </tr>  
+    {% endfor %}
+  </tbody>
+  </table>
+</div>
+
+</body>
+</html>
