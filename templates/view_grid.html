@@ -15,309 +15,377 @@
         body{
             width:100%;
             padding:20px;
-        }
+        {% comment %} }
+        #ratetable {
+            display: none;
+        } {% endcomment %}
     </style>
   </head>
   <body>
-    <h1>View Grids</h1>
-    <form class="form theme-form" method="POST" action="{% url 'grid:view_grid' %}" enctype="multipart/form-data">
+    <h1 class="light">View Grids</h1>
+  
+    <form class="form theme-form >" method="POST" action="" enctype="multipart/form-data">
         {% csrf_token %}
 
         <div class="form-row">
-
-            
-    
-                <div class="col-md-4 col-sm-12  form-group">
-                  <label for="productoptions">Product*</label>
-                  <select id="productoptions" class="form-control" name="product" >
-                      <option value="" selected>Select product</option>
-                      {% for product in products %}
-                          <option value="{{ product.product }}">{{ product.product }}</option>
-                      {% endfor %}
-                  </select>
-              </div>
-              <div class="col-md-4 col-sm-12  form-group">
-                  <label for="vehicaltypeoptions">vehical Type</label>
-                  <select id="vehicaltypeoptions" class="form-control" name="vehical_type" >
-                    <option value="" selected>Select vehical_type</option>
-                    {% for product in products %}
-                        <option value="{{ product.vehical_type }}">{{ product.vehical_type }}</option>
-                    {% endfor %}
-                
-                  </select>
-              </div>
-
-
-      <div class="col-md-4 col-sm-12  form-group">
-                <label for="vehicalsubtypeoptions">Vehical Sub Type*</label>
-                <select id="vehicalsubtypeoptions" class="form-control" name="vehical_subtype" >
-                    <option value="" selected>Select Vehical Sub Type</option>
-                    {% for product in products %}
-                        <option value="{{ product.vehical_subtype }}">{{ product.vehical_subtype }}</option>
-                    {% endfor %}
-                
-                </select>
-            </div>
-            <div class="col-md-4 col-sm-12  form-group">
-                <label for="productnameoptions">Product Name*</label>
-                <select id="productnameoptions" class="form-control" name="product_name" >
-                    <option value="" selected>Select Vehical Sub Type</option>
-                    {% for product in products %}
-                    <option value="{{ product.product_name}}">{{ product.product_name }}</option>
-                {% endfor %}
-                </select>
-            </div>
-            <div class="col-md-4 col-sm-12  form-group">
+            <div class="col-md-4 col-sm-12 form-group">
                 <label for="companyoptions">Provider</label>
-                <select id="companyoptions" class="form-control" name="company" >
-                    <option value="" selected>Select provider</option>
-                    {% for product in products %}
-                    <option value="{{ product.company}}">{{ product.company }}</option>
-                {% endfor %}
+                <select id="companyoptions" class="form-control" name="company">
+                    <option value="" selected>Select Company</option>
+                    {% for company in companys %}
+                        <option value="{{ company.company }}">{{ company.company }}</option>
+                    {% endfor %}
                 </select>
             </div>
-            <div class="col-md-4 col-sm-12  form-group">
-                <label for="stateoptions">Month</label>
-                <select id="monthoptions" class="form-control" name="month" >
-                    <option value="" selected>Select provider</option>
-                    {% for product in products %}
-                    <option value="{{ product.month}}">{{ product.month }}</option>
-                {% endfor %}
+            <div class="col-md-4 col-sm-12 form-group">
+                <label for="productoptions">Product*</label>
+                <select id="productoptions" class="form-control" name="product">
+                    <option value="" selected>Select product</option>
                 </select>
             </div>
-            <div class="col-md-4 col-sm-12  form-group">
+            <div class="col-md-4 col-sm-12 form-group">
+                <label for="vehicaltypeoptions">Vehicle Type</label>
+                <select id="vehicaltypeoptions" class="form-control" name="vehical_type">
+                    <option value="" selected>Select Vehicle Type</option>
+                </select>
+            </div>
+            <div class="col-md-4 col-sm-12 form-group">
+                <label for="vehicalsubtypeoptions">Vehicle Sub Type*</label>
+                <select id="vehicalsubtypeoptions" class="form-control" name="vehical_subtype">
+                    <option value="" selected>Select Vehicle Sub Type</option>
+                </select>
+            </div>
+            <div class="col-md-4 col-sm-12 form-group">
+                <label for="productnameoptions">Product Name*</label>
+                <select id="productnameoptions" class="form-control" name="product_name">
+                    <option value="" selected>Select Product Name</option>
+                </select>
+            </div>
+            <div class="col-md-4 col-sm-12 form-group">
+                <label for="monthoptions">Month</label>
+                <select id="monthoptions" class="form-control" name="month">
+                    <option value="" selected>Select Month</option>
+                </select>
+            </div>
+            <div class="col-md-4 col-sm-12 form-group">
                 <label for="stateoptions">State</label>
-                <select id="stateoptions" class="form-control" name="state" >
+                <select id="stateoptions" class="form-control" name="state">
                     <option value="" selected>Select State</option>
-                    {% for product in products %}
-                    <option value="{{ product.state}}">{{ product.state }}</option>
-                {% endfor %}
                 </select>
             </div>
-            <div class="col-md-4 col-sm-12  form-group">
+            <div class="col-md-3 col-sm-12 form-group">
                 <label for="rtooptions">RTO</label>
-                <select id="rtooptions" class="form-control" name="rto" >
-                    <option value="" selected>Select rto</option>
-                    {% for product in products %}
-                    <option value="{{ product.rto}}">{{ product.rto }}</option>
-                {% endfor %}
+                <select id="rtooptions" class="form-control" name="rto">
+                    <option value="" selected>Select RTO</option>
                 </select>
             </div>
+            
+          
         </div>
-        <div class="form-row">
-            <div class="col-md-9 col-sm-9  offset-md-4 mr-6 form-group">
-                
-                <input class="mr-2" type="checkbox" name="Live Rules(s)" id="">
-                <label for="product">Live Rules(s)</label>
-               
-                <input  class="mr-2"  type="checkbox" name="Standard Rules(s)" id="">
-                <label for="product">Standard Rules(s)</label>
-            </div>
-        </div> 
-        <div class="form-row">
-            <div class="col-md-9 col-sm-9  offset-md-4 form-group">
-                <a type="button" href="{% url 'grid:view_grid' %}" >gggggg</a>
-                    <input  class="btn btn-primary mr-2" type="button" value="Get Grid">
-                    <input class="btn  mr-2" type="button" value="Clear">
-                </div>
-        </div>
+        <!-- Additional form elements and buttons go here -->
+        <div class="">
+
+<table id="ratetable" class="table mb-2">
+
+    <thead class="table-light">
+      <tr>
+   
+        <th>Rate</th>
+        <th>Remarks </th>
+        <th>Agent Payout</th>
+
         
+      </tr>
+    </thead>
+    <tbody>
+  
+      <tr>
+     
+        <td> 
+          
+            <input id="rate-field" type="text" class="form-control" readonly>
+         </td>
+        <td>
+           
+            <textarea rows="4" cols="50" id="remarks-field" class="form-control" readonly></textarea>
+        </td>
+       <td> 
+
+        <input id="agent-payout-field" type="text" class="form-control" readonly>
+    </td>
+       
+
+  
+    </tbody><!-- end tbody-->
+  </table><!-- end table-->
+</div>
     </form>
-<!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
 
+// Load products based on selected company
+$("#companyoptions").change(function () {
+    var company_id = $(this).val();
 
-        // product to vehical_type
-        $("#productoptions").change(function () {
-            var dept_id = $(this).val();
+    $.ajax({
+        url: "{% url 'grid:ajax_load_product' %}",
+        data: {
+            'company': company_id
+        },
+        success: function (data) {
+            var productSelect = $("#productoptions");
+            productSelect.empty();  // Clear existing options
 
-            $.ajax({
-                url: "{% url 'grid:ajax_load_vehical_type' %}",
-                data: {
-                    'product': dept_id
-                },
-                success: function (data) {
-                    var vehicaltypeSelect = $("#vehicaltypeoptions");
-                    vehicaltypeSelect.empty();  // Clear existing options
+            var products = data.products;
+            productSelect.append(
+                $("<option>").attr('value', "").text("Select product")
+            );
 
-                    var vehicaltypes = data.vehical_types;
-                    vehicaltypeSelect.append(
-                        $("<option>").attr('value', "").text("")
-                    );
-                    for (var i = 0; i < vehicaltypes.length; i++) {
-                        vehicaltypeSelect.append(
-                            $("<option>").attr('value', vehicaltypes[i].vehical_type).text(vehicaltypes[i].vehical_type)
-                        );
-                    }
-                }
-           
-            });
-        });
+            for (var i = 0; i < products.length; i++) {
+                productSelect.append(
+                    $("<option>").attr('value', products[i].product).text(products[i].product)
+                );
+            }
+        }
+    });
+});
 
-        //vehical_type to vehical_subtype
-        $("#vehicaltypeoptions").change(function () {
-            var dept_id = $(this).val();
+// Load vehicle types based on selected company and product
+$("#productoptions").change(function () {
+    var company_id = $("#companyoptions").val();
+    var product_id = $(this).val();
 
-            $.ajax({
-                url: "{% url 'grid:ajax_load_vehical_subtype' %}",
-                data: {
-                    'vehical_type': dept_id
-                },
-                success: function (data) {
-                    var vehicalsubtypeSelect = $("#vehicalsubtypeoptions");
-                    vehicalsubtypeSelect.empty();  // Clear existing options
+    $.ajax({
+        url: "{% url 'grid:ajax_load_vehical_type' %}",
+        data: {
+            'company': company_id,
+            'product': product_id
+        },
+        success: function (data) {
+            var vehicaltypeSelect = $("#vehicaltypeoptions");
+            vehicaltypeSelect.empty();  // Clear existing options
 
-                    var vehicalsubtypes = data.vehical_subtypes;
-                    vehicalsubtypeSelect.append(
-                        $("<option>").attr('value', "").text("")
-                    );
-                    for (var i = 0; i < vehicalsubtypes.length; i++) {
-                        vehicalsubtypeSelect.append(
-                            $("<option>").attr('value', vehicalsubtypes[i].vehical_subtype).text(vehicalsubtypes[i].vehical_subtype)
-                        );
-                    }
-                
-                }
-            });
-        });
-         //vehical_subtype to product name
-         $("#vehicalsubtypeoptions").change(function () {
-            var dept_id = $(this).val();
+            var vehicaltypes = data.vehical_types;
+            vehicaltypeSelect.append(
+                $("<option>").attr('value', "").text("Select Vehical Type")
+            );
+            for (var i = 0; i < vehicaltypes.length; i++) {
+                vehicaltypeSelect.append(
+                    $("<option>").attr('value', vehicaltypes[i].vehical_type).text(vehicaltypes[i].vehical_type)
+                );
+            }
+        }
+    });
+});
 
-            $.ajax({
-                url: "{% url 'grid:ajax_load_product_name' %}",
-                data: {
-                    'vehical_subtype': dept_id
-                },
-                success: function (data) {
-                    var productnameSelect = $("#productnameoptions");
-                    productnameSelect.empty();  // Clear existing options
+// Load vehicle subtypes based on selected company, product, and vehicle type
+$("#vehicaltypeoptions").change(function () {
+    var company_id = $("#companyoptions").val();
+    var product_id = $("#productoptions").val();
+    var vehical_type_id = $(this).val();
 
-                    var productnames = data.product_names;
-                    productnameSelect.append(
-                        $("<option>").attr('value', "").text("")
-                    );
-                    for (var i = 0; i < productnames.length; i++) {
-                        productnameSelect.append(
-                            $("<option>").attr('value', productnames[i].product_name).text(productnames[i].product_name)
-                        );
-                    }
-                    
-                }
-            });
-        });
+    $.ajax({
+        url: "{% url 'grid:ajax_load_vehical_subtype' %}",
+        data: {
+            'company': company_id,
+            'product': product_id,
+            'vehical_type': vehical_type_id
+        },
+        success: function (data) {
+            var vehicalsubtypeSelect = $("#vehicalsubtypeoptions");
+            vehicalsubtypeSelect.empty();  // Clear existing options
 
-                 //product name to company
-                 $("#productnameoptions").change(function () {
-                    var dept_id = $(this).val();
+            var vehicalsubtypes = data.vehical_subtypes;
+            vehicalsubtypeSelect.append(
+                $("<option>").attr('value', "").text("Select Vehical Sub Type")
+            );
+            for (var i = 0; i < vehicalsubtypes.length; i++) {
+                vehicalsubtypeSelect.append(
+                    $("<option>").attr('value', vehicalsubtypes[i].vehical_subtype).text(vehicalsubtypes[i].vehical_subtype)
+                );
+            }
+        }
+    });
+});
+
+// Load product names based on selected company, product, vehicle type, and vehicle subtype
+$("#vehicalsubtypeoptions").change(function () {
+    var company_id = $("#companyoptions").val();
+    var product_id = $("#productoptions").val();
+    var vehical_type_id = $("#vehicaltypeoptions").val();
+    var vehical_subtype_id = $(this).val();
+
+    $.ajax({
+        url: "{% url 'grid:ajax_load_product_name' %}",
+        data: {
+            'company': company_id,
+            'product': product_id,
+            'vehical_type': vehical_type_id,
+            'vehical_subtype': vehical_subtype_id
+        },
+        success: function (data) {
+            var productnameSelect = $("#productnameoptions");
+            productnameSelect.empty();  // Clear existing options
+
+            var productnames = data.product_names;
+            productnameSelect.append(
+                $("<option>").attr('value', "").text("Select Product Name")
+            );
+            for (var i = 0; i < productnames.length; i++) {
+                productnameSelect.append(
+                    $("<option>").attr('value', productnames[i].product_name).text(productnames[i].product_name)
+                );
+            }
+        }
+    });
+});
+
+// Load months based on selected company, product, vehicle type, vehicle subtype, and product name
+$("#productnameoptions").change(function () {
+    var company_id = $("#companyoptions").val();
+    var product_id = $("#productoptions").val();
+    var vehical_type_id = $("#vehicaltypeoptions").val();
+    var vehical_subtype_id = $("#vehicalsubtypeoptions").val();
+    var product_name_id = $(this).val();
+
+    $.ajax({
+        url: "{% url 'grid:ajax_load_month' %}",
+        data: {
+            'company': company_id,
+            'product': product_id,
+            'vehical_type': vehical_type_id,
+            'vehical_subtype': vehical_subtype_id,
+            'product_name': product_name_id
+        },
+        success: function (data) {
+            var monthSelect = $("#monthoptions");
+            monthSelect.empty();  // Clear existing options
+
+            var months = data.months;
+            monthSelect.append(
+                $("<option>").attr('value', "").text("Select Month")
+            );
+            for (var i = 0; i < months.length; i++) {
+                monthSelect.append(
+                    $("<option>").attr('value', months[i].month).text(months[i].month)
+                );
+            }
+        }
+    });
+});
+
+// Load states based on selected company, product, vehicle type, vehicle subtype, product name, and month
+$("#monthoptions").change(function () {
+    var company_id = $("#companyoptions").val();
+    var product_id = $("#productoptions").val();
+    var vehical_type_id = $("#vehicaltypeoptions").val();
+    var vehical_subtype_id = $("#vehicalsubtypeoptions").val();
+    var product_name_id = $("#productnameoptions").val();
+    var month_id = $(this).val();
+
+    $.ajax({
+        url: "{% url 'grid:ajax_load_state' %}",
+        data: {
+            'company': company_id,
+            'product': product_id,
+            'vehical_type': vehical_type_id,
+            'vehical_subtype': vehical_subtype_id,
+            'product_name': product_name_id,
+            'month': month_id
+        },
+        success: function (data) {
+            var stateSelect = $("#stateoptions");
+            stateSelect.empty();  // Clear existing options
+
+            var states = data.states;
+            stateSelect.append(
+                $("<option>").attr('value', "").text("Select State")
+            );
+            for (var i = 0; i < states.length; i++) {
+                stateSelect.append(
+                    $("<option>").attr('value', states[i].state).text(states[i].state)
+                );
+            }
+        }
+    });
+});
+
+// Load RTOs based on selected company, product, vehicle type, vehicle subtype, product name, month, and state
+
+$("#stateoptions").change(function () {
+    var company_id = $("#companyoptions").val();
+    var product_id = $("#productoptions").val();
+    var vehical_type_id = $("#vehicaltypeoptions").val();
+    var vehical_subtype_id = $("#vehicalsubtypeoptions").val();
+    var product_name_id = $("#productnameoptions").val();
+    var month_id = $("#monthoptions").val();
+    var state_id = $(this).val();
+
+    $.ajax({
+        url: "{% url 'grid:ajax_load_rto' %}",
+        data: {
+            'company': company_id,
+            'product': product_id,
+            'vehical_type': vehical_type_id,
+            'vehical_subtype': vehical_subtype_id,
+            'product_name': product_name_id,
+            'month': month_id,
+            'state': state_id
+        },
+        success: function (data) {
+            var rtoSelect = $("#rtooptions");
+            rtoSelect.empty();  // Clear existing options
+
+            var rtos = data.rtos;
+            rtoSelect.append(
+                $("<option>").attr('value', "").text("Select rto")
+            );
+            for (var i = 0; i < rtos.length; i++) {
+                rtoSelect.append(
+                    $("<option>").attr('value', rtos[i].rto).text(rtos[i].rto)
+                );
+            }
+        }
+    });
+});
+// Load Rate, Remarks, and Agent Rate based on selected company, product, vehicle type, vehicle subtype, product name, month, state, and rto
+
+$("#rtooptions").change(function () {
+    var company_id = $("#companyoptions").val();
+    var product_id = $("#productoptions").val();
+    var vehical_type_id = $("#vehicaltypeoptions").val();
+    var vehical_subtype_id = $("#vehicalsubtypeoptions").val();
+    var product_name_id = $("#productnameoptions").val();
+    var month_id = $("#monthoptions").val();
+    var state_id = $("#stateoptions").val();
+    var rto_id = $(this).val();
+
+    $.ajax({
+        url: "{% url 'grid:ajax_load_rate_remarks_agent_payout' %}",
+        data: {
+            'company': company_id,
+            'product': product_id,
+            'vehical_type': vehical_type_id,
+            'vehical_subtype': vehical_subtype_id,
+            'product_name': product_name_id,
+            'month': month_id,
+            'state': state_id,
+            'rto': rto_id
+        },
+        success: function (data) {
+            // Update your UI with the received data
+            $("#rate-field").val(data.rate);
+            $("#remarks-field").val(data.remarks);
+            $("#agent-payout-field").val(data.agent_payout);
+
+            // Show the table after loading data
+            $("#ratetable").show();
+        }
         
-                    $.ajax({
-                        url: "{% url 'grid:ajax_load_company' %}",
-                        data: {
-                            'company': dept_id
-                        },
-                        success: function (data) {
-                            var companySelect = $("#companyoptions");
-                            companySelect.empty();  // Clear existing options
-        
-                            var companynames = data.companys;
-                            companySelect.append(
-                                $("<option>").attr('value', "").text("")
-                            );
-                            
-                            for (var i = 0; i < companynames.length; i++) {
-                                companySelect.append(
-                                    $("<option>").attr('value', companynames[i].company).text(companynames[i].company)
-                                );
-                            }
-                        }
-                    });
-                });
-                            //company to month
-                            $("#companyoptions").change(function () {
-                                var dept_id = $(this).val();
-                    
-                                $.ajax({
-                                    url: "{% url 'grid:ajax_load_month' %}",
-                                    data: {
-                                        'month': dept_id
-                                    },
-                                    success: function (data) {
-                                        var monthSelect = $("#monthoptions");
-                                        monthSelect.empty();  // Clear existing options
-                    
-                                        var monthnames = data.months;
-                                        monthSelect.append(
-                                            $("<option>").attr('value', "").text("")
-                                        );
-                                        
-                                        for (var i = 0; i < monthnames.length; i++) {
-                                            monthSelect.append(
-                                                $("<option>").attr('value', monthnames[i].month).text(monthnames[i].month)
-                                            );
-                                        }
-                                    }
-                                });
-                            });
-
-                            //month to state
-                            $("#monthoptions").change(function () {
-                                var dept_id = $(this).val();
-                    
-                                $.ajax({
-                                    url: "{% url 'grid:ajax_load_state' %}",
-                                    data: {
-                                        'state': dept_id
-                                    },
-                                    success: function (data) {
-                                        var stateSelect = $("#stateoptions");
-                                        stateSelect.empty();  // Clear existing options
-                    
-                                        var statenames = data.states;
-                                        stateSelect.append(
-                                            $("<option>").attr('value', "").text("")
-                                        );
-                                        
-                                        for (var i = 0; i < statenames.length; i++) {
-                                            stateSelect.append(
-                                                $("<option>").attr('value', statenames[i].state).text(statenames[i].state)
-                                            );
-                                        }
-                                    }
-                                });
-                            });
-                            // state to rto
-                            $("#stateoptions").change(function () {
-                                var dept_id = $(this).val();
-                    
-                                $.ajax({
-                                    url: "{% url 'grid:ajax_load_rto' %}",
-                                    data: {
-                                        'rto': dept_id
-                                    },
-                                    success: function (data) {
-                                        var rtoSelect = $("#rtooptions");
-                                        rtoSelect.empty();  // Clear existing options
-                    
-                                        var rtonames = data.rtos;
-                                        rtoSelect.append(
-                                            $("<option>").attr('value', "").text("")
-                                        );
-                                        
-                                        for (var i = 0; i < rtonames.length; i++) {
-                                            rtoSelect.append(
-                                                $("<option>").attr('value', rtonames[i].rto).text(rtonames[i].rto)
-                                            );
-                                        }
-                                    }
-                                });
-                            });
-
-
+    });
+});
 
 
   </script>

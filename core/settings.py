@@ -114,6 +114,14 @@ USE_I18N = True
 
 USE_TZ = True
 
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = 'login'
+
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'

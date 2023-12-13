@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static  %}
+
+{% block content %}
     <h3>Upload Grid</h3>
 
     <div class="card">
@@ -35,8 +31,9 @@
     </div>
 
    
-        <!-- ... -->
-   <div class="card error-msg border-0 bg-transparent">
+
+  <!-- ... -->
+  <div class="card error-msg border-0 bg-transparent">
     <h4>Error Found</h4>
    </div>
    <div class="table-responsive bg-white">
@@ -64,5 +61,32 @@
   </table>
 </div>
 
+
+
+<table class="table mb-0">
+
+  <thead class="table-light">
+    <tr>
+      <th>Sr</th>
+      <th>User Name</th>
+      <th>Created on </th>
+      <th>File Name</th>
+      <th>Downloard</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in data %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{i.user}}</td>
+      <td>{{i.created_on}}</td>
+     <td> {{i.uploaded_file.name}}</td>
+     <td> <a href="{{i.uploaded_file.url}}" target="_blank"> Downloard</a></td>
+      {% endfor %}
+
+  </tbody><!-- end tbody-->
+</table><!-- end table-->
+{% endblock %}
 </body>
 </html>

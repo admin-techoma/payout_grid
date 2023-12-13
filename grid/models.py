@@ -60,7 +60,7 @@ class Rto(models.Model):
     
 
 def grid_doc_path(instance,filename):
-    return 'grid_files/{0}'.format(instance.created_on,filename)
+    return f'grid_files/{filename}'
 
     #return 'reco_files/{0}'.format(datetime.today())
 
@@ -85,5 +85,7 @@ class Grid_data(models.Model):
     rate            =   models.CharField(max_length=255)
     remarks         =   models.CharField(max_length=255)
     agent_payout    =   models.CharField(max_length=255)
+    created_on      = models.DateField(default=timezone.now)
+    
 
 

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Insurance Rate and Remarks</title>
+</head>
+<body>
+
+<h2>Select Company and Product</h2>
+
+<form method="post" action="{% url 'grid:insurance_rate_remarks' %}" >
+    {% csrf_token %}
+    
+    <label for="company">Company:</label>
+    <select name="company" id="company">
+        <option value="HDFC">HDFC</option>
+        <option value="Bajaj">Bajaj</option>
+        <!-- Add other company options as needed -->
+    </select>
+    
+    <label for="product">Product:</label>
+    <select name="product" id="product">
+        <option value="Motor Insurance">Motor Insurance</option>
+        <option value="Fire Insurance">Fire Insurance</option>
+        <option value="Miscellaneous Insurance">Miscellaneous Insurance</option>
+        <option value="Life Insurance">Life Insurance</option>
+        <!-- Add other product options as needed -->
+    </select>
+    <div class="col-md-4 col-sm-12 form-group">
+        <label for="rate-field">Rate</label>
+        <input id="rate-field" type="text" class="form-control" readonly>
+    </div>
+
+    <div class="col-md-4 col-sm-12 form-group">
+        <label for="remarks-field">Remarks</label>
+        <input id="remarks-field" type="text" class="form-control" readonly>
+    </div>
+
+    <button type="submit">Get Rate and Remarks</button>
+</form>
+
+{% if rate is not None and remarks is not None %}
+    <h3>Rate: {{ rate }}</h3>
+    <p>Remarks: {{ remarks }}</p>
+{% endif %}
+
+</body>
+</html>
