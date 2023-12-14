@@ -347,7 +347,7 @@ var basic_calendar = {
             {
                 title: 'All Day Event',
                 start: '2016-06-01',
-                color: '#24695c'
+                color: '#0c7097'
             },
             {
                 title: 'Long Event',
@@ -454,7 +454,7 @@ var basic_calendar = {
             {
                 title: 'All Day Event',
                 start: '2018-06-01',
-                color: '#24695c'
+                color: '#0c7097'
             },
             {
                 title: 'Long Event',
@@ -566,7 +566,7 @@ var basic_calendar = {
             {
                 title: 'All Day Event',
                 start: '2018-06-01',
-                color: '#24695c'
+                color: '#0c7097'
             },
             {
                 title: 'Long Event',

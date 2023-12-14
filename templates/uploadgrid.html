@@ -1,7 +1,27 @@
 {% extends 'base.html' %}
 {% load static  %}
+{% block script %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+ 
+      // Get the file input element
+      var fileInput = document.getElementById('fileInput');
 
+      // Clear the value to prevent automatic upload
+      fileInput.value = '';
+
+      // Optionally, you can add an event listener to handle manual file selection
+      fileInput.addEventListener('change', function(event) {
+          // Handle the file selection if needed
+          var selectedFile = event.target.files[0];
+          console.log('Selected file:', selectedFile);
+      });
+  });
+</script>
+
+{% endblock script %}
 {% block content %}
+<div class="container-fluid general-widget">
     <h3>Upload Grid</h3>
 
     <div class="card">
@@ -16,7 +36,7 @@
               <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Upload File</label>
                 <div class="col-sm-9">
-                  <input class="form-control" type="file" name="myfile">
+                  <input class="form-control" id="fileInput" type="file" name="myfile">
                 </div>
               </div>
             </div>
@@ -31,41 +51,39 @@
     </div>
 
    
-
+  </div>
   <!-- ... -->
+  {% if result %}
   <div class="card error-msg border-0 bg-transparent">
     <h4>Error Found</h4>
-   </div>
-   <div class="table-responsive bg-white">
-<table class="table border ">
-  <thead>
-    <tr>
-      <th scope="row " style="width: 200px;">Row no</td>
-      <th>Error</td>
-    </tr>
-  </thead>
-  <tbody>   
-  {% for i,k in result.row_errors %}
-      <tr>
-        <td scope="row">
-          {{i|add:1}}
-        </td>
-      {% for j in k %}
-        <td colspan="2">  
-          {{j.error}}
-        </td>
-      {% endfor %}
-      </tr>  
-    {% endfor %}
-  </tbody>
-  </table>
-</div>
+  </div>
+  <div class="table-responsive bg-white">
+    <table class="table border">
+      <!-- ... your table headers ... -->
+      <tbody>
+        {% for i, k in result.row_errors %}
+          <tr>
+            <td scope="row">{{ i|add:1 }}</td>
+            {% for j in k %}
+              <td colspan="2">
+                {{ j.error }}
+              </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}
 
 
 
-<table class="table mb-0">
+<div class="card-body">
+  <div class="dt-ext table-responsive">
+    {% comment %} <table class="display" id="auto-fill"> {% endcomment %}
+<table id="auto-fill" class="table table-hover mb-2">
 
-  <thead class="table-light">
+  <thead class="table-active ">
     <tr>
       <th>Sr</th>
       <th>User Name</th>
@@ -87,6 +105,7 @@
 
   </tbody><!-- end tbody-->
 </table><!-- end table-->
+</div>
+</div>
 {% endblock %}
-</body>
-</html>
+

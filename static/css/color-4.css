@@ -165,7 +165,7 @@ hr {
   font-weight: 500; }
 
 code {
-  color: #24695c !important;
+  color: #0c7097 !important;
   background-color: rgba(36, 105, 92, 0.03);
   padding: 3px;
   margin: 0 3px;
@@ -15210,8 +15210,8 @@ p.data-attributes svg {
       display: table-cell;
       position: relative; }
       .timeliny .timeliny-timeline .timeliny-timeblock.active .timeliny-dot {
-        border-color: #24695c;
-        background-color: #24695c;
+        border-color: #0c7097;
+        background-color: #0c7097;
         -webkit-box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.33);
                 box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.33); }
         .timeliny .timeliny-timeline .timeliny-timeblock.active .timeliny-dot::before {
@@ -15229,7 +15229,7 @@ p.data-attributes svg {
           color: #e6edef; }
       .timeliny .timeliny-timeline .timeliny-timeblock:not(.inactive):not(.active) .timeliny-dot:hover {
         border-color: #e6edef;
-        background-color: #24695c; }
+        background-color: #0c7097; }
         .timeliny .timeliny-timeline .timeliny-timeblock:not(.inactive):not(.active) .timeliny-dot:hover::before {
           color: #2c323f; }
       .timeliny .timeliny-timeline .timeliny-timeblock .timeliny-dot:hover::after {
@@ -15247,7 +15247,7 @@ p.data-attributes svg {
     top: 0;
     width: 1px;
     height: 100%;
-    background-color: #24695c; }
+    background-color: #0c7097; }
     @media (min-width: 768px) {
       .timeliny .timeliny-vertical-line {
         left: 32%; } }
@@ -15260,7 +15260,7 @@ p.data-attributes svg {
       height: 0;
       border-left: 8px solid transparent;
       border-right: 8px solid transparent;
-      border-top: 8px solid #24695c; }
+      border-top: 8px solid #0c7097; }
     .timeliny .timeliny-vertical-line::after {
       content: '';
       position: absolute;
@@ -15270,7 +15270,7 @@ p.data-attributes svg {
       height: 0;
       border-left: 8px solid transparent;
       border-right: 8px solid transparent;
-      border-bottom: 8px solid #24695c; }
+      border-bottom: 8px solid #0c7097; }
 
 /**=====================
      43. Timeline 2 CSS Ends
@@ -17041,8 +17041,8 @@ footer {
   color: #fff;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
   background: #d22d3d;
-  background: -webkit-gradient(linear, left top, left bottom, from(#24695c), to(#24695c));
-  background: linear-gradient(to bottom, #24695c 0%, #24695c 100%);
+  background: -webkit-gradient(linear, left top, left bottom, from(#0c7097), to(#0c7097));
+  background: linear-gradient(to bottom, #0c7097 0%, #0c7097 100%);
   border: 3px solid #fff;
   -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
           box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); }
@@ -17052,50 +17052,50 @@ footer {
   .introjs-arrow.top {
     border-top-color: transparent;
     border-right-color: transparent;
-    border-bottom-color: #24695c;
+    border-bottom-color: #0c7097;
     border-left-color: transparent; }
   .introjs-arrow.top-right {
     border-top-color: transparent;
     border-right-color: transparent;
-    border-bottom-color: #24695c;
+    border-bottom-color: #0c7097;
     border-left-color: transparent; }
   .introjs-arrow.top-middle {
     border-top-color: transparent;
     border-right-color: transparent;
-    border-bottom-color: #24695c;
+    border-bottom-color: #0c7097;
     border-left-color: transparent; }
   .introjs-arrow.right {
     border-top-color: transparent;
     border-right-color: transparent;
     border-bottom-color: transparent;
-    border-left-color: #24695c; }
+    border-left-color: #0c7097; }
   .introjs-arrow.right-bottom {
     border-top-color: transparent;
     border-right-color: transparent;
     border-bottom-color: transparent;
-    border-left-color: #24695c; }
+    border-left-color: #0c7097; }
   .introjs-arrow.bottom {
-    border-top-color: #24695c;
+    border-top-color: #0c7097;
     border-right-color: transparent;
     border-bottom-color: transparent;
     border-left-color: transparent; }
   .introjs-arrow.left {
     border-top-color: transparent;
-    border-right-color: #24695c;
+    border-right-color: #0c7097;
     border-bottom-color: transparent;
     border-left-color: transparent; }
   .introjs-arrow.left-bottom {
     border-top-color: transparent;
-    border-right-color: #24695c;
+    border-right-color: #0c7097;
     border-bottom-color: transparent;
     border-left-color: transparent; }
 
 .introjs-tooltip {
-  background-color: #24695c;
+  background-color: #0c7097;
   -webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
           box-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
   color: #fff;
-  border-color: #24695c; }
+  border-color: #0c7097; }
 
 .introjs-button {
   border: 1px solid #efefef;
@@ -17111,16 +17111,16 @@ footer {
     background-image: linear-gradient(#e6edef, #efefef); }
 
 .introjs-skipbutton {
-  color: #24695c; }
+  color: #0c7097; }
 
 .introjs-prevbutton.introjs-fullbutton {
   border: 1px solid #efefef; }
 
 .introjs-disabled {
-  color: #24695c;
+  color: #0c7097;
   border-color: #efefef; }
   .introjs-disabled:hover, .introjs-disabled:focus {
-    color: #24695c;
+    color: #0c7097;
     border-color: #efefef; }
 
 .introjs-bullets ul li a {
@@ -17134,7 +17134,7 @@ footer {
   background-color: #e6edef; }
 
 .introjs-progressbar {
-  background-color: #24695c; }
+  background-color: #0c7097; }
 
 .introjs-hint:hover > .introjs-hint-pulse {
   border: 5px solid rgba(60, 60, 60, 0.57); }
@@ -22207,7 +22207,7 @@ body.dark-sidebar .main-navbar ul.nav-pills {
       border: 1px solid #b8b8b8;
       padding: 3px; }
       .customizer-contain .customizer-body .color-layout > div {
-        background-color: #24695c;
+        background-color: #0c7097;
         height: 100%;
         width: 100%;
         border-radius: 3px; }
@@ -22218,7 +22218,7 @@ body.dark-sidebar .main-navbar ul.nav-pills {
         .customizer-contain .customizer-body .color-layout .body .contain li {
           height: 1px;
           width: 65%;
-          background-color: #24695c;
+          background-color: #0c7097;
           border-radius: 5px;
           padding: 0;
           margin-left: 10px;
@@ -22228,7 +22228,7 @@ body.dark-sidebar .main-navbar ul.nav-pills {
             position: absolute;
             height: 1px;
             width: 3px;
-            background-color: #24695c;
+            background-color: #0c7097;
             left: -6px;
             border-radius: 5px; }
       .customizer-contain .customizer-body .color-layout[data-attr="color-2"] div {

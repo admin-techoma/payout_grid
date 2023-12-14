@@ -82,12 +82,12 @@
   .datepicker--cell.-selected- {
     color: #fff;
     border: none;
-    background-color: #24695c; }
+    background-color: #0c7097; }
     .datepicker--cell.-selected-.-current- {
       color: #fff;
-      background-color: #24695c; }
+      background-color: #0c7097; }
     .datepicker--cell.-selected-.-focus- {
-      background-color: #24695c; }
+      background-color: #0c7097; }
   .datepicker--cell:empty {
     cursor: default; }
 
@@ -254,7 +254,7 @@
     Navigation
    ------------------------------------------------- */
 .datepicker--nav {
-  color: #24695c;
+  color: #0c7097;
   text-transform: uppercase;
   letter-spacing: 2px;
   font-weight: 600;
@@ -306,7 +306,7 @@
   padding: 0 8px; }
   .datepicker--nav-title i {
     font-style: normal;
-    color: #24695c;
+    color: #0c7097;
     margin-left: 5px; }
   .datepicker--nav-title.-disabled- {
     cursor: default;

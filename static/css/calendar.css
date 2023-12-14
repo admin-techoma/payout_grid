@@ -2009,7 +2009,7 @@ input[type='checkbox'].tui-full-calendar-checkbox-round {
       .calendar-basic .dropdown-menu > li > a i {
         margin-right: 10px; }
       .calendar-basic .dropdown-menu > li > a:hover {
-        color: #24695c; }
+        color: #0c7097; }
   .calendar-basic .lnb-calendars-item span {
     font-size: 13px; }
   .calendar-basic .tui-full-calendar-month-dayname span {
@@ -2150,7 +2150,7 @@ input[type='checkbox'].tui-full-calendar-checkbox-round {
   .calendar-basic .tui-full-calendar-popup .tui-full-calendar-section-start-date {
     width: 167px; }
   .calendar-basic .tui-full-calendar-popup .tui-full-calendar-confirm {
-    background-color: #24695c;
+    background-color: #0c7097;
     color: #fff;
     display: block;
     margin-left: auto; }
@@ -2158,7 +2158,7 @@ input[type='checkbox'].tui-full-calendar-checkbox-round {
       font-weight: 600; }
   .calendar-basic .tui-full-calendar-popup .tui-calendar-title-today {
     background-color: #f5f7fb;
-    color: #24695c;
+    color: #0c7097;
     font-size: 12px;
     font-weight: 600;
     height: auto; }
@@ -2171,12 +2171,12 @@ input[type='checkbox'].tui-full-calendar-checkbox-round {
   .calendar-basic .tui-full-calendar-popup .tui-full-calendar-section-start-date .tui-datepicker {
     border-color: #e6edef; }
   .calendar-basic .tui-datepicker.tui-rangepicker .tui-is-selectable.tui-is-selected {
-    background-color: #24695c; }
+    background-color: #0c7097; }
   .calendar-basic .tui-datepicker .tui-is-selectable:hover {
     background-color: rgba(36, 105, 92, 0.1);
-    color: #24695c; }
+    color: #0c7097; }
   .calendar-basic .tui-calendar .tui-calendar-today {
-    color: #24695c; }
+    color: #0c7097; }
   .calendar-basic .tui-calendar .tui-timepicker-select {
     border-color: #e6edef; }
   .calendar-basic .tui-calendar .tui-calendar-header {

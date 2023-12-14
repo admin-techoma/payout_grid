@@ -24,9 +24,9 @@
       font-size: 20px;
       vertical-align: -5px; }
       .todo .action-box.large .icon .icon-trash {
-        color: #24695c; }
+        color: #0c7097; }
       .todo .action-box.large .icon .icon-check {
-        color: #24695c; }
+        color: #0c7097; }
 
 .todo .todo-list-wrapper {
   width: 100%;
@@ -78,11 +78,11 @@
       opacity: 0;
       display: none; }
     .todo .todo-list-wrapper .todo-list-footer .add-task-btn:hover {
-      background: #24695c; }
+      background: #0c7097; }
       .todo .todo-list-wrapper .todo-list-footer .add-task-btn:hover .icon {
         color: #e6edef; }
     .todo .todo-list-wrapper .todo-list-footer .add-task-btn .icon {
-      color: #24695c;
+      color: #0c7097;
       font-size: 20px; }
     .todo .todo-list-wrapper .todo-list-footer .new-task-wrapper {
       -webkit-transition: all 300ms ease;
@@ -179,7 +179,7 @@
             color: #fff; }
       .todo .todo-list-wrapper #todo-list li.completed .task-container .task-label {
         text-decoration: line-through;
-        color: #24695c; }
+        color: #0c7097; }
       .todo .todo-list-wrapper #todo-list li.new .task-container {
         -webkit-animation: taskHighlighter 2000ms linear 1;
                 animation: taskHighlighter 2000ms linear 1; }

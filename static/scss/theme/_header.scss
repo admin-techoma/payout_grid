@@ -1,4 +1,4 @@
-$header-size: 76px;
+$header-size: 70px;
 
 /**=====================
     05. Header CSS Start
@@ -149,14 +149,14 @@ $header-size: 76px;
       width:290px;
       justify-content: space-between;
       align-items: center;
-      padding: $main-header-right-padding;
+      padding: 20px 40px;
       border-right: 1px solid $light-gray;
       .dark-logo-wrapper{
         display:none;
       }
     }
     .left-menu-header {
-      padding: $main-header-right-padding;
+      padding: 20px 40px;
       ul{
         li{
           .search-form{

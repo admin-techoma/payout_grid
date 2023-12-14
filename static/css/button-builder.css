@@ -197,12 +197,12 @@
   position: relative;
   z-index: 1;
   top: 3px;
-  border: 1px solid #24695c;
+  border: 1px solid #0c7097;
   border-radius: 100%; }
   .button-builder .custom-radio:hover {
     background-position: 0 -16px; }
   .button-builder .custom-radio.selected {
-    background-color: #24695c; }
+    background-color: #0c7097; }
   .button-builder .custom-radio input[type="radio"] {
     margin: 1px;
     position: absolute;
@@ -301,7 +301,7 @@
   position: absolute;
   top: 133px;
   width: 75px;
-  background-color: #24695c;
+  background-color: #0c7097;
   border-radius: 5px; }
   .button-builder .colorpicker-submit:before {
     content: "Ok";
@@ -359,7 +359,7 @@
     right: 0 !important;
     margin: 0 auto !important; }
   .button-builder .copy a {
-    background-color: #24695c;
+    background-color: #0c7097;
     color: #fff;
     font-weight: bold;
     display: inline-block;

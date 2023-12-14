@@ -102,7 +102,7 @@
   peity.register(
     'pie',
     {
-      fill: ['#24695c', '#ba895d', '#222222'],
+      fill: ['#0c7097', '#ba895d', '#222222'],
       radius: 8
     },
     function(opts) {
@@ -242,7 +242,7 @@
     "line",
     {
       delimiter: ",",
-      fill: "#24695c",
+      fill: "#0c7097",
       height: 16,
       min: 0,
       stroke: "#ba895d",

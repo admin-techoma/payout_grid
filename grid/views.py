@@ -116,8 +116,8 @@ def load_rto(request):
 
     rtos_list = list(rtos)
     return JsonResponse({'rtos': rtos_list})
-
 def load_rate_remarks_agent_payout(request):
+    # Retrieve parameters from the AJAX request
     company = request.GET.get('company')
     product = request.GET.get('product')
     vehical_type = request.GET.get('vehical_type')
@@ -127,9 +127,9 @@ def load_rate_remarks_agent_payout(request):
     state = request.GET.get('state')
     rto = request.GET.get('rto')
 
-    # Your logic to filter and get Rate, Remarks, and Agent Rate based on the provided parameters
-    # Example:
-    data = Grid_data.objects.filter(
+    # Query your database to get all records matching the criteria
+    # This is just an example, you should replace this with your actual query
+    queryset = Grid_data.objects.filter(
         company=company,
         product=product,
         vehical_type=vehical_type,
@@ -137,28 +137,37 @@ def load_rate_remarks_agent_payout(request):
         product_name=product_name,
         month=month,
         state=state,
-        rto=rto
-    ).values('rate', 'remarks', 'agent_payout').first()
+        rto=rto,
+    )
 
-    return JsonResponse({
-        'rate': data['rate'] if data else '',
-        'remarks': data['remarks'] if data else '',
-        'agent_payout': data['agent_payout'] if data else '',
-    })
+    # Prepare a list to store the results
+    results = []
 
+    # Iterate over the queryset and add values to the results list
+    for record in queryset:
+        result_dict = {
+            'rate': record.rate,
+            'remarks': record.remarks,
+            'agent_payout': record.agent_payout,
+        }
+        results.append(result_dict)
+
+    # Return the results as a JSON response
+    return JsonResponse({'results': results})
 
 
 @login_required(login_url=reverse_lazy('login'))
 def upload_grid(request):
-    
-    context = {}  # Define context here to ensure it is always defined
+    context = {}
     result = None  # Default value for result
+
     data = Grid_file.objects.all()
+
     if request.method == 'POST':
         mis_resource = MisResource()
         dataset = tablib.Dataset()
         new_grid = request.FILES['myfile']
-        
+
         details = Grid_file.objects.create(user=request.user, uploaded_file=new_grid)
         dataset.load(details.uploaded_file.read(), format='xlsx')
 
@@ -167,8 +176,8 @@ def upload_grid(request):
             mis_resource.import_data(dataset, dry_run=False)
 
         data = Grid_file.objects.all()
-    context = {'data': data, 'result': result}
 
+    context = {'data': data, 'result': result}
     return render(request, 'uploadgrid.html', context)
 
 

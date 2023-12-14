@@ -22,7 +22,7 @@
     top: -7px;
     border-right: 7px solid transparent;
     border-left: 7px solid transparent;
-    border-bottom: 7px solid #24695c; }
+    border-bottom: 7px solid #0c7097; }
   .daterangepicker:after {
     top: -6px;
     border-right: 6px solid transparent;
@@ -95,7 +95,7 @@
     cursor: pointer; }
     .daterangepicker td.available:hover, .daterangepicker th.available:hover {
       border-color: transparent;
-      background-color: #24695c;
+      background-color: #0c7097;
       color: #fff; }
     .daterangepicker td.week, .daterangepicker th.week {
       font-size: 80%;
@@ -153,7 +153,7 @@
     padding: 0 6px 0 28px;
     width: 100%; }
     .daterangepicker .input-mini.active {
-      border: 1px solid #24695c;
+      border: 1px solid #0c7097;
       border-radius: 4px; }
   .daterangepicker .daterangepicker_input {
     position: relative; }

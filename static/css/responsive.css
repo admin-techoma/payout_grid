@@ -232,7 +232,7 @@
   .card-activity ::-webkit-scrollbar-track {
     background: #d0efe9; }
   .card-activity ::-webkit-scrollbar-thumb {
-    background: #24695c; }
+    background: #0c7097; }
   .card-activity h5 {
     font-size: 18px !important; }
   .card-activity .setting-list {
@@ -1454,7 +1454,7 @@
     background-color: #fff; }
     .landing-main .navbar-expand-lg .navbar-toggler .navbar-toggler-icon i {
       margin-top: 5px;
-      color: #24695c; }
+      color: #0c7097; }
   .landing-main .navbar-expand-lg .navbar-collapse {
     background-color: #fff;
     z-index: 111; }
@@ -1726,7 +1726,7 @@
     right: 0;
     top: 10px; }
   .document .page-main-header .document-right-nav .navbar .navbar-collapse .navbar-nav .nav-item .nav-link {
-    color: #24695c !important; }
+    color: #0c7097 !important; }
   .document .navbar-collapse {
     position: absolute;
     width: 100%;
@@ -2206,7 +2206,7 @@
     margin-left: 10px;
     border-radius: 5px;
     background-color: rgba(36, 105, 92, 0.05);
-    color: #24695c; }
+    color: #0c7097; }
   .feature-products span {
     font-size: 12px; }
     .feature-products span.f-w-600 {
@@ -3187,7 +3187,7 @@
     margin-left: 10px;
     border-radius: 5px;
     background-color: rgba(36, 105, 92, 0.05);
-    color: #24695c; }
+    color: #0c7097; }
     .feature-products .filter-toggle h6 {
       font-size: 12px; }
   .feature-products .text-end {
