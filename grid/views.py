@@ -23,6 +23,38 @@ def index(request):
 
     return render(request,'index.html')
 
+@login_required(login_url=reverse_lazy('login'))
+def upload_grid(request):
+    context = {}
+    result = None  # Default value for result
+
+    data = Grid_file.objects.all()
+
+    if request.method == 'POST':
+        mis_resource = MisResource()
+        dataset = tablib.Dataset()
+        new_grid = request.FILES['myfile']
+
+        details = Grid_file.objects.create(user=request.user, uploaded_file=new_grid)
+        dataset.load(details.uploaded_file.read(), format='xlsx')
+
+        result = mis_resource.import_data(dataset, dry_run=True)
+        if not result.has_errors():
+            mis_resource.import_data(dataset, dry_run=False)
+
+        data = Grid_file.objects.all()
+     
+    context = {'data': data, 'result': result}
+    return render(request, 'uploadgrid.html', context)
+
+
+def unique_error_message(self, model_class, unique_check):
+        if model_class == type(self) and unique_check == ('field1', 'field2'):
+            return 'My custom error message'
+        else:
+            return super(Grid_data, self).unique_error_message(model_class, unique_check)
+
+
 
 def view_grid(request):
     companys= Grid_data.objects.values('company').distinct()
@@ -31,6 +63,36 @@ def view_grid(request):
     }
     return render(request, 'view_grid.html', context)
 
+def update_grid(request):
+    data = Grid_data.objects.all()
+
+    return render(request, 'update_grid.html',{'data':data})
+
+def ajax_addrate(request):
+    addrate = request.GET.get('addrate')
+    id = request.GET.get('id')
+  
+    try:
+        grid_data = Grid_data.objects.get(id=id)
+        grid_data.rate = addrate
+        grid_data.save()
+        
+        return JsonResponse({"status": "success", "data": {'rate': addrate, 'id': id}})
+    except Grid_data.DoesNotExist:
+        return JsonResponse({"status": "error", "message": "Record not found"})
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)})
+
+
+def report_grid(request):
+
+    return render(request, 'report_grid.html')
+
+
+#<--------------------- AJAX Load----------------------> #
+
+#<--------------------- Load Product based on company----------------------> #
+
 def load_product(request):
     # import pdb ; pdb.set_trace()
     company = request.GET.get('company')  # Correct parameter name
@@ -38,6 +100,8 @@ def load_product(request):
     products_list = list(products)
     return JsonResponse({'products': products_list})
 
+
+#<--------------------- Load vehicle types based on selected company and product----------------------> #
 def load_vehical_type(request):
     company = request.GET.get('company')
     product = request.GET.get('product')
@@ -46,7 +110,7 @@ def load_vehical_type(request):
     return JsonResponse({'vehical_types': vehical_types_list})
 
 
-
+#<--------------------- Load vehicle subtypes based on selected company, product, and vehicle type----------------------> #
 def load_vehical_subtype(request):
     company = request.GET.get('company')
     product = request.GET.get('product')
@@ -57,6 +121,7 @@ def load_vehical_subtype(request):
     vehical_subtypes_list = list(vehical_subtypes)
     return JsonResponse({'vehical_subtypes': vehical_subtypes_list})
 
+#<---------------------Load product names based on selected company, product, vehicle type, and vehicle subtype----------------------> #
 def load_product_name(request):
     company = request.GET.get('company')
     product = request.GET.get('product')
@@ -68,6 +133,7 @@ def load_product_name(request):
     product_names_list = list(product_names)
     return JsonResponse({'product_names': product_names_list})
 
+#<--------------------- Load months based on selected company, product, vehicle type, vehicle subtype, and product name---------------------> #
 def load_month(request):
     company = request.GET.get('company')
     product = request.GET.get('product')
@@ -80,6 +146,7 @@ def load_month(request):
     months_list = list(months)
     return JsonResponse({'months': months_list})
 
+#<--------------------Load states based on selected company, product, vehicle type, vehicle subtype, product name, and month---------------------> #
 def load_state(request):
     company = request.GET.get('company')
     product = request.GET.get('product')
@@ -93,6 +160,7 @@ def load_state(request):
     states_list = list(states)
     return JsonResponse({'states': states_list})
 
+#<--------------------Load RTOs based on selected company, product, vehicle type, vehicle subtype, product name, month, and state---------------------> #
 def load_rto(request):
     company = request.GET.get('company')
     product = request.GET.get('product')
@@ -116,6 +184,8 @@ def load_rto(request):
 
     rtos_list = list(rtos)
     return JsonResponse({'rtos': rtos_list})
+
+#<-------------------Load Rate, Remarks, and Agent Rate based on selected company, product, vehicle type, vehicle subtype, product name, month, state, and rto---------------------> #
 def load_rate_remarks_agent_payout(request):
     # Retrieve parameters from the AJAX request
     company = request.GET.get('company')
@@ -155,81 +225,3 @@ def load_rate_remarks_agent_payout(request):
     # Return the results as a JSON response
     return JsonResponse({'results': results})
 
-
-@login_required(login_url=reverse_lazy('login'))
-def upload_grid(request):
-    context = {}
-    result = None  # Default value for result
-
-    data = Grid_file.objects.all()
-
-    if request.method == 'POST':
-        mis_resource = MisResource()
-        dataset = tablib.Dataset()
-        new_grid = request.FILES['myfile']
-
-        details = Grid_file.objects.create(user=request.user, uploaded_file=new_grid)
-        dataset.load(details.uploaded_file.read(), format='xlsx')
-
-        result = mis_resource.import_data(dataset, dry_run=True)
-        if not result.has_errors():
-            mis_resource.import_data(dataset, dry_run=False)
-
-        data = Grid_file.objects.all()
-
-    context = {'data': data, 'result': result}
-    return render(request, 'uploadgrid.html', context)
-
-
-def unique_error_message(self, model_class, unique_check):
-        if model_class == type(self) and unique_check == ('field1', 'field2'):
-            return 'My custom error message'
-        else:
-            return super(Grid_data, self).unique_error_message(model_class, unique_check)
-
-
-
-# from django.http import JsonResponse
-
-# def get_rate_and_payout(request):
-#     if request.method == 'GET':
-#         product = request.GET.get('product', '')
-#         vehical_type = request.GET.get('vehical_type', '')
-#         vehical_subtype = request.GET.get('vehical_subtype', '')
-        
-        
-#         grid_data = Grid_data.objects.get(
-#             product=product,
-#             vehical_type=vehical_type,
-#             vehical_subtype=vehical_subtype,
-#         )
-#         data = {
-#             'rate': grid_data.rate,
-#             'remarks': grid_data.remarks,
-#             'agent_payout': grid_data.agent_payout,
-#         }
-#         return redirect('grid:upload_grid',data)
-#     #        return JsonResponse(data)
-#     #     except Grid_data.DoesNotExist:
-#     #         return JsonResponse({'error': 'Data not found'}, status=404)
-
-# #     # return JsonResponse({'error': 'Invalid request'}, status=400)
-# def insurance_rate_remarks(request):
-#     if request.method == 'POST':
-#         selected_company = request.POST.get('company')
-#         selected_product = request.POST.get('product')
-
-#         # Fetch data based on user selection
-#         matching_data = Grid_data.objects.filter(company=selected_company, product=selected_product).first()
-
-#         if matching_data:
-#             rate = matching_data.rate
-#             remarks = matching_data.remarks
-#         else:
-#             rate = None
-#             remarks = None
-
-#         return render(request, 'your_template.html', {'rate': rate, 'remarks': remarks})
-#     else:
-#         # Handle the initial GET request, maybe render a form with dropdowns for company and product
-#         return render(request, 'your_template.html', {})

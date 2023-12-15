@@ -49,11 +49,11 @@
   </head>
   <body>
        <!-- Loader starts-->
-       <div class="loader-wrapper">
+       {% comment %} <div class="loader-wrapper">
         <div class="theme-loader">    
           <div class="loader-p"></div>
         </div>
-      </div>
+      </div> {% endcomment %}
       <!-- Loader ends-->
     <!-- page-wrapper Start       -->
     <div class="page-wrapper compact-wrapper" id="pageWrapper">
@@ -108,11 +108,12 @@
                   <li class=""><a class="nav-link " href="{% url 'grid:upload_grid' %}"><i data-feather="airplay"></i><span>Grid Upload</span></a>
                     
                   </li>
-                  <li class=""><a class="nav-link " href="{% url 'grid:view_grid' %}"><i data-feather="layout"></i><span>View Grid</span></a>
+                  <li class=""><a class="nav-link " href="{% url 'grid:update_grid' %}"><i data-feather="layout"></i><span>View Grid</span></a>
                    
                   </li>
                   
-                  <li class=""><a class="nav-link " href="#"><i data-feather="file-text"></i><span>Reports</span></a>
+
+                  <li class=""><a class="nav-link " href="{% url 'grid:report_grid' %}"><i data-feather="file-text"></i><span>Report</span></a>
                   
                   </li>
                 </ul>
@@ -186,9 +187,29 @@
   <script src="{% static 'js/datatable/datatables/jquery.dataTables.min.js' %}"></script> 
 <script src="{% static 'js/datatable/datatables/datatable.custom.js' %}"></script> 
     <!-- Plugins JS Ends-->
-    <!-- Theme js-->
+    {% comment %} <!-- Theme js-->
     <script src="{% static 'js/script.js' %}"></script>
-    {% comment %} <script src="{% static 'js/theme-customizer/customizer.js' %} "></script> {% endcomment %}
+    <script src="{% static 'js/datatable/datatables/jquery.dataTables.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/dataTables.buttons.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/jszip.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/buttons.colVis.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/pdfmake.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/vfs_fonts.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/dataTables.autoFill.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/dataTables.select.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/buttons.bootstrap4.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/buttons.html5.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/buttons.print.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/dataTables.bootstrap4.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/dataTables.responsive.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/responsive.bootstrap4.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/dataTables.keyTable.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/dataTables.colReorder.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/dataTables.fixedHeader.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/dataTables.rowReorder.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/dataTables.scroller.min.js' %}"></script> 
+    <script src="{% static 'js/datatable/datatable-extension/custom.js' %}"></script> 
+     {% endcomment %}
     <!-- login js-->
     <!-- Plugin used-->
     {% block script %}

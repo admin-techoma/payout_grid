@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static  %}
+   
+
 {% block script %}
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -20,14 +22,14 @@
 </script>
 
 {% endblock script %}
+
 {% block content %}
 <div class="container-fluid general-widget">
-    <h3>Upload Grid</h3>
+  <div class="card-header" style="background: #0c7097; color:white;" >
+    Upload Grid</div> 
 
     <div class="card">
-      <div class="card-header pb-0">
-        <h5>Upload Grid</h5>
-      </div>
+  
       <form class="form theme-form" method="POST" action="{% url 'grid:upload_grid' %}" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="card-body">
@@ -35,6 +37,8 @@
             <div class="col">
               <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">Upload File</label>
+
+             
                 <div class="col-sm-9">
                   <input class="form-control" id="fileInput" type="file" name="myfile">
                 </div>
@@ -58,7 +62,16 @@
     <h4>Error Found</h4>
   </div>
   <div class="table-responsive bg-white">
-    <table class="table border">
+    <table id = "uploadfiletable" class="table border">
+      <thead>
+        <tr>
+            <th>Row </th>
+            <th>Error</th>
+        
+
+            
+        </tr>
+        </thead>
       <!-- ... your table headers ... -->
       <tbody>
         {% for i, k in result.row_errors %}
@@ -98,7 +111,7 @@
     <tr>
       <th scope="row">{{forloop.counter}}</th>
       <td>{{i.user}}</td>
-      <td>{{i.created_on}}</td>
+      <td>{{i.created_on|date:"d-M-y"}}</td>
      <td> {{i.uploaded_file.name}}</td>
      <td> <a href="{{i.uploaded_file.url}}" target="_blank"> Downloard</a></td>
       {% endfor %}
