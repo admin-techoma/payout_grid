@@ -76,7 +76,7 @@ def ajax_addrate(request):
         grid_data = Grid_data.objects.get(id=id)
         grid_data.rate = addrate
         grid_data.save()
-        
+
         return JsonResponse({"status": "success", "data": {'rate': addrate, 'id': id}})
     except Grid_data.DoesNotExist:
         return JsonResponse({"status": "error", "message": "Record not found"})
@@ -92,136 +92,150 @@ def report_grid(request):
 #<--------------------- AJAX Load----------------------> #
 
 #<--------------------- Load Product based on company----------------------> #
-
+from django.views.decorators.http import require_GET
+@require_GET
 def load_product(request):
-    # import pdb ; pdb.set_trace()
-    company = request.GET.get('company')  # Correct parameter name
-    products = Grid_data.objects.filter(company=company).order_by('product').values('product').distinct()
+    company_ids = request.GET.get('companies', '').split(',')  # Get the comma-separated string and split it into a list
+
+    # Filter products based on multiple selected companies
+    products = Grid_data.objects.filter(company__in=company_ids).order_by('product').values('product').distinct()
+
     products_list = list(products)
     return JsonResponse({'products': products_list})
 
 
 #<--------------------- Load vehicle types based on selected company and product----------------------> #
-def load_vehical_type(request):
-    company = request.GET.get('company')
-    product = request.GET.get('product')
-    vehical_types = Grid_data.objects.filter(company=company, product=product).order_by('vehical_type').values('vehical_type').distinct()
-    vehical_types_list = list(vehical_types)
-    return JsonResponse({'vehical_types': vehical_types_list})
+# @require_GET
+# def load_vehical_type(request):
+#     company_ids = request.GET.get('companies', '').split(',')  # Get the comma-separated string and split it into a list
+#     product_id = request.GET.get('product', '')
 
+#     # Filter vehicle types based on multiple selected companies and a product
+#     vehical_types = Grid_data.objects.filter(
+#         company__in=company_ids,
+#         product=product_id
+#     ).order_by('vehical_type').values('vehical_type').distinct()
 
+#     vehical_types_list = list(vehical_types)
+#     return JsonResponse({'vehical_types': vehical_types_list})
 #<--------------------- Load vehicle subtypes based on selected company, product, and vehicle type----------------------> #
-def load_vehical_subtype(request):
-    company = request.GET.get('company')
-    product = request.GET.get('product')
-    vehical_type = request.GET.get('vehical_type')
-    vehical_subtypes = Grid_data.objects.filter(
-        company=company, product=product, vehical_type=vehical_type
-    ).order_by('vehical_subtype').values('vehical_subtype').distinct()
-    vehical_subtypes_list = list(vehical_subtypes)
-    return JsonResponse({'vehical_subtypes': vehical_subtypes_list})
+# def load_vehical_subtype(request):
+#     company = request.GET.get('company')
+#     product = request.GET.get('product')
+#     vehical_type = request.GET.get('vehical_type')
+#     vehical_subtypes = Grid_data.objects.filter(
+#         company=company, product=product, vehical_type=vehical_type
+#     ).order_by('vehical_subtype').values('vehical_subtype').distinct()
+#     vehical_subtypes_list = list(vehical_subtypes)
+#     return JsonResponse({'vehical_subtypes': vehical_subtypes_list})
 
 #<---------------------Load product names based on selected company, product, vehicle type, and vehicle subtype----------------------> #
+@require_GET
 def load_product_name(request):
-    company = request.GET.get('company')
-    product = request.GET.get('product')
-    vehical_type = request.GET.get('vehical_type')
-    vehical_subtype = request.GET.get('vehical_subtype')
+    company_ids = request.GET.get('companies', '').split(',')  # Get the comma-separated string and split it into a list
+    product_id = request.GET.get('product', '')
+
+    # Filter product names based on multiple selected companies and a product
     product_names = Grid_data.objects.filter(
-        company=company, product=product, vehical_type=vehical_type, vehical_subtype=vehical_subtype
+        company__in=company_ids,
+        product=product_id
     ).order_by('product_name').values('product_name').distinct()
+
     product_names_list = list(product_names)
     return JsonResponse({'product_names': product_names_list})
-
 #<--------------------- Load months based on selected company, product, vehicle type, vehicle subtype, and product name---------------------> #
+@require_GET
 def load_month(request):
-    company = request.GET.get('company')
-    product = request.GET.get('product')
-    vehical_type = request.GET.get('vehical_type')
-    vehical_subtype = request.GET.get('vehical_subtype')
-    product_name = request.GET.get('product_name')
+    company_ids = request.GET.get('companies', '').split(',')  # Get the comma-separated string and split it into a list
+    product_id = request.GET.get('product', '')
+    product_name_id = request.GET.get('product_name', '')
+
+    # Filter months based on multiple selected companies, a product, and a product name
     months = Grid_data.objects.filter(
-        company=company, product=product, vehical_type=vehical_type, vehical_subtype=vehical_subtype, product_name=product_name
+        company__in=company_ids,
+        product=product_id,
+        product_name=product_name_id
     ).order_by('month').values('month').distinct()
+
     months_list = list(months)
     return JsonResponse({'months': months_list})
 
 #<--------------------Load states based on selected company, product, vehicle type, vehicle subtype, product name, and month---------------------> #
+
+@require_GET
 def load_state(request):
-    company = request.GET.get('company')
-    product = request.GET.get('product')
-    vehical_type = request.GET.get('vehical_type')
-    vehical_subtype = request.GET.get('vehical_subtype')
-    product_name = request.GET.get('product_name')
-    month = request.GET.get('month')
+    company_ids = request.GET.get('companies', '').split(',')  # Get the comma-separated string and split it into a list
+    product_id = request.GET.get('product', '')
+    product_name_id = request.GET.get('product_name', '')
+    month_id = request.GET.get('month', '')
+
+    # Filter states based on multiple selected companies, a product, a product name, and a month
     states = Grid_data.objects.filter(
-        company=company, product=product, vehical_type=vehical_type, vehical_subtype=vehical_subtype, product_name=product_name, month=month
+        company__in=company_ids,
+        product=product_id,
+        product_name=product_name_id,
+        month=month_id
     ).order_by('state').values('state').distinct()
+
     states_list = list(states)
     return JsonResponse({'states': states_list})
-
 #<--------------------Load RTOs based on selected company, product, vehicle type, vehicle subtype, product name, month, and state---------------------> #
-def load_rto(request):
-    company = request.GET.get('company')
-    product = request.GET.get('product')
-    vehical_type = request.GET.get('vehical_type')
-    vehical_subtype = request.GET.get('vehical_subtype')
-    product_name = request.GET.get('product_name')
-    month = request.GET.get('month')
-    state = request.GET.get('state')
 
-    # Your logic to filter and get RTOs based on the provided parameters
-    # Example:
+@require_GET
+def load_rto(request):
+    company_ids = request.GET.get('companies', '').split(',')  # Get the comma-separated string and split it into a list
+    product_id = request.GET.get('product', '')
+    product_name_id = request.GET.get('product_name', '')
+    month_id = request.GET.get('month', '')
+    state_id = request.GET.get('state', '')
+
+    # Filter RTOs based on multiple selected companies, a product, a product name, a month, and a state
     rtos = Grid_data.objects.filter(
-        company=company,
-        product=product,
-        vehical_type=vehical_type,
-        vehical_subtype=vehical_subtype,
-        product_name=product_name,
-        month=month,
-        state=state
+        company__in=company_ids,
+        product=product_id,
+        product_name=product_name_id,
+        month=month_id,
+        state=state_id
     ).order_by('rto').values('rto').distinct()
 
     rtos_list = list(rtos)
     return JsonResponse({'rtos': rtos_list})
 
 #<-------------------Load Rate, Remarks, and Agent Rate based on selected company, product, vehicle type, vehicle subtype, product name, month, state, and rto---------------------> #
-def load_rate_remarks_agent_payout(request):
-    # Retrieve parameters from the AJAX request
-    company = request.GET.get('company')
-    product = request.GET.get('product')
-    vehical_type = request.GET.get('vehical_type')
-    vehical_subtype = request.GET.get('vehical_subtype')
-    product_name = request.GET.get('product_name')
-    month = request.GET.get('month')
-    state = request.GET.get('state')
-    rto = request.GET.get('rto')
 
-    # Query your database to get all records matching the criteria
-    # This is just an example, you should replace this with your actual query
+
+
+@require_GET
+def load_rate_remarks_agent_payout(request):
+    # Extract filter parameters from the GET request
+    company_ids = request.GET.get('company', '').split(',')
+    product_id = request.GET.get('product', '')
+    product_name_id = request.GET.get('product_name', '')
+    month_id = request.GET.get('month', '')
+    state_id = request.GET.get('state', '')
+    rto_id = request.GET.get('rto', '')
+
+    # Query the database based on the filter parameters
     queryset = Grid_data.objects.filter(
-        company=company,
-        product=product,
-        vehical_type=vehical_type,
-        vehical_subtype=vehical_subtype,
-        product_name=product_name,
-        month=month,
-        state=state,
-        rto=rto,
+        company__in=company_ids,
+        product=product_id,
+        product_name=product_name_id,
+        month=month_id,
+        state=state_id,
+        rto=rto_id
     )
 
-    # Prepare a list to store the results
+    # Prepare the data to be sent as JSON
     results = []
-
-    # Iterate over the queryset and add values to the results list
     for record in queryset:
         result_dict = {
+            'company': record.company,
+            'vehicle_type': record.vehicle_type,
+            'vehicle_subtype': record.vehicle_subtype,
             'rate': record.rate,
             'remarks': record.remarks,
             'agent_payout': record.agent_payout,
         }
         results.append(result_dict)
 
-    # Return the results as a JSON response
     return JsonResponse({'results': results})
-
