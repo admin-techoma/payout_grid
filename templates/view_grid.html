@@ -102,54 +102,30 @@
             </div>
         </form>
 
+
 <!-- Add the following HTML to your template -->
 <div class="card">
     <!-- Additional form elements and buttons go here -->
     <div class="card-body">
         <div class="dt-ext table-responsive">
-            <div id="results">
             <table id="ratetable" class="table table-hover mb-2">
                 <thead class="table-active">
                     <tr>
                         <th>Company</th>
-                        <th>Vehicle Type</th>
-                        <th>Vehicle Subtype</th>
+                        <th>vehical_type</th>
+                       <th>Vehicle Subtype</th>
                         <th>Remarks</th>
-                        <th>Rate</th>
-                        <th>Agent Payout</th>
+                        {% comment %} <th>Rate</th> {% endcomment %}
+                        <th>Point</th>
                     </tr>
                 </thead>
                 <tbody>
-    
-                    <tr>
-                        <td>
-                        
-                            <textarea rows="4" cols="50" id="remarks-field" class="form-control" readonly></textarea>
-                        </td>
-                        <td> 
-                        
-                            <input id="rate-field" type="text" class="form-control" readonly>
-                        </td>
-                    
-                    <td> 
-            
-                        <input id="agent-payout-field" type="text" class="form-control" readonly>
-                    </td>
-                    <td> 
-            
-                        <input id="vehical-type-field" type="text" class="form-control" readonly>
-                    </td>
-                    <td> 
-            
-                        <input id="vehical-subtype-field" type="text" class="form-control" readonly>
-                    </td>
-            
-                
-                    </tbody><!-- end tbody-->
+                    <!-- Rows will be dynamically added here -->
+                </tbody>
             </table>
         </div>
-        </div>
     </div>
+</div>
 </div>
   </div>
      <!-- Add the following JavaScript to your template -->
@@ -159,11 +135,11 @@
      <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
      
 <!-- Add the following script to initialize Select2 on the companyoptions select element -->
-<script>
+{% comment %} <script>
     $(document).ready(function() {
         $('#companyoptions').select2();
     });
-</script>
+</script> {% endcomment %}
 
 <!-- Modify your existing AJAX function for loading products -->
 <script>
@@ -358,41 +334,53 @@
     });
 </script>
 <!-- Modify your existing AJAX function for loading data -->
+<!-- Add the following JavaScript to your template -->
 <script>
-// Assume you have dropdowns with IDs: #company, #product, #product_name, #month, #state, #rto
-$('#filter-form').submit(function (e) {
-    e.preventDefault();
+    $(document).ready(function () {
+        $("#companyoptions, #productoptions, #productnameoptions, #monthoptions, #stateoptions, #rtooptions").change(function () {
+            var company_ids = $("#companyoptions").val();
+            var product_id = $("#productoptions").val();
+            var product_name_id = $("#productnameoptions").val();
+            var month_id = $("#monthoptions").val();
+            var state_id = $("#stateoptions").val();
+            var rto_id = $("#rtooptions").val();
 
-    var selectedCompanies = $('#company').val();
-    var selectedProduct = $('#product').val();
-    var selectedProductName = $('#product_name').val();
-    var selectedMonth = $('#month').val();
-    var selectedState = $('#state').val();
-    var selectedRTO = $('#rto').val();
+            $.ajax({
+                url: "{% url 'grid:ajax_load_rate_remarks_agent_payout' %}",
+                data: {
+                    'company': company_ids.join(),
+                    'product': product_id,
+                    'product_name': product_name_id,
+                    'month': month_id,
+                    'state': state_id,
+                    'rto': rto_id
+                },
+                success: function (data) {
+                    var tableBody = $("#ratetable tbody");
+                    tableBody.empty();
 
-    $.ajax({
-        type: 'GET',
-        url: '/load_rate_remarks_agent_payout/',  // Update with your actual URL
-        data: {
-            'company': selectedCompanies,
-            'product': selectedProduct,
-            'product_name': selectedProductName,
-            'month': selectedMonth,
-            'state': selectedState,
-            'rto': selectedRTO,
-        },
-        success: function (data) {
-            // Handle the response data and update your HTML elements
-            console.log(data);
-            // Example: Update a div with id 'results' with the received data
-            $('#results').html(data.results);
-        },
-        error: function (error) {
-            console.log(error);
-        }
+                    for (var i = 0; i < data.results.length; i++) {
+                        var result = data.results[i];
+
+                        var newRow = $("<tr>");
+                  
+                        newRow.append("<td><textarea rows='2' cols='10' class='form-control' readonly>" + result.company+ "</textarea></td>");
+                        newRow.append("<td><textarea rows='2' cols='20' class='form-control' readonly>" + result.vehical_type+ "</textarea></td>");
+                        newRow.append("<td><textarea rows='2' cols='30' class='form-control' readonly>" + result.vehical_subtype+ "</textarea></td>");       
+                        newRow.append("<td><textarea rows='2' cols='50' class='form-control' readonly>" + result.remarks + "</textarea></td>"); 
+                        {% comment %} newRow.append("<td><input type='text' class='form-control' value='" + result.rate + "' readonly></td>"); {% endcomment %}
+                        newRow.append("<td><input type='text' class='form-control' value='" + result.agent_payout + "' readonly></td>");
+                        
+
+                        tableBody.append(newRow);
+                    }
+                }
+            });
+        });
     });
-});
 </script>
+
+
 </div>
 </div>
 

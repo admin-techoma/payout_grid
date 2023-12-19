@@ -19,7 +19,6 @@ urlpatterns = [
     path('ajax/load_month/', views.load_month, name='ajax_load_month'),
     path('ajax/load_state/', views.load_state, name='ajax_load_state'),
     path('ajax/load_rto/', views.load_rto, name='ajax_load_rto'),
-    
     path('ajax/load_rate_remarks_agent_payout/', views.load_rate_remarks_agent_payout, name='ajax_load_rate_remarks_agent_payout'),
 
   

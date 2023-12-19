@@ -230,9 +230,9 @@ def load_rate_remarks_agent_payout(request):
     for record in queryset:
         result_dict = {
             'company': record.company,
-            'vehicle_type': record.vehicle_type,
-            'vehicle_subtype': record.vehicle_subtype,
-            'rate': record.rate,
+            'vehical_type': record.vehical_type,
+            'vehical_subtype': record.vehical_subtype,
+            # 'rate': record.rate,
             'remarks': record.remarks,
             'agent_payout': record.agent_payout,
         }
