@@ -21,10 +21,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('login/', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'),
+    # path('login/', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'),
     path('admin/', admin.site.urls),    
-    path('', include('grid.urls'), name="grid"), 
-    path('', include('django.contrib.auth.urls')),   
+    path('grid/', include('grid.urls'), name="grid"), 
+    path('', include('accounts.urls'), name="accounts"), 
+    # path('', include('django.contrib.auth.urls')),   
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

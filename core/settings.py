@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'grid',
     'import_export',
+    'accounts'
 ]
 
 MIDDLEWARE = [

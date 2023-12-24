@@ -54,7 +54,8 @@
             <div class="row">
                 <div class="col-12">
                     <div class="login-card">
-                        <form  class="theme-form login-form" method="post" action="{% url 'login' %}">
+                        <form  class="theme-form login-form" method="post" action="{% url 'accounts:login' %}">
+                            {% comment %} {% csrf_token %} {% endcomment %}
                             {% if form.errors %}
                             <div class="alert alert-danger" role="alert">
                                     <p>
@@ -65,7 +66,7 @@
                                     </p>
                                 </div>
                                 {% endif %}
-                            <h4>Login</h4>
+                            <h4>Login for user 1 2 3</h4>
                             <h6>Welcome back! Log in to your account.</h6>
                             <div class="form-group">
                                 <label for="id_username">Username</label>

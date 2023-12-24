@@ -23,7 +23,7 @@ def index(request):
 
     return render(request,'index.html')
 
-@login_required(login_url=reverse_lazy('login'))
+@login_required(login_url=reverse_lazy('accounts:login'))
 def upload_grid(request):
     context = {}
     result = None  # Default value for result
@@ -55,7 +55,7 @@ def unique_error_message(self, model_class, unique_check):
             return super(Grid_data, self).unique_error_message(model_class, unique_check)
 
 
-
+@login_required(login_url=reverse_lazy('accounts:login'))
 def view_grid(request):
     companys= Grid_data.objects.values('company').distinct()
     context = {
@@ -63,6 +63,8 @@ def view_grid(request):
     }
     return render(request, 'view_grid.html', context)
 
+
+@login_required(login_url=reverse_lazy('accounts:login'))
 def update_grid(request):
     data = Grid_data.objects.all()
 
@@ -83,7 +85,7 @@ def ajax_addrate(request):
     except Exception as e:
         return JsonResponse({"status": "error", "message": str(e)})
 
-
+@login_required(login_url=reverse_lazy('accounts:login'))
 def report_grid(request):
 
     return render(request, 'report_grid.html')
@@ -234,8 +236,24 @@ def load_rate_remarks_agent_payout(request):
             'vehical_subtype': record.vehical_subtype,
             # 'rate': record.rate,
             'remarks': record.remarks,
-            'agent_payout': record.agent_payout,
+            'rateuser1': record.rateuser1,
+            'rateuser2': record.rateuser2,
         }
         results.append(result_dict)
 
     return JsonResponse({'results': results})
+
+
+
+def dash(request):
+    username = request.session.get('user_username', '')
+    print(f'HR Dashboard - Logged in as: {username}')
+    # Your HR dashboard logic here
+    return render(request, 'view_grid.html', {'username':username})
+    # if request.user.is_authenticated:
+    #     return redirect('hr:dash')
+    # employee = Employee.objects.get(emp_user=request.user) 
+   
+ 
+    # return render(request,'hr/hrdashboard.html',{ 'emp':employee.emp_user})
+    # return render(request,'hr/hrdashboard.html')
