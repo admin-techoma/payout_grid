@@ -36,7 +36,10 @@ def CustomLoginView(request):
             messages.error(request, 'Invalid credentials')  # Use messages.error instead of messages.info for an error message
 
     return render(request, 'auth/login.html')
+from django.views.decorators.cache import cache_control
 
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url=reverse_lazy('accounts:login'))
 def index(request):
     companys= Grid_data.objects.values('company').distinct()
@@ -44,6 +47,12 @@ def index(request):
         'companys':companys
     }
     return render(request, 'view_grid.html', context)
+
+from django.views.decorators.cache import cache_control
+
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url=reverse_lazy('accounts:login'))
 def logout(request):
     auth.logout(request)
     return redirect('accounts:login')

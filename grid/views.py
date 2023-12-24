@@ -18,11 +18,16 @@ import tablib
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 
-@login_required(login_url=reverse_lazy('login'))
+from django.views.decorators.cache import cache_control
+
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url=reverse_lazy('accounts:login'))
 def index(request):
 
     return render(request,'index.html')
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url=reverse_lazy('accounts:login'))
 def upload_grid(request):
     context = {}
@@ -55,6 +60,8 @@ def unique_error_message(self, model_class, unique_check):
             return super(Grid_data, self).unique_error_message(model_class, unique_check)
 
 
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url=reverse_lazy('accounts:login'))
 def view_grid(request):
     companys= Grid_data.objects.values('company').distinct()
@@ -64,6 +71,7 @@ def view_grid(request):
     return render(request, 'view_grid.html', context)
 
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url=reverse_lazy('accounts:login'))
 def update_grid(request):
     data = Grid_data.objects.all()
@@ -85,6 +93,8 @@ def ajax_addrate(request):
     except Exception as e:
         return JsonResponse({"status": "error", "message": str(e)})
 
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url=reverse_lazy('accounts:login'))
 def report_grid(request):
 
