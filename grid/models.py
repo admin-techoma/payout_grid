@@ -82,6 +82,7 @@ class Grid_data(models.Model):
     month           =   models.CharField(max_length=255)
     state           =   models.CharField(max_length=255)
     rto             =   models.CharField(max_length=255)
+    rate            =   models.CharField(max_length=255)
     rateuser1       =   models.CharField(max_length=255) # Rate user for 70% of requests
     rateuser2       =   models.CharField(max_length=255)# Rate user for 80% of requests
     rateuser3       =   models.CharField(max_length=255)# Rate user for 90% of requests

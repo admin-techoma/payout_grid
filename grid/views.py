@@ -248,6 +248,7 @@ def load_rate_remarks_agent_payout(request):
             'remarks': record.remarks,
             'rateuser1': record.rateuser1,
             'rateuser2': record.rateuser2,
+            'rateuser3': record.rateuser3,
         }
         results.append(result_dict)
 

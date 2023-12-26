@@ -375,6 +375,8 @@
                                 newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser1 + "' readonly></td>");
                             } else if ('{{request.user.username}}' === 'user2') {
                                 newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser2 + "' readonly></td>");
+                            } else if ('{{request.user.username}}' === 'user3') {
+                                newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser3 + "' readonly></td>");
                             } else {
                                 // Handle other user types or default behavior
                                 

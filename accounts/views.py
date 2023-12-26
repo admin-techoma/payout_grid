@@ -27,6 +27,8 @@ def CustomLoginView(request):
                 return redirect('accounts:index')
             elif user.username == 'user2':
                 return redirect('accounts:index')
+            elif user.username == 'user3':
+                return redirect('accounts:index')
             elif user.username == 'admin':
                 return redirect('grid:index') 
             # Replace 'view_grid.html' with the actual URL for user1's dashboard
