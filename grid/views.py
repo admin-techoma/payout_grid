@@ -268,3 +268,37 @@ def dash(request):
  
     # return render(request,'hr/hrdashboard.html',{ 'emp':employee.emp_user})
     # return render(request,'hr/hrdashboard.html')
+
+
+
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
+from .forms import CustomUserCreationForm
+
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
+from .forms import CustomUserCreationForm
+
+class UserRegistrationView(CreateView):
+    template_name = 'register.html'
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('grid:user_list')  # Default redirect URL
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        # Check if the registered user is a superuser
+        if self.object.is_superuser:
+            # Update the success_url to redirect superusers to user_list view
+            self.success_url = reverse_lazy('grid:user_list')
+
+        return response
+from django.contrib.auth import get_user_model
+User = get_user_model()
+def user_list(request):
+
+    user= User.objects.all()
+
+    return render(request, 'user_list.html', {'user': user})

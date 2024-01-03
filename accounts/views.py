@@ -20,24 +20,25 @@ def CustomLoginView(request):
         password = request.POST['password']
         user = auth.authenticate(username=username, password=password)
 
-        if user is not None:  # Check if authentication is successful
+        if user is not None and user.is_active:  # Check if authentication is successful and user is active
             auth.login(request, user)
 
-            if user.username == 'user1':
-                return redirect('accounts:index')
-            elif user.username == 'user2':
-                return redirect('accounts:index')
-            elif user.username == 'user3':
-                return redirect('accounts:index')
-            elif user.username == 'admin':
-                return redirect('grid:index') 
-            # Replace 'view_grid.html' with the actual URL for user1's dashboard
-            # Add similar checks for other user types and their respective dashboard URLs
+            # Redirect based on user's status
+            if user.is_superuser:
+                return redirect('grid:index')
+            else:
+                # Redirect based on user's group
+                if user.groups.filter(name='admin').exists():
+                    return redirect('grid:index')
+                else:
+                    return redirect('accounts:index')
 
         else:
             messages.error(request, 'Invalid credentials')  # Use messages.error instead of messages.info for an error message
 
     return render(request, 'auth/login.html')
+
+
 from django.views.decorators.cache import cache_control
 
 

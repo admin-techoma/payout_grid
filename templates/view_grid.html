@@ -364,25 +364,26 @@
                     for (var i = 0; i < data.results.length; i++) {
                         var result = data.results[i];
 
-                        
                         var newRow = $("<tr>");
-                            newRow.append("<td><textarea rows='2' cols='10' class='form-control' readonly>" + result.company + "</textarea></td>");
-                            newRow.append("<td><textarea rows='2' cols='20' class='form-control' readonly>" + result.vehical_type + "</textarea></td>");
-                            newRow.append("<td><textarea rows='2' cols='30' class='form-control' readonly>" + result.vehical_subtype + "</textarea></td>");
-                            newRow.append("<td><textarea rows='2' cols='50' class='form-control' readonly>" + result.remarks + "</textarea></td>");
-        
-                            if ('{{request.user.username}}' === 'user1') {
-                                newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser1 + "' readonly></td>");
-                            } else if ('{{request.user.username}}' === 'user2') {
-                                newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser2 + "' readonly></td>");
-                            } else if ('{{request.user.username}}' === 'user3') {
-                                newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser3 + "' readonly></td>");
-                            } else {
-                                // Handle other user types or default behavior
-                                
-                            }
-        
-                            tableBody.append(newRow);
+                        newRow.append("<td><textarea rows='2' cols='10' class='form-control' readonly>" + result.company + "</textarea></td>");
+                        newRow.append("<td><textarea rows='2' cols='20' class='form-control' readonly>" + result.vehical_type + "</textarea></td>");
+                        newRow.append("<td><textarea rows='2' cols='30' class='form-control' readonly>" + result.vehical_subtype + "</textarea></td>");
+                        newRow.append("<td><textarea rows='2' cols='50' class='form-control' readonly>" + result.remarks + "</textarea></td>");
+
+                        var userGroup = '{{ request.user.groups.all.0.name }}';  // Get the first group name of the user
+
+                        if (userGroup === 'RateUser1') {
+                            newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser1 + "' readonly></td>");
+                        } else if (userGroup === 'RateUser2') {
+                            newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser2 + "' readonly></td>");
+                        } else if (userGroup === 'RateUser3') {
+                            newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser3 + "' readonly></td>");
+                        } else {
+                            // Handle other user groups or default behavior
+                            newRow.append("<td>Default Rate</td>");
+                        }
+
+                        tableBody.append(newRow);
                     }
                 }
             });

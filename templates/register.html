@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static  %}
+   
+
+{% block script %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+ 
+      // Get the file input element
+      var fileInput = document.getElementById('fileInput');
+
+      // Clear the value to prevent automatic upload
+      fileInput.value = '';
+
+      // Optionally, you can add an event listener to handle manual file selection
+      fileInput.addEventListener('change', function(event) {
+          // Handle the file selection if needed
+          var selectedFile = event.target.files[0];
+          console.log('Selected file:', selectedFile);
+      });
+  });
+</script>
+
+{% endblock script %}
+
+{% block content %}
+<div class="container-fluid general-widget">
+  <div class="card-header" style="background: #0c7097; color:white;" >
+    Registration User</div> 
+
+    <div class="card">
+  
+    <form class="form theme-form"  method="post">
+        {% csrf_token %}
+        <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <div class="mb-3 row">
+                  {% comment %} <label class="col-sm-3 col-form-label">Create New User ....!!!</label> {% endcomment %}
+  
+        {{ form.as_p }}
+    </div>
+</div>
+</div>
+
+</div>
+        <button type="submit">Register</button>
+    </form>
+</div>
+
+   
+</div>
+{% endblock %}

@@ -10,4 +10,6 @@ urlpatterns = [
     path('index/', views.index, name='index'),
     # Add other URLs as needed
     path('logout',views.logout,name="logout"),
+    
+    
 ]
