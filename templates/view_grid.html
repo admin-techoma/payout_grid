@@ -14,7 +14,7 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
         <!-- App css-->
         <link rel="stylesheet" type="text/css" href="css/style.css">
-        <title>Gird</title>
+        <title>Gird Payout</title>
         <style>
             body{
                 width:100%;
@@ -28,6 +28,34 @@
     </head>
     <body>
         <div class="container-fluid general-widget">
+
+              <!-- header start-->
+        <header class="landing-header">
+            <div class="custom-container">
+              <div class="row">
+                <div class="col-12">
+                  <nav class="navbar navbar-light p-0" id="navbar-example2"><a class="navbar-brand" style=" color:#0c7097;">{{request.user.username}}</a>
+                   
+                    <div class="btn btn-primary-light" ><a href="{% url 'accounts:logout' %}" style="border-radius: 0px;
+                        color: #fff;
+                        background-color: #0c7097;
+                        padding: 10px 25px;
+                        line-height: 1;
+                        font-weight: 600;
+                        display: block;
+                        width: -webkit-fit-content;
+                        width: -moz-fit-content;
+                        width: fit-content;" >
+                         Logout</a>
+                      
+                    </div>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </header>
+          <!-- header end-->
+          
             <div class="card">
                 <div class="card-header" style="background: #0c7097; color:white;" >
     View Rate</div>
@@ -39,8 +67,8 @@
     
         <form class="form theme-form >" method="POST" action="" enctype="multipart/form-data">
             {% csrf_token %}
-            <a href="#" value="{{request.user.username}}">{{request.user.username}}</a>
-            <a href="{% url 'accounts:logout' %}">logout</a>
+            {% comment %} <a href="#" value="{{request.user.username}}">{{request.user.username}}</a>
+            <a href="{% url 'accounts:logout' %}">logout</a> {% endcomment %}
 
             <div class="form-row">
                 <div class="col-md-4 col-sm-12 form-group">
