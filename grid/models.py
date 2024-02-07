@@ -82,10 +82,18 @@ class Grid_data(models.Model):
     month           =   models.CharField(max_length=255)
     state           =   models.CharField(max_length=255)
     rto             =   models.CharField(max_length=255)
-    rate            =   models.CharField(max_length=255)
-    rateuser1       =   models.CharField(max_length=255) # Rate user for 70% of requests
-    rateuser2       =   models.CharField(max_length=255)# Rate user for 80% of requests
-    rateuser3       =   models.CharField(max_length=255)# Rate user for 90% of requests
+    rate_od            =   models.CharField(max_length=255)
+    rate_tp            =   models.CharField(max_length=255)
+    rate_net            =   models.CharField(max_length=255)
+    rateuser1_od       =   models.CharField(max_length=255) # Rate user for 70% of requests
+    rateuser1_tp       =   models.CharField(max_length=255) 
+    rateuser1_net       =   models.CharField(max_length=255) 
+    rateuser2_od       =   models.CharField(max_length=255)
+    rateuser2_tp       =   models.CharField(max_length=255)# Rate user for 80% of requests
+    rateuser2_net       =   models.CharField(max_length=255)
+    rateuser3_od       =   models.CharField(max_length=255)# Rate user for 90% of requests
+    rateuser3_tp       =   models.CharField(max_length=255)
+    rateuser3_net       =   models.CharField(max_length=255)
     remarks         =   models.CharField(max_length=255)
     agent_payout    =   models.CharField(max_length=255)
     created_on      =   models.DateField(default=timezone.now)

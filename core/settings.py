@@ -28,6 +28,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# settings.py
+
+# Adjust the value as needed
+
 
 # Application definition
 

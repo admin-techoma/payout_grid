@@ -1,25 +1,18 @@
 from django.shortcuts import render
-from grid.models import Product
-from decimal import Decimal
-from django.db.models import Sum
-from multiprocessing import context
-from django.shortcuts import render,redirect
 from django.http import JsonResponse
 from .resources import MisResource
-from tablib import Dataset
 from .models import Grid_data, Grid_file
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy
 import os
 from grid.models import Grid_data
-from django.core.serializers import serialize
-from django.contrib import messages
 import tablib
-from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy
-
+from django.views.decorators.http import require_GET
 from django.views.decorators.cache import cache_control
-
+from django.views.generic.edit import CreateView
+from .forms import CustomUserCreationForm
+from django.urls import reverse_lazy
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url=reverse_lazy('accounts:login'))
@@ -104,7 +97,7 @@ def report_grid(request):
 #<--------------------- AJAX Load----------------------> #
 
 #<--------------------- Load Product based on company----------------------> #
-from django.views.decorators.http import require_GET
+
 @require_GET
 def load_product(request):
     company_ids = request.GET.get('companies', '').split(',')  # Get the comma-separated string and split it into a list
@@ -117,40 +110,44 @@ def load_product(request):
 
 
 #<--------------------- Load vehicle types based on selected company and product----------------------> #
-# @require_GET
-# def load_vehical_type(request):
-#     company_ids = request.GET.get('companies', '').split(',')  # Get the comma-separated string and split it into a list
-#     product_id = request.GET.get('product', '')
+@require_GET
+def load_vehical_type(request):
+    company_ids = request.GET.get('companies', '').split(',')  # Get the comma-separated string and split it into a list
+    product_id = request.GET.get('product', '')
 
-#     # Filter vehicle types based on multiple selected companies and a product
-#     vehical_types = Grid_data.objects.filter(
-#         company__in=company_ids,
-#         product=product_id
-#     ).order_by('vehical_type').values('vehical_type').distinct()
+    # Filter vehicle types based on multiple selected companies and a product
+    vehical_types = Grid_data.objects.filter(
+        company__in=company_ids,
+        product=product_id
+    ).order_by('vehical_type').values('vehical_type').distinct()
 
-#     vehical_types_list = list(vehical_types)
-#     return JsonResponse({'vehical_types': vehical_types_list})
+    vehical_types_list = list(vehical_types)
+    return JsonResponse({'vehical_types': vehical_types_list})
 #<--------------------- Load vehicle subtypes based on selected company, product, and vehicle type----------------------> #
-# def load_vehical_subtype(request):
-#     company = request.GET.get('company')
-#     product = request.GET.get('product')
-#     vehical_type = request.GET.get('vehical_type')
-#     vehical_subtypes = Grid_data.objects.filter(
-#         company=company, product=product, vehical_type=vehical_type
-#     ).order_by('vehical_subtype').values('vehical_subtype').distinct()
-#     vehical_subtypes_list = list(vehical_subtypes)
-#     return JsonResponse({'vehical_subtypes': vehical_subtypes_list})
+def load_vehical_subtype(request):
+    company_ids = request.GET.get('companies', '').split(',')  # Get the comma-separated string and split it into a list
+    product_id = request.GET.get('product', '')
+    vehical_type = request.GET.get('vehical_type','')
+    vehical_subtypes = Grid_data.objects.filter(
+        company__in=company_ids, product=product_id, vehical_type=vehical_type
+    ).order_by('vehical_subtype').values('vehical_subtype').distinct()
+    vehical_subtypes_list = list(vehical_subtypes)
+    return JsonResponse({'vehical_subtypes': vehical_subtypes_list})
 
 #<---------------------Load product names based on selected company, product, vehicle type, and vehicle subtype----------------------> #
 @require_GET
 def load_product_name(request):
     company_ids = request.GET.get('companies', '').split(',')  # Get the comma-separated string and split it into a list
     product_id = request.GET.get('product', '')
+    vehical_type = request.GET.get('vehical_type','')
+    vehical_subtype = request.GET.get('vehical_subtype','')
 
     # Filter product names based on multiple selected companies and a product
     product_names = Grid_data.objects.filter(
         company__in=company_ids,
-        product=product_id
+        product=product_id,
+        vehical_type=vehical_type,
+        vehical_subtype=vehical_subtype
     ).order_by('product_name').values('product_name').distinct()
 
     product_names_list = list(product_names)
@@ -160,12 +157,16 @@ def load_product_name(request):
 def load_month(request):
     company_ids = request.GET.get('companies', '').split(',')  # Get the comma-separated string and split it into a list
     product_id = request.GET.get('product', '')
+    vehical_type = request.GET.get('vehical_type','')
+    vehical_subtype = request.GET.get('vehical_subtype','')
     product_name_id = request.GET.get('product_name', '')
 
     # Filter months based on multiple selected companies, a product, and a product name
     months = Grid_data.objects.filter(
         company__in=company_ids,
         product=product_id,
+        vehical_type=vehical_type,
+        vehical_subtype=vehical_subtype,
         product_name=product_name_id
     ).order_by('month').values('month').distinct()
 
@@ -178,6 +179,8 @@ def load_month(request):
 def load_state(request):
     company_ids = request.GET.get('companies', '').split(',')  # Get the comma-separated string and split it into a list
     product_id = request.GET.get('product', '')
+    vehical_type = request.GET.get('vehical_type','')
+    vehical_subtype = request.GET.get('vehical_subtype','')
     product_name_id = request.GET.get('product_name', '')
     month_id = request.GET.get('month', '')
 
@@ -185,6 +188,8 @@ def load_state(request):
     states = Grid_data.objects.filter(
         company__in=company_ids,
         product=product_id,
+        vehical_type=vehical_type,
+        vehical_subtype=vehical_subtype,
         product_name=product_name_id,
         month=month_id
     ).order_by('state').values('state').distinct()
@@ -197,6 +202,8 @@ def load_state(request):
 def load_rto(request):
     company_ids = request.GET.get('companies', '').split(',')  # Get the comma-separated string and split it into a list
     product_id = request.GET.get('product', '')
+    vehical_type = request.GET.get('vehical_type','')
+    vehical_subtype = request.GET.get('vehical_subtype','')
     product_name_id = request.GET.get('product_name', '')
     month_id = request.GET.get('month', '')
     state_id = request.GET.get('state', '')
@@ -205,6 +212,8 @@ def load_rto(request):
     rtos = Grid_data.objects.filter(
         company__in=company_ids,
         product=product_id,
+        vehical_type=vehical_type,
+        vehical_subtype=vehical_subtype,
         product_name=product_name_id,
         month=month_id,
         state=state_id
@@ -222,6 +231,8 @@ def load_rate_remarks_agent_payout(request):
     # Extract filter parameters from the GET request
     company_ids = request.GET.get('company', '').split(',')
     product_id = request.GET.get('product', '')
+    vehical_type = request.GET.get('vehical_type','')
+    vehical_subtype = request.GET.get('vehical_subtype','')
     product_name_id = request.GET.get('product_name', '')
     month_id = request.GET.get('month', '')
     state_id = request.GET.get('state', '')
@@ -231,6 +242,8 @@ def load_rate_remarks_agent_payout(request):
     queryset = Grid_data.objects.filter(
         company__in=company_ids,
         product=product_id,
+        vehical_type =vehical_type,
+        vehical_subtype=vehical_subtype,
         product_name=product_name_id,
         month=month_id,
         state=state_id,
@@ -242,13 +255,19 @@ def load_rate_remarks_agent_payout(request):
     for record in queryset:
         result_dict = {
             'company': record.company,
-            'vehical_type': record.vehical_type,
-            'vehical_subtype': record.vehical_subtype,
+            # 'vehical_type': record.vehical_type,
+            # 'vehical_subtype': record.vehical_subtype,
             # 'rate': record.rate,
             'remarks': record.remarks,
-            'rateuser1': record.rateuser1,
-            'rateuser2': record.rateuser2,
-            'rateuser3': record.rateuser3,
+            'rateuser1_od': record.rateuser1_od,
+            'rateuser1_tp': record.rateuser1_tp,
+            'rateuser1_net': record.rateuser1_net,
+            'rateuser2_od': record.rateuser2_od,
+            'rateuser2_tp': record.rateuser2_tp,
+            'rateuser2_net': record.rateuser2_net,
+            'rateuser3_od': record.rateuser3_od,
+            'rateuser3_tp': record.rateuser3_tp,
+            'rateuser3_net': record.rateuser3_net,
         }
         results.append(result_dict)
 
@@ -271,15 +290,7 @@ def dash(request):
 
 
 
-from django.contrib.auth.models import Permission
-from django.contrib.contenttypes.models import ContentType
-from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
-from .forms import CustomUserCreationForm
 
-from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
-from .forms import CustomUserCreationForm
 
 class UserRegistrationView(CreateView):
     template_name = 'register.html'
@@ -295,8 +306,8 @@ class UserRegistrationView(CreateView):
             self.success_url = reverse_lazy('grid:user_list')
 
         return response
-from django.contrib.auth import get_user_model
-User = get_user_model()
+    
+
 def user_list(request):
 
     user= User.objects.all()

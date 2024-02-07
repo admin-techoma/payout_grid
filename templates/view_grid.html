@@ -89,6 +89,20 @@
                 </div>
 
                 <div class="col-md-4 col-sm-12 form-group">
+                    <label for="vehicaltypeoptions">Vehicle Type</label>
+                    <select id="vehicaltypeoptions" class="form-control" name="vehical_type">
+                        <option value="" selected>Select Vehicle Type</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 col-sm-12 form-group">
+                    <label for="vehicalsubtypeoptions">Vehicle Sub Type</label>
+                    <select id="vehicalsubtypeoptions" class="form-control" name="vehical_subtype">
+                        <option value="" selected>Select Vehicle Sub Type</option>
+                    </select>
+                </div> 
+
+                <div class="col-md-4 col-sm-12 form-group">
                     <label for="productnameoptions">Product Name</label>
                     <select id="productnameoptions" class="form-control" name="product_name">
                         <option value="" selected>Select Product Name</option>
@@ -142,11 +156,13 @@
                 <thead class="table-active">
                     <tr>
                         <th style="background: #0c7097; color:white;">Company</th>
-                        <th style="background: #0c7097; color:white;">vehical_type</th>
-                       <th style="background: #0c7097; color:white;">Vehicle Subtype</th>
+                        {% comment %} <th style="background: #0c7097; color:white;">vehical_type</th>
+                       <th style="background: #0c7097; color:white;">Vehicle Subtype</th> {% endcomment %}
                         <th style="background: #0c7097; color:white;">Remarks</th>
                         {% comment %} <th>Rate</th> {% endcomment %}
-                        <th style="background: #0c7097; color:white;">Point</th>
+                        <th style="background: #0c7097; color:white;">Point od</th>
+                        <th style="background: #0c7097; color:white;">Point tp</th>
+                        <th style="background: #0c7097; color:white;">Point net</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -159,11 +175,12 @@
 </div>
   </div>
      <!-- Add the following JavaScript to your template -->
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-     
+       <!-- Add the following JavaScript to your template -->
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+       <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+       
 <!-- Add the following script to initialize Select2 on the companyoptions select element -->
 {% comment %} <script>
     $(document).ready(function() {
@@ -201,47 +218,119 @@
 
 </script>
 
-<!-- Modify your existing AJAX function for loading product names -->
 <script>
     $("#companyoptions, #productoptions").change(function () {
         var company_ids = $("#companyoptions").val();  // Use val() to get selected values as an array
         var product_id = $("#productoptions").val();
 
         $.ajax({
-            url: "{% url 'grid:ajax_load_product_name' %}",
+            url: "{% url 'grid:ajax_load_vehical_type' %}",
             data: {
                 'companies': company_ids.join(),  // Convert array to comma-separated string
-                'product': product_id
+                'product': product_id,
             },
             success: function (data) {
-                var productnameSelect = $("#productnameoptions");
-                productnameSelect.empty();  // Clear existing options
+                var vehicaltypeSelect = $("#vehicaltypeoptions");
+                vehicaltypeSelect.empty();  // Clear existing options
 
-                var productnames = data.product_names;
-                productnameSelect.append(
-                    $("<option>").attr('value', "").text("Select Product Name")
+                var vehicaltypes = data.vehical_types;
+                vehicaltypeSelect.append(
+                    $("<option>").attr('value', "").text("Select Vehicle Type")
                 );
 
-                for (var i = 0; i < productnames.length; i++) {
-                    productnameSelect.append(
-                        $("<option>").attr('value', productnames[i].product_name).text(productnames[i].product_name)
+                for (var i = 0; i < vehicaltypes.length; i++) {
+                    vehicaltypeSelect.append(
+                        $("<option>").attr('value', vehicaltypes[i].vehical_type).text(vehicaltypes[i].vehical_type)
                     );
                 }
             }
         });
     });
 </script>
+
+
 <!-- Modify your existing AJAX function for loading product names -->
 <script>
-    $("#companyoptions, #productoptions").change(function () {
+    $("#companyoptions, #productoptions, #vehicaltypeoptions").change(function () {
         var company_ids = $("#companyoptions").val();  // Use val() to get selected values as an array
         var product_id = $("#productoptions").val();
+        var vehical_type = $("#vehicaltypeoptions").val();
+
+        $.ajax({
+            url: "{% url 'grid:ajax_load_vehical_subtype' %}",
+            data: {
+                'companies': company_ids.join(),  // Convert array to comma-separated string
+                'product': product_id,
+                'vehical_type': vehical_type,
+            },
+            success: function (data) {
+                var vehicalsubtypeSelect = $("#vehicalsubtypeoptions");
+                vehicalsubtypeSelect.empty();  // Clear existing options
+
+                var vehicalsubtypes = data.vehical_subtypes;
+                vehicalsubtypeSelect.append(
+                    $("<option>").attr('value', "").text("Select Vehicle Subtype")
+                );
+
+                for (var i = 0; i < vehicalsubtypes.length; i++) {
+                    vehicalsubtypeSelect.append(
+                        $("<option>").attr('value', vehicalsubtypes[i].vehical_subtype).text(vehicalsubtypes[i].vehical_subtype)
+                    );
+                }
+            }
+        });
+    });
+</script>
+
+<!-- Modify your existing AJAX function for loading product names -->
+<script>
+    $("#companyoptions, #productoptions, #vehicaltypeoptions").change(function () {
+        var company_ids = $("#companyoptions").val();  // Use val() to get selected values as an array
+        var product_id = $("#productoptions").val();
+        var vehical_type = $("#vehicaltypeoptions").val();
+
+        $.ajax({
+            url: "{% url 'grid:ajax_load_vehical_subtype' %}",
+            data: {
+                'companies': company_ids.join(),  // Convert array to comma-separated string
+                'product': product_id,
+                'vehical_type': vehical_type,
+            },
+            success: function (data) {
+                var vehicalsubtypeSelect = $("#vehicalsubtypeoptions");
+                vehicalsubtypeSelect.empty();  // Clear existing options
+
+                var vehicalsubtypes = data.vehical_subtypes;
+                vehicalsubtypeSelect.append(
+                    $("<option>").attr('value', "").text("Select Vehicle Subtype")
+                );
+
+                for (var i = 0; i < vehicalsubtypes.length; i++) {
+                    vehicalsubtypeSelect.append(
+                        $("<option>").attr('value', vehicalsubtypes[i].vehical_subtype).text(vehicalsubtypes[i].vehical_subtype)
+                    );
+                }
+
+                // Trigger the change event on the vehicalsubtypeoptions select to load product names
+                vehicalsubtypeSelect.trigger('change');
+            }
+        });
+    });
+
+    // Load product names based on selected company, product, and vehicle type
+    $("#companyoptions, #productoptions, #vehicaltypeoptions, #vehicalsubtypeoptions").change(function () {
+        var company_ids = $("#companyoptions").val();  // Use val() to get selected values as an array
+        var product_id = $("#productoptions").val();
+        var vehical_type = $("#vehicaltypeoptions").val();
+        var vehical_subtype = $("#vehicalsubtypeoptions").val();
 
         $.ajax({
             url: "{% url 'grid:ajax_load_product_name' %}",
             data: {
                 'companies': company_ids.join(),  // Convert array to comma-separated string
-                'product': product_id
+                'product': product_id,
+                'vehical_type': vehical_type,
+                'vehical_subtype': vehical_subtype,
             },
             success: function (data) {
                 var productnameSelect = $("#productnameoptions");
@@ -263,9 +352,11 @@
 </script>
 <!-- Modify your existing AJAX function for loading months -->
 <script>
-    $("#companyoptions, #productoptions, #productnameoptions").change(function () {
+    $("#companyoptions, #productoptions,#vehicaltypeoptions,#vehicalsubtypeoptions,#productnameoptions").change(function () {
         var company_ids = $("#companyoptions").val();  // Use val() to get selected values as an array
         var product_id = $("#productoptions").val();
+        var vehical_type = $("#vehicaltypeoptions").val();
+        var vehical_subtype = $("#vehicalsubtypeoptions").val();
         var product_name_id = $("#productnameoptions").val();
 
         $.ajax({
@@ -273,7 +364,10 @@
             data: {
                 'companies': company_ids.join(),  // Convert array to comma-separated string
                 'product': product_id,
+                'vehical_type': vehical_type,
+                'vehical_subtype': vehical_subtype,
                 'product_name': product_name_id
+                
             },
             success: function (data) {
                 var monthSelect = $("#monthoptions");
@@ -295,9 +389,11 @@
 </script>
 <!-- Modify your existing AJAX function for loading states -->
 <script>
-    $("#companyoptions, #productoptions, #productnameoptions, #monthoptions").change(function () {
+    $("#companyoptions, #productoptions,#vehicaltypeoptions,#vehicalsubtypeoptions, #productnameoptions, #monthoptions").change(function () {
         var company_ids = $("#companyoptions").val();  // Use val() to get selected values as an array
         var product_id = $("#productoptions").val();
+        var vehical_type = $("#vehicaltypeoptions").val();
+        var vehical_subtype = $("#vehicalsubtypeoptions").val();
         var product_name_id = $("#productnameoptions").val();
         var month_id = $("#monthoptions").val();
 
@@ -306,6 +402,8 @@
             data: {
                 'companies': company_ids.join(),  // Convert array to comma-separated string
                 'product': product_id,
+                'vehical_type': vehical_type,
+                'vehical_subtype': vehical_subtype,
                 'product_name': product_name_id,
                 'month': month_id
             },
@@ -329,9 +427,11 @@
 </script>
 <!-- Modify your existing AJAX function for loading RTOs -->
 <script>
-    $("#companyoptions, #productoptions, #productnameoptions, #monthoptions, #stateoptions").change(function () {
+    $("#companyoptions, #productoptions,#vehicaltypeoptions,#vehicalsubtypeoptions, #productnameoptions, #monthoptions, #stateoptions").change(function () {
         var company_ids = $("#companyoptions").val();  // Use val() to get selected values as an array
         var product_id = $("#productoptions").val();
+        var vehical_type = $("#vehicaltypeoptions").val();
+        var vehical_subtype = $("#vehicalsubtypeoptions").val();
         var product_name_id = $("#productnameoptions").val();
         var month_id = $("#monthoptions").val();
         var state_id = $("#stateoptions").val();
@@ -341,6 +441,8 @@
             data: {
                 'companies': company_ids.join(),  // Convert array to comma-separated string
                 'product': product_id,
+                'vehical_type': vehical_type,
+                'vehical_subtype': vehical_subtype,
                 'product_name': product_name_id,
                 'month': month_id,
                 'state': state_id
@@ -365,59 +467,81 @@
 </script>
 <!-- Modify your existing AJAX function for loading data -->
 <!-- Add the following JavaScript to your template -->
-<script>
-    $(document).ready(function () {
-        $("#companyoptions, #productoptions, #productnameoptions, #monthoptions, #stateoptions, #rtooptions").change(function () {
-            var company_ids = $("#companyoptions").val();
-            var product_id = $("#productoptions").val();
-            var product_name_id = $("#productnameoptions").val();
-            var month_id = $("#monthoptions").val();
-            var state_id = $("#stateoptions").val();
-            var rto_id = $("#rtooptions").val();
 
-            $.ajax({
-                url: "{% url 'grid:ajax_load_rate_remarks_agent_payout' %}",
-                data: {
-                    'company': company_ids.join(),
-                    'product': product_id,
-                    'product_name': product_name_id,
-                    'month': month_id,
-                    'state': state_id,
-                    'rto': rto_id
-                },
-                success: function (data) {
-                    var tableBody = $("#ratetable tbody");
-                    tableBody.empty();
+    <script>
+        $(document).ready(function () {
+            $("#companyoptions, #productoptions, #vehicaltypeoptions,#vehicalsubtypeoptions, #productnameoptions, #monthoptions, #stateoptions, #rtooptions").change(function () {
+                var company_ids = $("#companyoptions").val();
+                var product_id = $("#productoptions").val();
+                var vehical_type = $("#vehicaltypeoptions").val();
+                var vehical_subtype = $("#vehicalsubtypeoptions").val();
+                var product_name_id = $("#productnameoptions").val();
+                var month_id = $("#monthoptions").val();
+                var state_id = $("#stateoptions").val();
+                var rto_id = $("#rtooptions").val();
+    
+                // Add checks to see if a selection has been made in each dropdown
+                if (company_ids && product_id && vehical_type && product_name_id && month_id && state_id && rto_id) {
+                    $.ajax({
+                        url: "{% url 'grid:ajax_load_rate_remarks_agent_payout' %}",
+                        data: {
+                            'company': company_ids.join(),
+                            'product': product_id,
+                            'vehical_type': vehical_type,
+                            'vehical_subtype': vehical_subtype,
+                            'product_name': product_name_id,
+                            'month': month_id,
+                            'state': state_id,
+                            'rto': rto_id
+                        },
+                        success: function (data) {
+                            var tableBody = $("#ratetable tbody");
+                            tableBody.empty();
+    
+                            for (var i = 0; i < data.results.length; i++) {
+                                var result = data.results[i];
+    
+                                var newRow = $("<tr>");
+                                // Use 'input' instead of 'textarea' for single-line input
+                                newRow.append("<td><input type='text' class='form-control' value='" + result.company + "' readonly></td>");
+                                newRow.append("<td><textarea rows='2' cols='50' class='form-control' readonly>" + result.remarks + "</textarea></td>");
+    
+                                var userGroup = '{{ request.user.groups.all.0.name }}';
+    
+                                if (userGroup === 'RateUser1') {
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser1_od + "' readonly></td>");
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser1_tp + "' readonly></td>");
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser1_net + "' readonly></td>");
+                                } else if (userGroup === 'RateUser2') {
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser2_od + "' readonly></td>");
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser2_tp + "' readonly></td>");
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser2_net + "' readonly></td>");
+                                } else if (userGroup === 'RateUser3') {
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser3_od + "' readonly></td>");
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser3_tp + "' readonly></td>");
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser3_net + "' readonly></td>");
+                                } else {
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser1_od + "' readonly></td>");
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser1_tp + "' readonly></td>");
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser1_net + "' readonly></td>");
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser2_od + "' readonly></td>");
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser2_tp + "' readonly></td>");
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser2_net + "' readonly></td>");
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser3_od + "' readonly></td>");
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser3_tp + "' readonly></td>");
+                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser3_net + "' readonly></td>");
 
-                    for (var i = 0; i < data.results.length; i++) {
-                        var result = data.results[i];
-
-                        var newRow = $("<tr>");
-                        newRow.append("<td><textarea rows='2' cols='10' class='form-control' readonly>" + result.company + "</textarea></td>");
-                        newRow.append("<td><textarea rows='2' cols='20' class='form-control' readonly>" + result.vehical_type + "</textarea></td>");
-                        newRow.append("<td><textarea rows='2' cols='30' class='form-control' readonly>" + result.vehical_subtype + "</textarea></td>");
-                        newRow.append("<td><textarea rows='2' cols='50' class='form-control' readonly>" + result.remarks + "</textarea></td>");
-
-                        var userGroup = '{{ request.user.groups.all.0.name }}';  // Get the first group name of the user
-
-                        if (userGroup === 'RateUser1') {
-                            newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser1 + "' readonly></td>");
-                        } else if (userGroup === 'RateUser2') {
-                            newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser2 + "' readonly></td>");
-                        } else if (userGroup === 'RateUser3') {
-                            newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser3 + "' readonly></td>");
-                        } else {
-                            // Handle other user groups or default behavior
-                            newRow.append("<td>Default Rate</td>");
+                                }
+    
+                                tableBody.append(newRow);
+                            }
                         }
-
-                        tableBody.append(newRow);
-                    }
+                    });
                 }
             });
         });
-    });
-</script>
+    </script>
+
 
 
 </div>
