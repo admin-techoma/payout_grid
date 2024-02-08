@@ -75,16 +75,34 @@ def update_grid(request):
 def ajax_update_rate(request):
     if request.method == 'GET':
         rate_od = request.GET.get('rate_od')
-    
+        rate_tp= request.GET.get('rate_tp')
+        company= request.GET.get('company')
+        product= request.GET.get('product')
+        vehical_type= request.GET.get('vehical_type')
+        vehical_subtype= request.GET.get('vehical_subtype')
+        product_name= request.GET.get('product_name')
+        month= request.GET.get('month')
+        state= request.GET.get('state')
+        rto= request.GET.get('rto')
+        rate_net= request.GET.get('rate_net')
         id = request.GET.get('id')
 
         try:
             grid_data = Grid_data.objects.get(id=id)
             grid_data.rate_od = rate_od  # Update the specific field (change as needed)
-            
+            grid_data.rate_tp = rate_tp
+            grid_data.rate_net = rate_net
+            grid_data.company = company
+            grid_data.product = product
+            grid_data.product_name = product_name
+            grid_data.month = month
+            grid_data.state = state
+            grid_data.rto = rto
+            grid_data.vehical_type = vehical_type
+            grid_data.vehical_subtype = vehical_subtype
             grid_data.save()
 
-            return JsonResponse({"status": "success", "data": {'rate_od': rate_od,'id': id}})
+            return JsonResponse({"status": "success", "data": {'rate_od': rate_od,'rate_tp': rate_tp,'rate_net':rate_net,'company': company,'product': product,'vehical_type':vehical_type,'vehical_subtype':vehical_subtype,'product_name':product_name,'month':month,'state':state,'rto':rto,'id': id}})
         except Grid_data.DoesNotExist:
             return JsonResponse({"status": "error", "message": "Record not found"})
         except Exception as e:

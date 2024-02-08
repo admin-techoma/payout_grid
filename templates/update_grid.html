@@ -71,17 +71,17 @@
                            {% for i in data %}
                                 <tr class="edit-field">
                                     <td class="id-field">{{i.id}}</td>
-                                    <td>{{i.company}}</td>
-                                    <td>{{i.product}}</td>
-                                    <td>{{i.vehical_type}}</td>
-                                    <td>{{i.vehical_subtype}}</td>
-                                    <td>{{i.product_name}}</td>
-                                    <td>{{i.month}}</td>
-                                    <td>{{i.state}}</td>
-                                    <td>{{i.rto}}</td>
+                                    <td class="company-field">{{i.company}}</td>
+                                    <td class="product-field">{{i.product}}</td>
+                                    <td class="vehicaltype-field">{{i.vehical_type}}</td>
+                                    <td class="vehicalsubtype-field">{{i.vehical_subtype}}</td>
+                                    <td class="productname-field">{{i.product_name}}</td>
+                                    <td class="month-field">{{i.month}}</td>
+                                    <td class="state-field">{{i.state}}</td>
+                                    <td class="rto-field">{{i.rto}}</td>
                                     <td class="rate-field">{{i.rate_od}}</td>
-                                    <td class="">{{i.rate_tp}}</td>
-                                    <td class="">{{i.rate_net}}</td>
+                                    <td class="ratetp-field">{{i.rate_tp}}</td>
+                                    <td class="ratenet-field">{{i.rate_net}}</td>
                                     <td>{{i.rateuser1_od}}</td>
                                     <td>{{i.rateuser1_tp}}</td>
                                     <td>{{i.rateuser1_net}}</td>
@@ -147,7 +147,16 @@
                     var row = this.closest('tr');
                     var id = row.querySelector('.id-field').innerText;
                     var rate_od = row.querySelector('.rate-field').querySelector('input').value;
-        
+                    var rate_tp = row.querySelector('.ratetp-field').querySelector('input').value;
+                    var company = row.querySelector('.company-field').querySelector('input').value;
+                    var product = row.querySelector('.product-field').querySelector('input').value;
+                    var vehical_type = row.querySelector('.vehicaltype-field').querySelector('input').value;
+                    var vehical_subtype = row.querySelector('.vehicalsubtype-field').querySelector('input').value;
+                    var product_name = row.querySelector('.productname-field').querySelector('input').value;
+                    var month = row.querySelector('.month-field').querySelector('input').value;
+                    var state = row.querySelector('.state-field').querySelector('input').value;
+                    var rto = row.querySelector('.rto-field').querySelector('input').value;
+                    var rate_net = row.querySelector('.ratenet-field').querySelector('input').value;
                     // Update the data via AJAX
                     $.ajax({
                         type: 'GET',
@@ -155,7 +164,16 @@
                         data: {
                             'id': id,
                             'rate_od': rate_od,
-                            
+                            'rate_tp': rate_tp,
+                            'company': company,
+                            'product':product,
+                            'vehical_type':vehical_type,
+                            'vehical_subtype':vehical_subtype,
+                            'product_name':product_name,
+                            'month':month,
+                            'state':state,
+                            'rto':rto,
+                            'rate_net':rate_net,
                         },
                         success: function (response) {
                             if (response.status === 'success') {
@@ -166,6 +184,16 @@
                                 let cell = $('.id-field:contains(' + response.data.id + ')');
                                 let row = cell.closest('tr');
                                 row.find('.rate-field').text(response.data.rate_od);
+                                row.find('.ratetp-field').text(response.data.rate_tp);
+                                row.find('.company-field').text(response.data.company);
+                                row.find('.product-field').text(response.data.product);
+                                row.find('.vehicaltype-field').text(response.data.vehical_type);
+                                row.find('.vehicalsubtype-field').text(response.data.vehical_subtype);
+                                row.find('.productname-field').text(response.data.product_name);
+                                row.find('.month-field').text(response.data.month);
+                                row.find('.state-field').text(response.data.state);
+                                row.find('.rto-field').text(response.data.rto);
+                                row.find('.ratenet-field').text(response.data.rate_net);
         
                                 // Switch back to display mode
                                 toggleEditMode(row, index, true);
@@ -195,7 +223,47 @@
                     var currentValue = rateField.innerText;
                     rateField.innerHTML = switchToEdit ? currentValue : '<input class="form-control" type="text" value="' + currentValue + '">';
                 });
-        
+                row.querySelectorAll('.ratetp-field').forEach(function (ratetpField) {
+                    var currenttpValue = ratetpField.innerText;
+                    ratetpField.innerHTML = switchToEdit ? currenttpValue : '<input class="form-control" type="text" value="' + currenttpValue + '">';
+                });
+                row.querySelectorAll('.company-field').forEach(function (companyField) {
+                    var companyValue = companyField.innerText;
+                    companyField.innerHTML = switchToEdit ? companyValue : '<input class="form-control" type="text" value="' + companyValue + '">';
+                });
+                row.querySelectorAll('.product-field').forEach(function (productField) {
+                    var productValue = productField.innerText;
+                    productField.innerHTML = switchToEdit ? productValue : '<input class="form-control" type="text" value="' + productValue + '">';
+                });
+                row.querySelectorAll('.vehicaltype-field').forEach(function (vehicaltypeField) {
+                    var vehicaltypeValue = vehicaltypeField.innerText;
+                    vehicaltypeField.innerHTML = switchToEdit ? vehicaltypeValue : '<input class="form-control" type="text" value="' + vehicaltypeValue + '">';
+                });
+                row.querySelectorAll('.vehicalsubtype-field').forEach(function (vehicalsubtypeField) {
+                    var vehicalsubtypeValue = vehicalsubtypeField.innerText;
+                    vehicalsubtypeField.innerHTML = switchToEdit ? vehicalsubtypeValue : '<input class="form-control" type="text" value="' + vehicalsubtypeValue + '">';
+                });
+                row.querySelectorAll('.productname-field').forEach(function (productnameField) {
+                    var productnameValue = productnameField.innerText;
+                    productnameField.innerHTML = switchToEdit ? productnameValue : '<input class="form-control" type="text" value="' + productnameValue + '">';
+                });
+                row.querySelectorAll('.month-field').forEach(function (monthField) {
+                    var monthValue = monthField.innerText;
+                    monthField.innerHTML = switchToEdit ? monthValue : '<input class="form-control" type="text" value="' + monthValue + '">';
+                });
+                row.querySelectorAll('.state-field').forEach(function (stateField) {
+                    var stateValue = stateField.innerText;
+                    stateField.innerHTML = switchToEdit ? stateValue : '<input class="form-control" type="text" value="' + stateValue + '">';
+                });
+                row.querySelectorAll('.rto-field').forEach(function (rtoField) {
+                    var rtoValue = rtoField.innerText;
+                    rtoField.innerHTML = switchToEdit ? rtoValue : '<input class="form-control" type="text" value="' + rtoValue + '">';
+                });
+                row.querySelectorAll('.ratenet-field').forEach(function (ratenetField) {
+                    var ratenetValue = ratenetField.innerText;
+                    ratenetField.innerHTML = switchToEdit ? ratenetValue : '<input class="form-control" type="text" value="' + ratenetValue + '">';
+                });
+                
                 // Set focus on the first input field for a better user experience
                 if (!switchToEdit) {
                     row.querySelector('.rate-field input').focus();
