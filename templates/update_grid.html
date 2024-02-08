@@ -16,7 +16,7 @@
                                 <input type="hidden" id="idInput" value="">
                                 <div class="mb-3">
                                     <label class="col-form-label" for="recipient-name">Rate</label>
-                                    <input class="form-control" type="text" id="rateInput" value="{{i.rate}}">
+                                    <input class="form-control" type="text" id="rate_odInput" value="{{i.rate_od}}">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -50,10 +50,18 @@
                                     <th>Month</th>
                                     <th>State</th>
                                     <th>RTO</th>
-                                    <th>Company Rate</th>
-                                    <th>Agent Payout 70 %</th>
-                                    <th>Agent Payout 80 %</th>
-                                    <th>Agent Payout 90 %</th>
+                                    <th>Company Rate OD</th>
+                                    <th>Company Rate TP</th>
+                                    <th>Company Rate NET</th>
+                                    <th>Agent Payout 70 % OD</th>
+                                    <th>Agent Payout 70 % TP</th>
+                                    <th>Agent Payout 70 % NET</th>
+                                    <th>Agent Payout 70 % OD</th>
+                                    <th>Agent Payout 80 % TP</th>
+                                    <th>Agent Payout 80 % NET</th>
+                                    <th>Agent Payout 90 % OD</th>
+                                    <th>Agent Payout 90 % TP</th>
+                                    <th>Agent Payout 90 % NET</th>
                                     <th>Remarks</th>
                                     <th>Created On</th>
                                     <th>Edit</th>
@@ -71,15 +79,23 @@
                                     <td>{{i.month}}</td>
                                     <td>{{i.state}}</td>
                                     <td>{{i.rto}}</td>
-                                    <td class="rate-field">{{i.rate}}</td>
-                                    <td>{{i.rateuser1}}</td>
-                                    <td>{{i.rateuser2}}</td>
-                                    <td>{{i.rateuser3}}</td>
+                                    <td class="rate-field">{{i.rate_od}}</td>
+                                    <td class="">{{i.rate_tp}}</td>
+                                    <td class="">{{i.rate_net}}</td>
+                                    <td>{{i.rateuser1_od}}</td>
+                                    <td>{{i.rateuser1_tp}}</td>
+                                    <td>{{i.rateuser1_net}}</td>
+                                    <td>{{i.rateuser2_od}}</td>
+                                    <td>{{i.rateuser2_tp}}</td>
+                                    <td>{{i.rateuser2_net}}</td>
+                                    <td>{{i.rateuser3_od}}</td>
+                                    <td>{{i.rateuser3_tp}}</td>
+                                    <td>{{i.rateuser3_net}}</td>
                                     <td>{{i.remarks}}</td>
                                     <td>{{i.created_on|date:"d-M-y"}}</td>
                                     <td>
-                                        <button class="btn btn-primary" type="button" data-bs-toggle="modal"
-                                            data-original-title="test" data-bs-target="#exampleModal">Edit</button>
+                                        <button class="btn btn-primary btn-edit" type="button">Edit</button>
+                                        <button class="btn btn-success btn-update" type="button" style="display: none;">Update</button>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -110,64 +126,82 @@
     {% block script %}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Add an event listener to the "Simple" buttons
-            var simpleButtons = document.querySelectorAll('.btn-primary');
-            simpleButtons.forEach(function (button) {
-                button.addEventListener('click', function (event) {
+            var editButtons = document.querySelectorAll('.btn-edit');
+            var updateButtons = document.querySelectorAll('.btn-update');
+        
+            editButtons.forEach(function (editButton, index) {
+                editButton.addEventListener('click', function (event) {
                     event.preventDefault();
-    
-                    // Get the data from the selected row
+        
+                    // Get the corresponding row and switch to edit mode
+                    var row = this.closest('tr');
+                    toggleEditMode(row, index);
+                });
+            });
+        
+            updateButtons.forEach(function (updateButton, index) {
+                updateButton.addEventListener('click', function (event) {
+                    event.preventDefault();
+        
+                    // Get the data from the edited row
                     var row = this.closest('tr');
                     var id = row.querySelector('.id-field').innerText;
-                    var rate = row.querySelector('.rate-field').innerText;
-    
-                    // Populate the modal input fields
-                    document.getElementById('idInput').value = id;
-                    document.getElementById('rateInput').value = rate;
-    
-                    // Show the modal
-                    $('#exampleModal').modal('show');
-                });
-            });
-    
-            // Add New Ifsc
-            $("#modalbutton").click(function (ev) {
-                var id = $('#idInput').val();
-                var rate = $('#rateInput').val();
-    
-                $.ajax({
-                    type: 'GET',
-                    url: "{% url 'grid:ajax_addrate' %}",
-                    data: {
-                        'id': id,
-                        'addrate': rate,
-                    },
-                    success: function (response) {
-                        if (response.status === 'success') {
-                            // Handle success
-                            console.log(response);
-    
-                            // Update the rate in the table
-                            let cell = $('.id-field:contains(' + response.data.id + ')');
-                            let row = cell.closest('tr');
-                            row.find('.rate-field').text(response.data.rate);
-    
-                            // Hide the modal
-                            $('#exampleModal').modal('hide');
-    
-                            // Redirect to 'grid:update_rate'
-                           window.location.href = "{% url 'grid:update_grid' %}?id=" + response.data.id; 
-                        } else {
+                    var rate_od = row.querySelector('.rate-field').querySelector('input').value;
+        
+                    // Update the data via AJAX
+                    $.ajax({
+                        type: 'GET',
+                        url: "{% url 'grid:ajax_update_rate' %}",
+                        data: {
+                            'id': id,
+                            'rate_od': rate_od,
+                            
+                        },
+                        success: function (response) {
+                            if (response.status === 'success') {
+                                // Handle success
+                                console.log(response);
+        
+                                // Update the rate in the table
+                                let cell = $('.id-field:contains(' + response.data.id + ')');
+                                let row = cell.closest('tr');
+                                row.find('.rate-field').text(response.data.rate_od);
+        
+                                // Switch back to display mode
+                                toggleEditMode(row, index, true);
+                            } else {
+                                // Handle errors
+                                console.log(response.message);
+                            }
+                        },
+                        error: function (response) {
                             // Handle errors
-                            console.log(response.message);
+                            console.log(response);
                         }
-                    },
-                    error: function (response) {
-                        // Handle errors
-                        console.log(response);
-                    }
+                    });
                 });
             });
+        
+            function toggleEditMode(row, index, switchToEdit) {
+                var editButton = editButtons[index];
+                var updateButton = updateButtons[index];
+        
+                // Toggle visibility of buttons and input fields
+                editButton.style.display = switchToEdit ? 'inline-block' : 'none';
+                updateButton.style.display = switchToEdit ? 'none' : 'inline-block';
+        
+                // Loop through all editable fields and replace text with input fields
+                row.querySelectorAll('.rate-field').forEach(function (rateField) {
+                    var currentValue = rateField.innerText;
+                    rateField.innerHTML = switchToEdit ? currentValue : '<input class="form-control" type="text" value="' + currentValue + '">';
+                });
+        
+                // Set focus on the first input field for a better user experience
+                if (!switchToEdit) {
+                    row.querySelector('.rate-field input').focus();
+                }
+            }
         });
+        
     </script>
     {% endblock script %}

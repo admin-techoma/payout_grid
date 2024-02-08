@@ -71,20 +71,24 @@ def update_grid(request):
 
     return render(request, 'update_grid.html',{'data':data})
 
-def ajax_addrate(request):
-    addrate = request.GET.get('addrate')
-    id = request.GET.get('id')
-  
-    try:
-        grid_data = Grid_data.objects.get(id=id)
-        grid_data.rate = addrate
-        grid_data.save()
 
-        return JsonResponse({"status": "success", "data": {'rate': addrate, 'id': id}})
-    except Grid_data.DoesNotExist:
-        return JsonResponse({"status": "error", "message": "Record not found"})
-    except Exception as e:
-        return JsonResponse({"status": "error", "message": str(e)})
+def ajax_update_rate(request):
+    if request.method == 'GET':
+        rate_od = request.GET.get('rate_od')
+    
+        id = request.GET.get('id')
+
+        try:
+            grid_data = Grid_data.objects.get(id=id)
+            grid_data.rate_od = rate_od  # Update the specific field (change as needed)
+            
+            grid_data.save()
+
+            return JsonResponse({"status": "success", "data": {'rate_od': rate_od,'id': id}})
+        except Grid_data.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Record not found"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})
 
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)

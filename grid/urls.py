@@ -12,7 +12,7 @@ urlpatterns = [
     path('upload_grid/', views.upload_grid, name='upload_grid'),
     path('update_grid/', views.update_grid, name='update_grid'),
 
-    path('ajax/ajax_addrate/', views.ajax_addrate, name='ajax_addrate'),
+    path('ajax_update_rate/', views.ajax_update_rate, name='ajax_update_rate'),
     path('report_grid/', views.report_grid, name='report_grid'),
     path('ajax/load_product/', views.load_product, name='ajax_load_product'),
     path('ajax/load_vehical_type/', views.load_vehical_type, name='ajax_load_vehical_type'),

@@ -160,9 +160,9 @@
                        <th style="background: #0c7097; color:white;">Vehicle Subtype</th> {% endcomment %}
                         <th style="background: #0c7097; color:white;">Remarks</th>
                         {% comment %} <th>Rate</th> {% endcomment %}
-                        <th style="background: #0c7097; color:white;">Point od</th>
-                        <th style="background: #0c7097; color:white;">Point tp</th>
-                        <th style="background: #0c7097; color:white;">Point net</th>
+                        <th style="background: #0c7097; color:white;">Point OD</th>
+                        <th style="background: #0c7097; color:white;">Point TP</th>
+                        <th style="background: #0c7097; color:white;">Point NET</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -503,33 +503,35 @@
     
                                 var newRow = $("<tr>");
                                 // Use 'input' instead of 'textarea' for single-line input
-                                newRow.append("<td><input type='text' class='form-control' value='" + result.company + "' readonly></td>");
-                                newRow.append("<td><textarea rows='2' cols='50' class='form-control' readonly>" + result.remarks + "</textarea></td>");
-    
+                                newRow.append("<td><p class='form-control text-wrap border-0 mb-0 h-auto  bg-transparent' style='min-width:200px'  readonly>" + result.company + "</p></td>");
+
+
+                                newRow.append("<td><p class='form-control text-wrap border-0 mb-0 h-auto  bg-transparent' readonly>"  + result.remarks + "</p></td>");
+                                //newRow.append("<td><textarea rows='2' cols='50' class='form-control' readonly>" + result.remarks + "</textarea></td>");
                                 var userGroup = '{{ request.user.groups.all.0.name }}';
     
                                 if (userGroup === 'RateUser1') {
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser1_od + "' readonly></td>");
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser1_tp + "' readonly></td>");
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser1_net + "' readonly></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' style='min-width:100px'  readonly>" + result.rateuser1_od +  "</p></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' style='min-width:100px'  readonly>" + result.rateuser1_tp +  "</p></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' style='min-width:100px'  readonly>" + result.rateuser1_net +  "</p></td>");
                                 } else if (userGroup === 'RateUser2') {
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser2_od + "' readonly></td>");
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser2_tp + "' readonly></td>");
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser2_net + "' readonly></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' style='min-width:100px'  readonly>" + result.rateuser2_od +  "</p></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' style='min-width:100px'  readonly>" + result.rateuser2_tp +  "</p></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' style='min-width:100px'  readonly>" + result.rateuser2_net +  "</p></td>");
                                 } else if (userGroup === 'RateUser3') {
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser3_od + "' readonly></td>");
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser3_tp + "' readonly></td>");
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser3_net + "' readonly></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' readonly>" + result.rateuser3_od +  "</p></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' readonly>" + result.rateuser3_tp +  "</p></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' readonly>" + result.rateuser3_net +  "</p></td>");
                                 } else {
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser1_od + "' readonly></td>");
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser1_tp + "' readonly></td>");
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser1_net + "' readonly></td>");
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser2_od + "' readonly></td>");
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser2_tp + "' readonly></td>");
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser2_net + "' readonly></td>");
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser3_od + "' readonly></td>");
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser3_tp + "' readonly></td>");
-                                    newRow.append("<td><input type='text' class='form-control' value='" + result.rateuser3_net + "' readonly></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' style='min-width:100px'  readonly>" + result.rateuser1_od +  "</p></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' style='min-width:100px'  readonly>" + result.rateuser1_tp +  "</p></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' style='min-width:100px'  readonly>" + result.rateuser1_net +  "</p></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' style='min-width:100px'  readonly>" + result.rateuser2_od +  "</p></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' style='min-width:100px'  readonly>" + result.rateuser2_tp +  "</p></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' style='min-width:100px'  readonly>" + result.rateuser2_net +  "</p></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' style='min-width:100px'  readonly>" + result.rateuser3_od +  "</p></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' style='min-width:100px'  readonly>" + result.rateuser3_tp +  "</p></td>");
+                                    newRow.append("<td><p class='border-0 mb-0 bg-transparent' style='min-width:100px'  readonly>" + result.rateuser3_net +  "</p></td>");
 
                                 }
     
