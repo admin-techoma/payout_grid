@@ -84,11 +84,21 @@ def ajax_update_rate(request):
         month= request.GET.get('month')
         state= request.GET.get('state')
         rto= request.GET.get('rto')
+        remarks= request.GET.get('remarks')
         rate_net= request.GET.get('rate_net')
-        id = request.GET.get('id')
+        rateuser1_od= request.GET.get('rateuser1_od')
+        rateuser1_tp= request.GET.get('rateuser1_tp')
+        rateuser1_net= request.GET.get('rateuser1_net')
+        rateuser2_od= request.GET.get('rateuser2_od')
+        rateuser2_tp= request.GET.get('rateuser2_tp')
+        rateuser2_net= request.GET.get('rateuser2_net')
+        rateuser3_od= request.GET.get('rateuser3_od')
+        rateuser3_tp= request.GET.get('rateuser3_tp')
+        rateuser3_net= request.GET.get('rateuser3_net')
+        pk = request.GET.get('pk')
 
         try:
-            grid_data = Grid_data.objects.get(id=id)
+            grid_data = Grid_data.objects.get(pk=pk)
             grid_data.rate_od = rate_od  # Update the specific field (change as needed)
             grid_data.rate_tp = rate_tp
             grid_data.rate_net = rate_net
@@ -98,11 +108,21 @@ def ajax_update_rate(request):
             grid_data.month = month
             grid_data.state = state
             grid_data.rto = rto
+            grid_data.remarks = remarks
             grid_data.vehical_type = vehical_type
             grid_data.vehical_subtype = vehical_subtype
+            grid_data.rateuser1_od = rateuser1_od
+            grid_data.rateuser1_tp = rateuser1_tp
+            grid_data.rateuser1_net = rateuser1_net
+            grid_data.rateuser2_od = rateuser2_od
+            grid_data.rateuser2_tp = rateuser2_tp
+            grid_data.rateuser2_net = rateuser2_net
+            grid_data.rateuser3_od = rateuser3_od
+            grid_data.rateuser3_tp = rateuser3_tp
+            grid_data.rateuser3_net = rateuser3_net
             grid_data.save()
 
-            return JsonResponse({"status": "success", "data": {'rate_od': rate_od,'rate_tp': rate_tp,'rate_net':rate_net,'company': company,'product': product,'vehical_type':vehical_type,'vehical_subtype':vehical_subtype,'product_name':product_name,'month':month,'state':state,'rto':rto,'id': id}})
+            return JsonResponse({"status": "success", "data": {'rate_od': rate_od,'rate_tp': rate_tp,'rate_net':rate_net,'company': company,'product': product,'vehical_type':vehical_type,'vehical_subtype':vehical_subtype,'product_name':product_name,'month':month,'state':state,'rto':rto,'remarks':remarks,'rate_userone_od':rateuser1_od,'rate_userone_tp':rateuser1_tp,'rate_userone_net':rateuser1_net,'rate_usertwo_od':rateuser2_od,'rate_usertwo_tp':rateuser2_tp,'rate_usertwo_net':rateuser2_net,'rate_userthree_od':rateuser3_od,'rate_userthree_tp':rateuser3_tp,'rate_userthree_net':rateuser3_net,'pk': pk}})
         except Grid_data.DoesNotExist:
             return JsonResponse({"status": "error", "message": "Record not found"})
         except Exception as e:
