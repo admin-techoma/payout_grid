@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static  %}
+   
+
+{% block script %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+ 
+      // Get the file input element
+      var fileInput = document.getElementById('fileInput');
+
+      // Clear the value to prevent automatic upload
+      fileInput.value = '';
+
+      // Optionally, you can add an event listener to handle manual file selection
+      fileInput.addEventListener('change', function(event) {
+          // Handle the file selection if needed
+          var selectedFile = event.target.files[0];
+          console.log('Selected file:', selectedFile);
+      });
+  });
+</script>
+
+{% endblock script %}
+
+{% block content %}
+<div class="container-fluid general-widget">
+  <div class="card-header" style="background: #0c7097; color:white;" >
+    Upload Grid</div> 
+
+    <div class="card">
+  
+      <form class="form theme-form" method="POST" action="{% url 'grid:upload_grid' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <div class="mb-3 row">
+                <label class="col-sm-3 col-form-label">Upload File</label>
+
+             
+                <div class="col-sm-9">
+                  <input class="form-control" id="fileInput" type="file" name="myfile">
+                </div>
+              </div>
+            </div>
+          </div>
+         
+        </div>
+        <div class="card-footer text-end">
+          <button class="btn btn-primary" type="submit">Submit</button>
+          <input class="btn btn-light" type="reset" value="Cancel">
+        </div>
+      </form>
+    </div>
+
+   
+  </div>
+  <!-- ... -->
+  {% if result %}
+  <div class="card error-msg border-0 bg-transparent">
+    <h4>Error Found</h4>
+  </div>
+  <div class="table-responsive bg-white">
+    <table id = "uploadfiletable" class="table border">
+      <thead>
+        <tr>
+            <th>Row </th>
+            <th>Error</th>
+        
+
+            
+        </tr>
+        </thead>
+      <!-- ... your table headers ... -->
+      <tbody>
+        {% for i, k in result.row_errors %}
+          <tr>
+            <td scope="row">{{ i|add:1 }}</td>
+            {% for j in k %}
+              <td colspan="2">
+                {{ j.error }}
+              </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}
+
+
+
+<div class="card-body">
+  <div class="dt-ext table-responsive">
+    {% comment %} <table class="display" id="auto-fill"> {% endcomment %}
+<table id="auto-fill" class="table table-hover mb-2">
+
+  <thead class="table-active ">
+    <tr>
+      <th>Sr</th>
+      <th>User Name</th>
+      <th>Created on </th>
+      <th>File Name</th>
+      <th>Downloard</th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in data %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{i.user}}</td>
+      <td>{{i.created_on|date:"d-M-y"}}</td>
+     <td> {{i.uploaded_file.name}}</td>
+     <td> <a href="{{i.uploaded_file.url}}" target="_blank"> Downloard</a></td>
+      {% endfor %}
+
+  </tbody><!-- end tbody-->
+</table><!-- end table-->
+</div>
+</div>
+{% endblock %}
+

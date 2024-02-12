@@ -1,0 +1,435 @@
+{% extends 'base.html' %}
+{% load static  %}
+   
+
+{% block content %}
+<!-- Model Pop up starts-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Update Rate</h5>
+                                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" id="idInput" value="">
+                                <div class="mb-3">
+                                    <label class="col-form-label" for="recipient-name">Rate</label>
+                                    <input class="form-control" type="text" id="rate_odInput" value="{{i.rate_od}}">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="modalbutton">Save and Close</button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <!--Model Pop up end-->
+<!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="card-header" style="background: #0c7097; color:white;" >
+                Update Grid</div> 
+            <div class="row">
+              <!-- Zero Configuration  Starts-->
+              <div class="col-sm-12">
+                <div class="card">
+                 
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="display" id="basic-1">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                                    <th>Company</th>
+                                    <th>Product</th>
+                                    <th>Vehical Type</th>
+                                    <th>Vehical SubType</th>
+                                    <th>Product Name</th>
+                                    <th>Month</th>
+                                    <th>State</th>
+                                    <th>RTO</th>
+                                    <th>Company Rate OD</th>
+                                    <th>Company Rate TP</th>
+                                    <th>Company Rate NET</th>
+                                    <th>Agent Payout 70 % OD</th>
+                                    <th>Agent Payout 70 % TP</th>
+                                    <th>Agent Payout 70 % NET</th>
+                                    <th>Agent Payout 70 % OD</th>
+                                    <th>Agent Payout 80 % TP</th>
+                                    <th>Agent Payout 80 % NET</th>
+                                    <th>Agent Payout 90 % OD</th>
+                                    <th>Agent Payout 90 % TP</th>
+                                    <th>Agent Payout 90 % NET</th>
+                                    <th>Remarks</th>
+                                    <th>Created On</th>
+                                    <th>Edit</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                           {% for i in data %}
+                                <tr class="edit-field">
+                                    <td class="id-field">{{i.id}}</td>
+                                    <td class="company-field">{{i.company}}</td>
+                                    <td class="product-field">{{i.product}}</td>
+                                    <td class="vehicaltype-field">{{i.vehical_type}}</td>
+                                    <td class="vehicalsubtype-field">{{i.vehical_subtype}}</td>
+                                    <td class="productname-field">{{i.product_name}}</td>
+                                    <td class="month-field">{{i.month}}</td>
+                                    <td class="state-field">{{i.state}}</td>
+                                    <td class="rto-field">{{i.rto}}</td>
+                                    <td class="rate-field">{{i.rate_od}}</td>
+                                    <td class="ratetp-field">{{i.rate_tp}}</td>
+                                    <td class="ratenet-field">{{i.rate_net}}</td>
+                                    <td class="rateuseroneod-field">{{i.rateuser1_od}}</td>
+                                    <td class="rateuseronetp-field">{{i.rateuser1_tp}}</td>
+                                    <td class="rateuseronenet-field">{{i.rateuser1_net}}</td>
+                                    <td class="rateusertwood-field">{{i.rateuser2_od}}</td>
+                                    <td class="rateusertwotp-field">{{i.rateuser2_tp}}</td>
+                                    <td class="rateusertwonet-field">{{i.rateuser2_net}}</td>
+                                    <td class="rateuserthreeod-field">{{i.rateuser3_od}}</td>
+                                    <td class="rateuserthreetp-field">{{i.rateuser3_tp}}</td>
+                                    <td class="rateuserthreenet-field">{{i.rateuser3_net}}</td>
+                                    <td class="remarks-field">{{i.remarks}}</td>
+                                    <td class="createdon-field">{{i.created_on|date:"d-M-y"}}</td>
+                                    <td>
+                                        <button class="btn btn-primary btn-edit" type="button">Edit</button>
+                                        <button class="btn btn-success btn-update" type="button" style="display: none;">Update</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                          
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Zero Configuration  Ends-->
+              <!-- Feature Unable /Disable Order Starts-->
+              
+              
+             
+              
+              <!-- DOM positioning Ends-->
+              <!-- Flexible table width Starts-->
+              
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+        <!-- footer start-->
+        {% endblock content%} 
+    <!-- login js-->
+    <!-- Plugin used-->
+    {% block script %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var editButtons = document.querySelectorAll('.btn-edit');
+            var updateButtons = document.querySelectorAll('.btn-update');
+        
+            editButtons.forEach(function (editButton, index) {
+                editButton.addEventListener('click', function (event) {
+                    event.preventDefault();
+        
+                    // Get the corresponding row and switch to edit mode
+                    var row = this.closest('tr');
+                    toggleEditMode(row, index);
+                });
+            });
+        
+            updateButtons.forEach(function (updateButton, index) {
+                updateButton.addEventListener('click', function (event) {
+                    event.preventDefault();
+        
+                    // Get the data from the edited row
+                    var row = this.closest('tr');
+                    var id = row.querySelector('.id-field').innerText;
+                    var rate_od = row.querySelector('.rate-field').querySelector('input').value;
+                    var rate_tp = row.querySelector('.ratetp-field').querySelector('input').value;
+                    var company = row.querySelector('.company-field').querySelector('input').value;
+                    var product = row.querySelector('.product-field').querySelector('input').value;
+                    var vehical_type = row.querySelector('.vehicaltype-field').querySelector('input').value;
+                    var vehical_subtype = row.querySelector('.vehicalsubtype-field').querySelector('input').value;
+                    var product_name = row.querySelector('.productname-field').querySelector('input').value;
+                    var month = row.querySelector('.month-field').querySelector('input').value;
+                    var state = row.querySelector('.state-field').querySelector('input').value;
+                    var rto = row.querySelector('.rto-field').querySelector('input').value;
+                    var rate_net = row.querySelector('.ratenet-field').querySelector('input').value;
+                    var rateuser1_od = row.querySelector('.rateuseroneod-field').querySelector('input').value;
+                    var rateuser1_tp = row.querySelector('.rateuseronetp-field').querySelector('input').value;
+                    var rateuser1_net = row.querySelector('.rateuseronenet-field').querySelector('input').value;
+                    var rateuser2_od = row.querySelector('.rateusertwood-field').querySelector('input').value;
+                    var rateuser2_tp = row.querySelector('.rateusertwotp-field').querySelector('input').value;
+                    var rateuser2_net = row.querySelector('.rateusertwonet-field').querySelector('input').value;
+                    var rateuser3_od = row.querySelector('.rateuserthreeod-field').querySelector('input').value;
+                    var rateuser3_tp = row.querySelector('.rateuserthreetp-field').querySelector('input').value;
+                    var rateuser3_net = row.querySelector('.rateuserthreenet-field').querySelector('input').value;
+                    var remarks = row.querySelector('.remarks-field').querySelector('input').value;
+                    var created_on = row.querySelector('.createdon-field').querySelector('input').value;
+                    
+        
+                    // Update the data via AJAX
+                    $.ajax({
+                        type: 'GET',
+                        url: "{% url 'grid:ajax_update_rate' %}",
+                        data: {
+                            'id': id,
+                            'rate_od': rate_od,
+                            'rate_tp': rate_tp,
+                            'company': company,
+                            'product':product,
+                            'vehical_type':vehical_type,
+                            'rate_net':rate_net,
+                            'rateuser1_od':rateuser1_od,
+                            'rateuser1_tp':rateuser1_tp,
+                            'rateuser1_net':rateuser1_net,
+                            'rateuser2_od':rateuser2_od,
+                            'rateuser2_tp':rateuser2_tp,
+                            'rateuser2_net':rateuser2_net,
+                            'rateuser3_od':rateuser3_od,
+                            'rateuser3_tp':rateuser3_tp,
+                            'rateuser3_net':rateuser3_net,
+                            'remarks':remarks,
+                            'created_on':created_on,
+                        },
+                        success: function (response) {
+                            if (response.status === 'success') {
+                                // Handle success
+                                console.log(response);
+        
+                                // Update the rate in the table
+                                let cell = $('.id-field:contains(' + response.data.id + ')');
+                                let row = cell.closest('tr');
+                                row.find('.rate-field').text(response.data.rate_od);
+                                row.find('.ratetp-field').text(response.data.rate_tp);
+                                row.find('.company-field').text(response.data.company);
+                                row.find('.product-field').text(response.data.product);
+                                row.find('.vehicaltype-field').text(response.data.vehical_type);
+                                row.find('.vehicalsubtype-field').text(response.data.vehical_subtype);
+                                row.find('.productname-field').text(response.data.product_name);
+                                row.find('.month-field').text(response.data.month);
+                                row.find('.state-field').text(response.data.state);
+                                row.find('.rto-field').text(response.data.rto);
+                                row.find('.ratenet-field').text(response.data.rate_net);
+                                row.find('.rateuseroneod-field').text(response.data.rateuser1_od);
+                                row.find('.rateuseronetp-field').text(response.data.rateuser1_tp);
+                                row.find('.rateuseronenet-field').text(response.data.rateuser1_net);
+                                row.find('.rateusertwood-field').text(response.data.rateuser2_od);
+                                row.find('.rateusertwotp-field').text(response.data.rateuser2_tp);
+                                row.find('.rateusertwonet-field').text(response.data.rateuser2_net);
+                                row.find('.rateuserthreeod-field').text(response.data.rateuser3_od);
+                                row.find('.rateuserthreetp-field').text(response.data.rateuser3_tp);
+                                row.find('.rateuserthreenet-field').text(response.data.rateuser3_net);
+                                row.find('.remarks-field').text(response.data.remarks);
+                                row.find('.createdon-field').text(response.data.created_on);
+                                
+        
+                                // Switch back to display mode
+                                toggleEditMode(row, index, true);
+                            } else {
+                                // Handle errors
+                                console.log(response.message);
+                            }
+                        },
+                        error: function (response) {
+                            // Handle errors
+                            console.log(response);
+                        }
+                    });
+                });
+            });
+        
+            function toggleEditMode(row, index, switchToEdit) {
+                var editButton = editButtons[index];
+                var updateButton = updateButtons[index];
+        
+                // Toggle visibility of buttons and input fields
+                editButton.style.display = switchToEdit ? 'inline-block' : 'none';
+                updateButton.style.display = switchToEdit ? 'none' : 'inline-block';
+        
+                // Loop through all editable fields and replace text with input fields
+                row.querySelectorAll('.rate-field').forEach(function (rateodField) {
+                    var rateodValue = rateodField.innerText;
+                    rateodField.innerHTML = switchToEdit ? rateodValue : '<input class="form-control" type="text" value="' + rateodValue + '">';
+                });
+                row.querySelectorAll('.ratetp-field').forEach(function (ratetpField) {
+                    var currenttpValue = ratetpField.innerText;
+                    ratetpField.innerHTML = switchToEdit ? currenttpValue : '<input class="form-control" type="text" value="' + currenttpValue + '">';
+                });
+                row.querySelectorAll('.company-field').forEach(function (companyField) {
+                    var companyValue = companyField.innerText;
+                    companyField.innerHTML = switchToEdit ? companyValue : '<input class="form-control" type="text" value="' + companyValue + '">';
+                });
+                row.querySelectorAll('.product-field').forEach(function (productField) {
+                    var productValue = productField.innerText;
+                    productField.innerHTML = switchToEdit ? productValue : '<input class="form-control" type="text" value="' + productValue + '">';
+                });
+                row.querySelectorAll('.vehicaltype-field').forEach(function (vehicaltypeField) {
+                    var vehicaltypeValue = vehicaltypeField.innerText;
+                    vehicaltypeField.innerHTML = switchToEdit ? vehicaltypeValue : '<input class="form-control" type="text" value="' + vehicaltypeValue + '">';
+                });
+                row.querySelectorAll('.vehicalsubtype-field').forEach(function (vehicalsubtypeField) {
+                    var vehicalsubtypeValue = vehicalsubtypeField.innerText;
+                    vehicalsubtypeField.innerHTML = switchToEdit ? vehicalsubtypeValue : '<input class="form-control" type="text" value="' + vehicalsubtypeValue + '">';
+                });
+                row.querySelectorAll('.productname-field').forEach(function (productnameField) {
+                    var productnameValue = productnameField.innerText;
+                    productnameField.innerHTML = switchToEdit ? productnameValue : '<input class="form-control" type="text" value="' + productnameValue + '">';
+                });
+                row.querySelectorAll('.month-field').forEach(function (monthField) {
+                    var monthValue = monthField.innerText;
+                    monthField.innerHTML = switchToEdit ? monthValue : '<input class="form-control" type="text" value="' + monthValue + '">';
+                });
+                row.querySelectorAll('.state-field').forEach(function (stateField) {
+                    var stateValue = stateField.innerText;
+                    stateField.innerHTML = switchToEdit ? stateValue : '<input class="form-control" type="text" value="' + stateValue + '">';
+                });
+                row.querySelectorAll('.rto-field').forEach(function (rtoField) {
+                    var rtoValue = rtoField.innerText;
+                    rtoField.innerHTML = switchToEdit ? rtoValue : '<input class="form-control" type="text" value="' + rtoValue + '">';
+                });
+                row.querySelectorAll('.ratenet-field').forEach(function (ratenetField) {
+                    var ratenetValue = ratenetField.innerText;
+                    ratenetField.innerHTML = switchToEdit ? ratenetValue : '<input class="form-control" type="text" value="' + ratenetValue + '">';
+                });
+                row.querySelectorAll('.rateuseroneod-field').forEach(function (rateuseroneodField) {
+                    var rateuseroneodValue = rateuseroneodField.innerText;
+                    rateuseroneodField.innerHTML = switchToEdit ? rateuseroneodValue : '<input class="form-control" type="text" value="' + rateuseroneodValue + '">';
+                });
+                row.querySelectorAll('.rateuseronetp-field').forEach(function (rateuseronetpField) {
+                    var rateuseronetpValue = rateuseronetpField.innerText;
+                    rateuseronetpField.innerHTML = switchToEdit ? rateuseronetpValue : '<input class="form-control" type="text" value="' + rateuseronetpValue + '">';
+                });
+                row.querySelectorAll('.rateuseronenet-field').forEach(function (rateuseronenetField) {
+                    var rateuseronenetValue = rateuseronenetField.innerText;
+                    rateuseronenetField.innerHTML = switchToEdit ? rateuseronenetValue : '<input class="form-control" type="text" value="' + rateuseronenetValue + '">';
+                });
+                row.querySelectorAll('.rateusertwood-field').forEach(function (rateusertwoodField) {
+                    var rateusertwoodValue = rateusertwoodField.innerText;
+                    rateusertwoodField.innerHTML = switchToEdit ? rateusertwoodValue : '<input class="form-control" type="text" value="' + rateusertwoodValue + '">';
+                });
+                row.querySelectorAll('.rateusertwotp-field').forEach(function (rateusertwotpField) {
+                    var rateusertwotpValue = rateusertwotpField.innerText;
+                    rateusertwotpField.innerHTML = switchToEdit ? rateusertwotpValue : '<input class="form-control" type="text" value="' + rateusertwotpValue + '">';
+                });
+                row.querySelectorAll('.rateusertwonet-field').forEach(function (rateusertwonetField) {
+                    var rateusertwonetValue = rateusertwonetField.innerText;
+                    rateusertwonetField.innerHTML = switchToEdit ? rateusertwonetValue : '<input class="form-control" type="text" value="' + rateusertwonetValue + '">';
+                });
+                row.querySelectorAll('.rateuserthreeod-field').forEach(function (rateuserthreeodField) {
+                    var rateuserthreeodValue = rateuserthreeodField.innerText;
+                    rateuserthreeodField.innerHTML = switchToEdit ? rateuserthreeodValue : '<input class="form-control" type="text" value="' + rateuserthreeodValue + '">';
+                });
+                row.querySelectorAll('.rateuserthreetp-field').forEach(function (rateuserthreetpField) {
+                    var rateuserthreetpValue = rateuserthreetpField.innerText;
+                    rateuserthreetpField.innerHTML = switchToEdit ? rateuserthreetpValue : '<input class="form-control" type="text" value="' + rateuserthreetpValue + '">';
+                });
+                row.querySelectorAll('.rateuserthreenet-field').forEach(function (rateuserthreenetField) {
+                    var rateuserthreenetValue = rateuserthreenetField.innerText;
+                    rateuserthreenetField.innerHTML = switchToEdit ? rateuserthreenetValue : '<input class="form-control" type="text" value="' + rateuserthreenetValue + '">';
+                });
+
+                row.querySelectorAll('.remarks-field').forEach(function (remarksField) {
+                    var remarksValue = remarksField.innerText;
+                    remarksField.innerHTML = switchToEdit ? remarksValue : '<input class="form-control" type="text" value="' + remarksValue + '">';
+                });row.querySelectorAll('.createdon-field').forEach(function (createdonField) {
+                    var createdonValue = createdonField.innerText;
+                    createdonField.innerHTML = switchToEdit ? createdonValue : '<input class="form-control" type="text" value="' + createdonValue + '">';
+                });
+
+                // Set focus on the first input field for a better user experience
+                if (!switchToEdit) {
+                    row.querySelector('.rate-field input').focus();
+                }
+            }
+        });
+        
+    </script>
+    {% endblock script %}
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def ajax_update_rate(request):
+    if request.method == 'GET':
+        
+        company= request.GET.get('company')
+        product= request.GET.get('product')
+        
+        vehical_type= request.GET.get('vehical_type')
+        vehical_subtype= request.GET.get('vehical_subtype')
+        product_name= request.GET.get('product_name')
+        month= request.GET.get('month')
+        state= request.GET.get('state')
+        rto= request.GET.get('rto')
+        rate_od = request.GET.get('rate_od')
+        rate_tp= request.GET.get('rate_tp')
+        rate_net= request.GET.get('rate_net')
+        rateuser1_od= request.GET.get('rateuser1_od')
+        rateuser1_tp= request.GET.get('rateuser1_tp')
+        rateuser1_net= request.GET.get('rateuser1_net')
+        rateuser2_od= request.GET.get('rateuser2_od')
+        rateuser2_tp= request.GET.get('rateuser2_tp')
+        rateuser2_net= request.GET.get('rateuser2_net')
+        rateuser3_od= request.GET.get('rateuser3_od')
+        rateuser3_tp= request.GET.get('rateuser3_tp')
+        rateuser3_net= request.GET.get('rateuser3_net')
+        remarks= request.GET.get('remarks')
+        created_on= request.GET.get('created_on')
+        
+        id = request.GET.get('id')
+
+        try:
+            grid_data = Grid_data.objects.get(id=id)
+            
+            grid_data.company = company
+            grid_data.product = product
+            grid_data.vehical_type = vehical_type
+            grid_data.vehical_subtype = vehical_subtype
+            grid_data.product_name = product_name
+            grid_data.month = month
+            grid_data.state = state
+            grid_data.rto = rto
+            grid_data.rate_od = rate_od  # Update the specific field (change as needed)
+            grid_data.rate_tp = rate_tp
+            grid_data.rate_net = rate_net
+            grid_data.rateuser1_od = rateuser1_od
+            grid_data.rateuser1_tp = rateuser1_tp
+            grid_data.rateuser1_net = rateuser1_net
+            grid_data.rateuser2_od = rateuser2_od
+            grid_data.rateuser2_tp = rateuser2_tp
+            grid_data.rateuser2_net = rateuser2_net
+            grid_data.rateuser3_od = rateuser3_od
+            grid_data.rateuser3_tp = rateuser3_tp
+            grid_data.rateuser3_net = rateuser3_net
+            grid_data.remarks = remarks
+            grid_data.created_on = created_on
+
+
+            grid_data.save()
+
+            return JsonResponse({"status": "success", "data":{'company': company,'product': product,'vehical_type':vehical_type,'vehical_subtype':vehical_subtype,'product_name':product_name,'month':month,'state':state,'rto':rto,'rate_od': rate_od,'rate_tp': rate_tp,'rate_net':rate_net,'rateuser1_od':rateuser1_od,'rateuser1_tp':rateuser1_tp,'rateuser1_net':rateuser1_net,'rateuser2_od':rateuser2_od,'rateuser2_tp':rateuser2_tp,'rateuser2_net':rateuser2_net,'rateuser3_od':rateuser3_od,'rateuser3_tp':rateuser3_tp,'rateuser3_net':rateuser3_net,'remarks':remarks,'created_on':created_on,'id': id}})
+        except Grid_data.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Record not found"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})
+
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url=reverse_lazy('accounts:login'))
+def report_grid(request):
+
+    return render(request, 'report_grid.html')

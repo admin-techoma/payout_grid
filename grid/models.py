@@ -1,24 +1,25 @@
+from datetime import datetime
 from django.db import models
-
+from django.utils import timezone
 # Create your models here.
-class Product(models.Model):
-    pro_id = models.CharField(max_length=10, primary_key=True)  
+class Product(models.Model): 
+
     name = models.CharField(max_length=255)
     
     def __str__(self):
         return self.name
     
 class Vehical_Type(models.Model):
-    product = models.ForeignKey(Product, verbose_name="product", on_delete=models.CASCADE, related_name='product')
+    product = models.ForeignKey(Product, verbose_name="product", on_delete=models.CASCADE, related_name='vehical_types')
     name = models.CharField(max_length=255)
-    
+
     def __str__(self):
         return self.name
-    
+
 class Vehical_Sub_Type(models.Model):
-    vehical_type = models.ForeignKey(Vehical_Type, verbose_name="vehical_type", on_delete=models.CASCADE, related_name='vehical_type')
+    vehical_type = models.ForeignKey(Vehical_Type, verbose_name="vehical_type", on_delete=models.CASCADE, related_name='sub_types')
     name = models.CharField(max_length=255)
-    
+
     def __str__(self):
         return self.name
     
@@ -50,9 +51,52 @@ class State(models.Model):
     def __str__(self):
         return self.name
     
-class RTO(models.Model):
+class Rto(models.Model):
     state = models.ForeignKey(State, verbose_name="state", on_delete=models.CASCADE, related_name='state')
     name = models.CharField(max_length=255)
     
     def __str__(self):
         return self.name
+    
+
+def grid_doc_path(instance,filename):
+    return f'grid_files/{filename}'
+
+    #return 'reco_files/{0}'.format(datetime.today())
+
+
+class Grid_file(models.Model):
+    user            = models.CharField(max_length=50,null=True,blank=True)
+    created_on      = models.DateField(default=timezone.now)
+    uploaded_file   = models.FileField(upload_to=grid_doc_path, default='grid_documents/default.jpg')
+
+
+
+class Grid_data(models.Model):
+
+    company         =   models.CharField(max_length=255)             
+    product         =   models.CharField(max_length=255)
+    vehical_type    =   models.CharField(max_length=255)
+    vehical_subtype =   models.CharField(max_length=255)
+    product_name    =   models.CharField(max_length=255)
+    month           =   models.CharField(max_length=255)
+    state           =   models.CharField(max_length=255)
+    rto             =   models.CharField(max_length=255)
+    rate_od            =   models.CharField(max_length=255)
+    rate_tp            =   models.CharField(max_length=255)
+    rate_net            =   models.CharField(max_length=255)
+    rateuser1_od       =   models.CharField(max_length=255) # Rate user for 70% of requests
+    rateuser1_tp       =   models.CharField(max_length=255) 
+    rateuser1_net       =   models.CharField(max_length=255) 
+    rateuser2_od       =   models.CharField(max_length=255)
+    rateuser2_tp       =   models.CharField(max_length=255)# Rate user for 80% of requests
+    rateuser2_net       =   models.CharField(max_length=255)
+    rateuser3_od       =   models.CharField(max_length=255)# Rate user for 90% of requests
+    rateuser3_tp       =   models.CharField(max_length=255)
+    rateuser3_net       =   models.CharField(max_length=255)
+    remarks         =   models.CharField(max_length=255)
+    agent_payout    =   models.CharField(max_length=255)
+    created_on      =   models.DateField(default=timezone.now)
+    
+
+

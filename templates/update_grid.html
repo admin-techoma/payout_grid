@@ -1,0 +1,382 @@
+{% extends 'base.html' %}
+{% load static  %}
+   
+
+{% block content %}
+<!-- Model Pop up starts-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Update Rate</h5>
+                                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" id="idInput" value="">
+                                <div class="mb-3">
+                                    <label class="col-form-label" for="recipient-name">Rate</label>
+                                    <input class="form-control" type="text" id="rate_odInput" value="{{i.rate_od}}">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" id="modalbutton">Save and Close</button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <!--Model Pop up end-->
+<!-- Container-fluid starts-->
+          <div class="container-fluid">
+            <div class="card-header" style="background: #0c7097; color:white;" >
+                Update Grid</div> 
+            <div class="row">
+              <!-- Zero Configuration  Starts-->
+              <div class="col-sm-12">
+                <div class="card">
+                 
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="display" id="basic-1">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                                    <th>Company</th>
+                                    <th>Product</th>
+                                    <th>Vehical Type</th>
+                                    <th>Vehical SubType</th>
+                                    <th>Product Name</th>
+                                    <th>Month</th>
+                                    <th>State</th>
+                                    <th>RTO</th>
+                                    <th>Company Rate OD</th>
+                                    <th>Company Rate TP</th>
+                                    <th>Company Rate NET</th>
+                                    <th>Agent Payout 70 % OD</th>
+                                    <th>Agent Payout 70 % TP</th>
+                                    <th>Agent Payout 70 % NET</th>
+                                    <th>Agent Payout 80 % OD</th>
+                                    <th>Agent Payout 80 % TP</th>
+                                    <th>Agent Payout 80 % NET</th>
+                                    <th>Agent Payout 90 % OD</th>
+                                    <th>Agent Payout 90 % TP</th>
+                                    <th>Agent Payout 90 % NET</th>
+                                    <th>Remarks</th>
+                                    <th>Created On</th>
+                                    <th>Edit</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                           {% for i in data %}
+                                <tr class="edit-field">
+                                    <td class="id-field">{{i.pk}}</td>
+                                    <td class="company-field">{{i.company}}</td>
+                                    <td class="product-field">{{i.product}}</td>
+                                    <td class="vehicaltype-field">{{i.vehical_type}}</td>
+                                    <td class="vehicalsubtype-field">{{i.vehical_subtype}}</td>
+                                    <td class="productname-field">{{i.product_name}}</td>
+                                    <td class="month-field">{{i.month}}</td>
+                                    <td class="state-field">{{i.state}}</td>
+                                    <td class="rto-field">{{i.rto}}</td>
+                                    <td class="rate-field">{{i.rate_od}}</td>
+                                    <td class="ratetp-field">{{i.rate_tp}}</td>
+                                    <td class="ratenet-field">{{i.rate_net}}</td>
+                                    <td class="rateuseroneod-field">{{i.rateuser1_od}}</td>
+                                    <td class="rateuseronetp-field">{{i.rateuser1_tp}}</td>
+                                    <td class="rateuseronenet-field">{{i.rateuser1_net}}</td>
+                                    <td class="rateusertwood-field">{{i.rateuser2_od}}</td>
+                                    <td class="rateusertwotp-field">{{i.rateuser2_tp}}</td>
+                                    <td class="rateusertwonet-field">{{i.rateuser2_net}}</td>
+                                    <td class="rateuserthreeod-field">{{i.rateuser3_od}}</td>
+                                    <td class="rateuserthreetp-field">{{i.rateuser3_tp}}</td>
+                                    <td class="rateuserthreenet-field">{{i.rateuser3_net}}</td>
+                                    <td class="remarks-field">{{i.remarks}}</td>
+                                    <td>{{i.created_on|date:"d-M-y"}}</td>
+                                    <td>
+                                        <button class="btn btn-primary btn-edit" type="button">Edit</button>
+                                        <button class="btn btn-success btn-update" type="button" style="display: none;">Update</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                          
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Zero Configuration  Ends-->
+              <!-- Feature Unable /Disable Order Starts-->
+              
+              
+             
+              
+              <!-- DOM positioning Ends-->
+              <!-- Flexible table width Starts-->
+              
+            </div>
+          </div>
+          <!-- Container-fluid Ends-->
+        </div>
+        <!-- footer start-->
+        {% endblock content%} 
+    <!-- login js-->
+    <!-- Plugin used-->
+    {% block script %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var editButtons = document.querySelectorAll('.btn-edit');
+            var updateButtons = document.querySelectorAll('.btn-update');
+        
+            editButtons.forEach(function (editButton, index) {
+                editButton.addEventListener('click', function (event) {
+                    event.preventDefault();
+        
+                    // Get the corresponding row and switch to edit mode
+                    var row = this.closest('tr');
+                    toggleEditMode(row, index);
+                });
+            });
+        
+            updateButtons.forEach(function (updateButton, index) {
+                updateButton.addEventListener('click', function (event) {
+                    event.preventDefault();
+        
+                    // Get the data from the edited row
+                    var row = this.closest('tr');
+                    var pk = row.querySelector('.id-field').innerText;
+                    var rate_od = row.querySelector('.rate-field').querySelector('input').value;
+                    var rate_tp = row.querySelector('.ratetp-field').querySelector('input').value;
+                    var company = row.querySelector('.company-field').querySelector('input').value;
+                    var product = row.querySelector('.product-field').querySelector('input').value;
+                    var vehical_type = row.querySelector('.vehicaltype-field').querySelector('input').value;
+                    var vehical_subtype = row.querySelector('.vehicalsubtype-field').querySelector('input').value;
+                    var product_name = row.querySelector('.productname-field').querySelector('input').value;
+                    var month = row.querySelector('.month-field').querySelector('input').value;
+                    var state = row.querySelector('.state-field').querySelector('input').value;
+                    var rto = row.querySelector('.rto-field').querySelector('input').value;
+                    var remarks = row.querySelector('.remarks-field').querySelector('input').value;
+                    var rate_net = row.querySelector('.ratenet-field').querySelector('input').value;
+                    // Calculate rate_usertwo_od_ 70% of rate_od
+                    var rate_od = parseFloat(row.querySelector('.rate-field input').value);
+                    var rate_userone_od_field = row.querySelector('.rateuseroneod-field');
+                    var rate_userone_od_field_calculated_value = (rate_od * 0.7).toFixed(2); // Calculate 80%
+
+                    // Calculate rate_userone_tp 70% of rate_tp
+
+                    var rate_tp = parseFloat(row.querySelector('.ratetp-field input').value);
+                    var rate_userone_tp_field = row.querySelector('.rateuseronetp-field');
+                    var rate_userone_tp_field_calculated_value = (rate_tp * 0.7).toFixed(2);
+
+                    // Calculate rate_userone_net 70% of rate_net
+                    var rate_net = parseFloat(row.querySelector('.ratenet-field input').value);
+                    var rate_userone_net_field = row.querySelector('.rateuseronenet-field');
+                    var rate_userone_net_field_calculated_value = (rate_net * 0.7).toFixed(2);
+
+                    // Calculate rate_usertwo_od_ 80% of rate_od
+                    var rate_od = parseFloat(row.querySelector('.rate-field input').value);
+                    var rate_usertwo_od_field = row.querySelector('.rateusertwood-field');
+                    var rate_usertwo_od_field_calculated_value = (rate_od * 0.8).toFixed(2); // Calculate 80%
+
+                    // Calculate rate_usertwo_tp 80% of rate_tp
+
+                    var rate_tp = parseFloat(row.querySelector('.ratetp-field input').value);
+                    var rate_usertwo_tp_field = row.querySelector('.rateusertwotp-field');
+                    var rate_usertwo_tp_field_calculated_value = (rate_tp * 0.8).toFixed(2);
+
+                    // Calculate rate_usertwo_net 80% of rate_net
+                    var rate_net = parseFloat(row.querySelector('.ratenet-field input').value);
+                    var rate_usertwo_net_field = row.querySelector('.rateusertwonet-field');
+                    var rate_usertwo_net_field_calculated_value = (rate_net * 0.8).toFixed(2);
+
+                    // Calculate rate_userthree_od_ 90% of rate_od
+                    var rate_od = parseFloat(row.querySelector('.rate-field input').value);
+                    var rate_userthree_od_field = row.querySelector('.rateuserthreeod-field');
+                    var rate_userthree_od_field_calculated_value = (rate_od * 0.9).toFixed(2); // Calculate 80%
+
+                    // Calculate rate_userthree_tp 90% of rate_tp
+
+                    var rate_tp = parseFloat(row.querySelector('.ratetp-field input').value);
+                    var rate_userthree_tp_field = row.querySelector('.rateuserthreetp-field');
+                    var rate_userthree_tp_field_calculated_value = (rate_tp * 0.9).toFixed(2);
+
+                    // Calculate rate_userthree_net 90% of rate_net
+                    var rate_net = parseFloat(row.querySelector('.ratenet-field input').value);
+                    var rate_userthree_net_field = row.querySelector('.rateuserthreenet-field');
+                    var rate_userthree_net_field_calculated_value = (rate_net * 0.9).toFixed(2);
+
+                    // Update the calculated value in the corresponding field 80%
+                    var rate_userone_od_field = row.querySelector('.rateuseroneod-field');
+                    rate_userone_od_field.innerHTML = ' ' + rate_userone_od_field_calculated_value + '';
+
+                    var rate_userone_tp_field = row.querySelector('.rateuseronetp-field');
+                    rate_userone_tp_field.innerHTML = ' ' + rate_userone_tp_field_calculated_value + '';
+
+                    var rate_userone_net_field = row.querySelector('.rateuseronenet-field');
+                    rate_userone_net_field.innerHTML = ' ' + rate_userone_net_field_calculated_value + '';
+
+                    // Update the calculated value in the corresponding field 80%
+                    var rate_usertwo_od_field = row.querySelector('.rateusertwood-field');
+                    rate_usertwo_od_field.innerHTML = ' ' + rate_usertwo_od_field_calculated_value + '';
+
+                    var rate_usertwo_tp_field = row.querySelector('.rateusertwotp-field');
+                    rate_usertwo_tp_field.innerHTML = ' ' + rate_usertwo_tp_field_calculated_value + '';
+
+                    var rate_usertwo_net_field = row.querySelector('.rateusertwonet-field');
+                    rate_usertwo_net_field.innerHTML = ' ' + rate_usertwo_net_field_calculated_value + '';
+
+                    // Update the calculated value in the corresponding field 90%
+                    var rate_userthree_od_field = row.querySelector('.rateuserthreeod-field');
+                    rate_userthree_od_field.innerHTML = ' ' + rate_userthree_od_field_calculated_value + '';
+
+                    var rate_userthree_tp_field = row.querySelector('.rateuserthreetp-field');
+                    rate_userthree_tp_field.innerHTML = ' ' + rate_userthree_tp_field_calculated_value + '';
+
+                    var rate_userthree_net_field = row.querySelector('.rateuserthreenet-field');
+                    rate_userthree_net_field.innerHTML = ' ' + rate_userthree_net_field_calculated_value + '';
+    
+                            
+                    // Update the data via AJAX
+                    $.ajax({
+                        type: 'GET',
+                        url: "{% url 'grid:ajax_update_rate' %}",
+                        data: {
+                            'pk': pk,
+                            'rate_od': rate_od,
+                            'rate_tp': rate_tp,
+                            'company': company,
+                            'product':product,
+                            'vehical_type':vehical_type,
+                            'vehical_subtype':vehical_subtype,
+                            'product_name':product_name,
+                            'month':month,
+                            'state':state,
+                            'rto':rto,
+                            'remarks':remarks,
+                            'rate_net':rate_net,
+                            'rateuser1_od': rate_userone_od_field_calculated_value,
+                            'rateuser1_tp': rate_userone_tp_field_calculated_value,
+                            'rateuser1_net': rate_userone_net_field_calculated_value,
+                            'rateuser2_od': rate_usertwo_od_field_calculated_value,
+                            'rateuser2_tp': rate_usertwo_tp_field_calculated_value,
+                            'rateuser2_net': rate_usertwo_net_field_calculated_value,
+                            'rateuser3_od': rate_userthree_od_field_calculated_value,
+                            'rateuser3_tp': rate_userthree_tp_field_calculated_value,
+                            'rateuser3_net': rate_userthree_net_field_calculated_value,
+
+                            
+                        },
+                        success: function (response) {
+                            if (response.status === 'success') {
+                                // Handle success
+                                console.log(response);
+        
+                                // Update the rate in the table
+                                let cell = $('.id-field:contains(' + response.data.pk + ')');
+                                let row = cell.closest('tr');
+                                row.find('.rate-field').text(response.data.rate_od);
+                                row.find('.ratetp-field').text(response.data.rate_tp);
+                                row.find('.company-field').text(response.data.company);
+                                row.find('.product-field').text(response.data.product);
+                                row.find('.vehicaltype-field').text(response.data.vehical_type);
+                                row.find('.vehicalsubtype-field').text(response.data.vehical_subtype);
+                                row.find('.productname-field').text(response.data.product_name);
+                                row.find('.month-field').text(response.data.month);
+                                row.find('.state-field').text(response.data.state);
+                                row.find('.rto-field').text(response.data.rto);
+                                row.find('.remarks-field').text(response.data.remarks);
+                                row.find('.ratenet-field').text(response.data.rate_net);
+                                row.find('.rateuseroneod-field').text(response.data.rate_userone_od);
+                                row.find('.rateuseronetp-field').text(response.data.rate_userone_tp);
+                                row.find('.rateuseronenet-field').text(response.data.rate_userone_net);
+                                row.find('.rateusertwood-field').text(response.data.rate_usertwo_od);
+                                row.find('.rateusertwotp-field').text(response.data.rate_usertwo_tp);
+                                row.find('.rateusertwonet-field').text(response.data.rate_usertwo_net);
+                                row.find('.rateuserthreeod-field').text(response.data.rate_userthree_od);
+                                row.find('.rateuserthreetp-field').text(response.data.rate_userthree_tp);
+                                row.find('.rateuserthreenet-field').text(response.data.rate_userthree_net);
+                                                // Switch back to display mode
+                                toggleEditMode(row, index, true);
+                                } else {
+                                    // Handle errors
+                                    console.log(response.message);
+                                }
+                            },
+                            error: function (response) {
+                                // Handle errors
+                                console.log(response);
+                            }
+                        });
+                    });
+                });
+
+            function toggleEditMode(row, index, switchToEdit) {
+                var editButton = editButtons[index];
+                var updateButton = updateButtons[index];
+        
+                // Toggle visibility of buttons and input fields
+                editButton.style.display = switchToEdit ? 'inline-block' : 'none';
+                updateButton.style.display = switchToEdit ? 'none' : 'inline-block';
+        
+                // Loop through all editable fields and replace text with input fields
+               // Loop through all editable fields and replace text with input fields
+                row.querySelectorAll('.rate-field').forEach(function (rateField) {
+                    var currentValue = rateField.innerText;
+                    rateField.innerHTML = switchToEdit ? currentValue : '<input class="form-control" type="text" value="' + currentValue + '">';
+                });
+                row.querySelectorAll('.ratetp-field').forEach(function (ratetpField) {
+                    var currenttpValue = ratetpField.innerText;
+                    ratetpField.innerHTML = switchToEdit ? currenttpValue : '<input class="form-control" type="text" value="' + currenttpValue + '">';
+                });
+                row.querySelectorAll('.company-field').forEach(function (companyField) {
+                    var companyValue = companyField.innerText;
+                    companyField.innerHTML = switchToEdit ? companyValue : '<input class="form-control" type="text" value="' + companyValue + '">';
+                });
+                row.querySelectorAll('.product-field').forEach(function (productField) {
+                    var productValue = productField.innerText;
+                    productField.innerHTML = switchToEdit ? productValue : '<input class="form-control" type="text" value="' + productValue + '">';
+                });
+                row.querySelectorAll('.vehicaltype-field').forEach(function (vehicaltypeField) {
+                    var vehicaltypeValue = vehicaltypeField.innerText;
+                    vehicaltypeField.innerHTML = switchToEdit ? vehicaltypeValue : '<input class="form-control" type="text" value="' + vehicaltypeValue + '">';
+                });
+                row.querySelectorAll('.vehicalsubtype-field').forEach(function (vehicalsubtypeField) {
+                    var vehicalsubtypeValue = vehicalsubtypeField.innerText;
+                    vehicalsubtypeField.innerHTML = switchToEdit ? vehicalsubtypeValue : '<input class="form-control" type="text" value="' + vehicalsubtypeValue + '">';
+                });
+                row.querySelectorAll('.productname-field').forEach(function (productnameField) {
+                    var productnameValue = productnameField.innerText;
+                    productnameField.innerHTML = switchToEdit ? productnameValue : '<input class="form-control" type="text" value="' + productnameValue + '">';
+                });
+                row.querySelectorAll('.month-field').forEach(function (monthField) {
+                    var monthValue = monthField.innerText;
+                    monthField.innerHTML = switchToEdit ? monthValue : '<input class="form-control" type="text" value="' + monthValue + '">';
+                });
+                row.querySelectorAll('.state-field').forEach(function (stateField) {
+                    var stateValue = stateField.innerText;
+                    stateField.innerHTML = switchToEdit ? stateValue : '<input class="form-control" type="text" value="' + stateValue + '">';
+                });
+                row.querySelectorAll('.rto-field').forEach(function (rtoField) {
+                    var rtoValue = rtoField.innerText;
+                    rtoField.innerHTML = switchToEdit ? rtoValue : '<input class="form-control" type="text" value="' + rtoValue + '">';
+                });
+                row.querySelectorAll('.remarks-field').forEach(function (remarksField) {
+                    var remarksValue = remarksField.innerText;
+                    remarksField.innerHTML = switchToEdit ? remarksValue : '<input class="form-control" type="text" value="' + remarksValue + '">';
+                });
+                row.querySelectorAll('.ratenet-field').forEach(function (ratenetField) {
+                    var ratenetValue = ratenetField.innerText;
+                    ratenetField.innerHTML = switchToEdit ? ratenetValue : '<input class="form-control" type="text" value="' + ratenetValue + '">';
+                });
+               
+                
+                // Set focus on the first input field for a better user experience
+                if (!switchToEdit) {
+                    row.querySelector('.rate-field input').focus();
+                }
+            }
+        });
+        
+    </script>
+    {% endblock script %}

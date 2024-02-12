@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block script %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get the file input element
+      var fileInput = document.getElementById('fileInput');
+
+      // Clear the value to prevent automatic upload
+      fileInput.value = '';
+
+      // Optionally, you can add an event listener to handle manual file selection
+      fileInput.addEventListener('change', function(event) {
+        // Handle the file selection if needed
+        var selectedFile = event.target.files[0];
+        console.log('Selected file:', selectedFile);
+      });
+    });
+  </script>
+{% endblock script %}
+
+{% block content %}
+  <div class="container-fluid general-widget">
+    <div>
+      <button class="btn btn-primary-light btn-left" type="button"><a href="{% url 'grid:register' %}"><i data-feather="log-out"></i>Create New User</a></button>
+      </div>
+    <div class="card-header" style="background: #0c7097; color:white;">Upload Grid</div>
+    
+    <div class="card">
+     
+      <div class="card-body">
+        <div class="dt-ext table-responsive">
+          <table id="auto-fill" class="table table-hover mb-2">
+            <thead class="table-active">
+              <tr>
+                <th>Sr</th>
+                <th>User Name</th>
+                <th>Created on </th>
+                <th>Group Permissions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in user %}
+                <tr>
+                  <th scope="row">{{forloop.counter}}</th>
+                  <td>{{i.username}}</td>
+                  <td>{{i.date_joined|date:"F d, Y H:i:s"}}</td>
+                  <td>
+                    {% for group in i.groups.all %}
+                      {{ group.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                  </td>
+                  
+                  
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
