@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Build paths inside the proj ect like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -107,7 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240  # Or any other suitable value
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
