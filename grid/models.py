@@ -82,20 +82,20 @@ class Grid_data(models.Model):
     month           =   models.CharField(max_length=255)
     state           =   models.CharField(max_length=255)
     rto             =   models.CharField(max_length=255)
-    rate_od            =   models.CharField(max_length=255)
-    rate_tp            =   models.CharField(max_length=255)
-    rate_net            =   models.CharField(max_length=255)
-    rateuser1_od       =   models.CharField(max_length=255) # Rate user for 70% of requests
-    rateuser1_tp       =   models.CharField(max_length=255) 
-    rateuser1_net       =   models.CharField(max_length=255) 
-    rateuser2_od       =   models.CharField(max_length=255)
-    rateuser2_tp       =   models.CharField(max_length=255)# Rate user for 80% of requests
-    rateuser2_net       =   models.CharField(max_length=255)
-    rateuser3_od       =   models.CharField(max_length=255)# Rate user for 90% of requests
-    rateuser3_tp       =   models.CharField(max_length=255)
-    rateuser3_net       =   models.CharField(max_length=255)
-    remarks         =   models.CharField(max_length=255)
-    agent_payout    =   models.CharField(max_length=255)
+    rate_od            =   models.CharField(max_length=255,null=True,blank=True)
+    rate_tp            =   models.CharField(max_length=255,null=True,blank=True)
+    rate_net            =   models.CharField(max_length=255,null=True,blank=True)
+    rateuser1_od       =   models.CharField(max_length=255,null=True,blank=True) # Rate user for 70% of requests
+    rateuser1_tp       =   models.CharField(max_length=255,null=True,blank=True) 
+    rateuser1_net       =   models.CharField(max_length=255,null=True,blank=True) 
+    rateuser2_od       =   models.CharField(max_length=255,null=True,blank=True)
+    rateuser2_tp       =   models.CharField(max_length=255,null=True,blank=True)# Rate user for 80% of requests
+    rateuser2_net       =   models.CharField(max_length=255,null=True,blank=True)
+    rateuser3_od       =   models.CharField(max_length=255,null=True,blank=True)# Rate user for 90% of requests
+    rateuser3_tp       =   models.CharField(max_length=255,null=True,blank=True)
+    rateuser3_net       =   models.CharField(max_length=255,null=True,blank=True)
+    remarks         =   models.CharField(max_length=255,null=True,blank=True)
+    agent_payout    =   models.CharField(max_length=255,null=True,blank=True)
     created_on      =   models.DateField(default=timezone.now)
     
 

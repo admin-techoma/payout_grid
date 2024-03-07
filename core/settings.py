@@ -108,6 +108,13 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240  # Or any other suitable value
+
+# settings.py
+DATA_UPLOAD_MAX_MEMORY_SIZE = 20971520  # 20MB in bytes
+FILE_UPLOAD_MAX_MEMORY_SIZE = 20971520  # 20MB in bytes
+
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 

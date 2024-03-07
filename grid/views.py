@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import JsonResponse
 from .resources import MisResource
 from .models import Grid_data, Grid_file
@@ -70,6 +70,16 @@ def update_grid(request):
     data = Grid_data.objects.all()
 
     return render(request, 'update_grid.html',{'data':data})
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url=reverse_lazy('accounts:login'))
+def delete_grid(request):
+    if request.method == 'POST':
+        Grid_data.objects.all().delete()
+        return redirect('grid:delete_grid')  # Redirect to a success page or any desired URL
+    
+    return render(request, 'delete_griddata.html')
+
 
 
 def ajax_update_rate(request):
@@ -355,3 +365,6 @@ def user_list(request):
     user= User.objects.all()
 
     return render(request, 'user_list.html', {'user': user})
+
+
+

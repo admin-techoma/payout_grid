@@ -11,6 +11,7 @@ urlpatterns = [
    
     path('upload_grid/', views.upload_grid, name='upload_grid'),
     path('update_grid/', views.update_grid, name='update_grid'),
+    path('delete_grid/', views.delete_grid, name='delete_grid'),
 
     path('ajax_update_rate/', views.ajax_update_rate, name='ajax_update_rate'),
     path('report_grid/', views.report_grid, name='report_grid'),
