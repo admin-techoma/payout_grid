@@ -13,6 +13,9 @@ from .forms import CustomUserCreationForm
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
 User = get_user_model()
+from django.views.generic import ListView
+
+from django.core.paginator import Paginator
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url=reverse_lazy('accounts:login'))
@@ -64,12 +67,29 @@ def view_grid(request):
     return render(request, 'view_grid.html', context)
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
-@login_required(login_url=reverse_lazy('accounts:login'))
-def update_grid(request):
-    data = Grid_data.objects.all()
+# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
+# @login_required(login_url=reverse_lazy('accounts:login'))
+# def update_grid(request):
+#     data = Grid_data.objects.all()
+#     # import pdb ; pdb.set_trace()
+#     paginator = Paginator(data, len(data))  # Show 25 contacts per page.
+#     page_number = request.GET.get("page")
+#     page_obj = paginator.get_page(page_number)
+#     # return render(request, "list.html", {"page_obj": page_obj})
+#     return render(request, 'update_grid.html',{'data':page_obj})
 
-    return render(request, 'update_grid.html',{'data':data})
+class update_grid(ListView):
+    model = Grid_data
+    template_name = 'update_grid.html'
+    context_object_name = 'data'
+    paginate_by = 10
+
+    def get_queryset(self):
+        query = self.request.GET.get('q', None)
+        qs = Grid_data.objects.all()
+        # if query is not None:
+        #     qs=qs.filter( Q(buyer__name__icontains=query) | Q(dn_no__icontains=query) | Q(sales_order__so_no__icontains=query) )
+        return qs
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url=reverse_lazy('accounts:login'))

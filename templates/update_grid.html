@@ -35,7 +35,16 @@
               <!-- Zero Configuration  Starts-->
               <div class="col-sm-12">
                 <div class="card">
-                 
+                    <!-- <form method='GET' action='{% url "grid:update_grid" %}'>
+                        <div class="form-group">
+                          <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search"  name="q" autocomplete="off" aria-label="Search">
+                            <div class="input-group-append">
+                              <button class="btn btn-sm btn-primary" type="submit">Searchxx</button>
+                            </div>
+                          </div>
+                        </div>
+                      </form> -->
                   <div class="card-body">
                     <div class="table-responsive">
                       <table class="display" id="basic-1">
@@ -99,9 +108,85 @@
                                     </td>
                                 </tr>
                                 {% endfor %}
+
+                                <!-- <div class="pagination">
+                                    <span class="step-links">
+                                        {% if data.has_previous %}
+                                            <a href="?page=1">&laquo; first</a>
+                                            <a href="?page={{ data.previous_page_number }}">previous</a>
+                                        {% endif %}
+                                
+                                        <span class="current">
+                                            Page {{ data.number }} of {{ data.paginator.num_pages }}.
+                                        </span>
+                                
+                                        {% if data.has_next %}
+                                            <a href="?page={{ data.next_page_number }}">next</a>
+                                            <a href="?page={{ data.paginator.num_pages }}">last &raquo;</a>
+                                        {% endif %}
+                                    </span>
+                                </div> -->
                           
                         </tbody>
                       </table>
+                      {% if is_paginated %}
+                    {% load proper_paginate %}
+                    {% load url_replace %}
+                    <nav aria-label="Page navigation example" class="mt-3">
+                        <ul class="pagination">
+                            {% if page_obj.number == 1 %}
+                            <li class="disabled page-item">
+                                <span class="page-link">First</span>
+                            </li>
+                            {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?{% url_replace request 'page' 1 %}">First</a>
+                            </li>
+                            {% endif %}
+                            {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="?{% url_replace request 'page' page_obj.previous_page_number %}">&laquo;</a>
+                            </li>
+                            {% else %}
+                            <li class="disabled page-item">
+                                <span class="page-link">&laquo;</span>
+                            </li>
+                            {% endif %}
+                            {% for i in paginator|proper_paginate:page_obj.number %}
+                            {% if page_obj.number == i %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+                            </li>
+                            {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?{% url_replace request 'page' i %}">{{ i }}</a>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="?{% url_replace request 'page' page_obj.next_page_number %}">&raquo;</a>
+                            </li>
+                            {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">&raquo;</span>
+                            </li>
+                            {% endif %}
+                            {% if page_obj.number == paginator.num_pages %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Last</span>
+                            </li>
+                            {% else %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                    href="?{% url_replace request 'page' paginator.num_pages %}">Last</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% endif %}
                     </div>
                   </div>
                 </div>
