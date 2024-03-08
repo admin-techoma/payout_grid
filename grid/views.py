@@ -14,6 +14,11 @@ from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
+
+from django.core.paginator import Paginator
+
+
+
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url=reverse_lazy('accounts:login'))
 def index(request):
@@ -68,8 +73,11 @@ def view_grid(request):
 @login_required(login_url=reverse_lazy('accounts:login'))
 def update_grid(request):
     data = Grid_data.objects.all()
-
-    return render(request, 'update_grid.html',{'data':data})
+    paginator = Paginator(data, 25)  # Show 25 contacts per page.
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    # return render(request, "list.html", {"page_obj": page_obj})
+    return render(request, 'update_grid.html',{'data':page_obj})
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url=reverse_lazy('accounts:login'))
