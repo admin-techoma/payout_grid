@@ -1,16 +1,18 @@
 from django.shortcuts import render,redirect
 from django.http import JsonResponse
 from .resources import MisResource
-from .models import Grid_data, Grid_file
+from .models import Employee, Grid_data, Grid_file
 from django.contrib.auth.decorators import login_required
 import os
 from grid.models import Grid_data
 import tablib
+from django.contrib import messages
 from django.views.decorators.http import require_GET
 from django.views.decorators.cache import cache_control
 from django.views.generic.edit import CreateView
 from .forms import CustomUserCreationForm
 from django.urls import reverse_lazy
+from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -374,5 +376,85 @@ def user_list(request):
 
     return render(request, 'user_list.html', {'user': user})
 
+
+def generate_next_emp_id():
+    last_employee = Employee.objects.last()
+    if last_employee:
+        last_emp_id = last_employee.emp_id
+        emp_number = int(last_emp_id[5:]) + 1
+        return f'NIBPL{str(emp_number).zfill(3)}'
+    else:
+        return 'NIBPL001'
+
+def check_email_exists(request):
+    email = request.GET.get('email', None)
+    exists = Employee.objects.filter(email=email).exists()
+    return JsonResponse({'exists': exists})
+
+def check_contact_no_exists(request):
+    contact_no = request.GET.get('contact_no', None)
+    exists = Employee.objects.filter(contact_no=contact_no).exists()
+    return JsonResponse({'exists': exists})
+
+
+from django.contrib.auth.models import Group
+
+from django.contrib.auth.models import Group
+
+def add_employee(request):
+    emp = Employee.objects.all()
+    emp_id = generate_next_emp_id()
+
+    groups = Group.objects.all()  # Fetch all available groups
+
+    if request.method == 'POST':
+        emp_id = request.POST.get("emp_id")
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        contact_no = request.POST.get("contact_no")
+        status = request.POST.get("status")
+        group_id = request.POST.get("group")  # Added to retrieve selected group ID
+
+        # Check if email or contact number already exists
+        if Employee.objects.filter(email=email).exists():
+            messages.error(request, 'Email Id Already Exists.')
+        elif Employee.objects.filter(contact_no=contact_no).exists():
+            messages.error(request, 'Contact Number Already Exists.')
+        else:
+            # If neither email nor contact number exists, create the employee
+            employee_instance = Employee.objects.create(emp_id=emp_id, name=name, email=email, contact_no=contact_no, status=status)
+
+            # Create or get the user associated with the employee
+            user, created = User.objects.get_or_create(username=email, email=email, first_name=name)
+
+            # Set the password for the user if it's a new user
+            if created:
+                password = User.objects.make_random_password(length=8)
+                user.set_password(password)
+                user.save()
+
+            # Associate the user with the employee
+            employee_instance.emp_user = user
+
+            # Assign the selected group to the employee
+            if group_id:
+                group = Group.objects.get(id=group_id)
+                employee_instance.group = group
+
+                # Add the user to the selected group
+                user.groups.set([group])
+
+            employee_instance.save()
+
+            messages.success(request, 'Employee Created Successfully!')
+            return redirect('grid:user_list')
+
+    context = {
+        'emp_id': emp_id,
+        'emp': emp,
+        'groups': groups,  # Pass the groups to the template
+    }
+
+    return render(request, 'add_employee.html', context)
 
 
