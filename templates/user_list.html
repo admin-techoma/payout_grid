@@ -22,9 +22,31 @@
 
 {% block content %}
   <div class="container-fluid general-widget">
+    {% for message in messages %}
+    {% if message.tags == 'success' %}
+    <div class="alert alert-success" role="alert">
+        {{ message }}
+    </div>
+    {% else %}
+    <label for="exampleInputEmail1" class="form-label text-left text-danger" >{{ message
+        }}</label>
+    {% endif %}
+    {% endfor %}
+    {% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        {% for field, errors in form.errors.items %}
+        {% for error in errors %}
+        {{ error }}
+        {% endfor %}
+        {% endfor %}
+    </div>
+    {% endif %}
     <div>
       <button class="btn btn-primary-light btn-left" type="button"><a href="{% url 'grid:register' %}"><i data-feather="log-out"></i>Create New User</a></button>
       </div>
+      <div>
+        <button class="btn btn-primary-light btn-left" type="button"><a href="{% url 'grid:add_employee' %}"><i data-feather="log-out"></i>Create Employee</a></button>
+        </div>
     <div class="card-header" style="background: #0c7097; color:white;">Upload Grid</div>
     
     <div class="card">
