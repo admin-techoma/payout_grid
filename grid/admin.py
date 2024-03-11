@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from grid.models import Grid_file,Grid_data,Product,Vehical_Type,Vehical_Sub_Type,Product_Name,Provider,Month,State,Rto
+from grid.models import Grid_file,Grid_data,Product,Vehical_Type,Vehical_Sub_Type,Product_Name,Provider,Month,State,Rto,Employee
 
 # Register your models here.
 admin.site.register(Product)
@@ -13,3 +13,4 @@ admin.site.register(State)
 admin.site.register(Rto)
 admin.site.register(Grid_file)
 admin.site.register(Grid_data)
+admin.site.register(Employee)

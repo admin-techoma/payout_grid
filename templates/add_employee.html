@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static  %}
+   
+{% block script %}
+<script>
+    $(document).ready(function () {
+        $('form').on('submit', function (event) {
+            // Check email and contact number validity
+            if (!checkEmailValidity() || !checkContactNoValidity()) {
+                // Prevent form submission if there are validation issues
+                event.preventDefault();
+            }
+        });
+
+        $('#id_email').on('input', function () {
+            checkEmailExists();
+        });
+
+        function checkEmailExists() {
+            var email = $('#id_email').val();
+
+            $.ajax({
+                type: 'GET',
+                url: '{% url 'grid:check_email_exists' %}',
+                data: {'email': email},
+                success: function (response) {
+                    if (response.exists) {
+                        $('#email-error').text('Email already exists.');
+                    } else {
+                        $('#email-error').text('');
+                    }
+                }
+            });
+        }
+
+        $('#contact_no').on('input', function () {
+            checkContactNoExists();
+        });
+
+        function checkContactNoExists() {
+            var contact_no = $('#contact_no').val();
+
+            $.ajax({
+                type: 'GET',
+                url: '{% url 'grid:check_contact_no_exists' %}',
+                data: {'contact_no': contact_no},
+                success: function (response) {
+                    if (response.exists) {
+                        $('#contact-no-error').text('Contact number already exists.');
+                    } else {
+                        $('#contact-no-error').text('');
+                    }
+                }
+            });
+        }
+
+        function checkEmailValidity() {
+            return $('#email-error').text() === '';
+        }
+
+        function checkContactNoValidity() {
+            return $('#contact-no-error').text() === '';
+        }
+    });
+</script>
+{% endblock script %}
+
+{% block content %}
+<div class="container-fluid general-widget">
+    <div class="card-header" style="background: #0c7097; color:white;">
+        Employee Create
+    </div>
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    {{ error }}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="card">
+        <form class="form theme-form" method="post" action="">
+            {% csrf_token %}
+        <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <div class="mb-3 row">
+                  {% comment %} <label class="col-sm-3 col-form-label">Create New User ....!!!</label> {% endcomment %}
+  
+                  <div class="row">
+                    <div class="col">
+                      <div class="mb-3 row">
+                        
+                        <p>
+                            <label for="id_username">Emp Id:</label>
+                            <input type="text" name="emp_id" maxlength="150" autofocus="" required="" aria-describedby="id_username_helptext" id="emp_id" value="{{ emp_id }}" readonly>
+                            
+                            
+                          </p>
+                <p>
+            <label for="id_username">Name:</label>
+            <input type="text" name="name" maxlength="150" autofocus="" required="" aria-describedby="id_username_helptext" id="name">
+            
+            
+            
+            </p>
+      
+        
+        <p>
+          <label for="id_email">Email:</label>
+          <input type="email" name="email" maxlength="320" required="" id="id_email">
+          <span id="email-error" class="text-danger"></span>
+          
+        </p>
+
+        <p>
+            <label for="contact_no">Contact no:</label>
+          
+            <input id=contact_no autocomplete="off" type="tel"  name="contact_no"  autocomplete="off" pattern="[0-9]{10}" maxlength="10" minlength="10" value="" required>
+            <span id="contact-no-error" class="text-danger"></span>
+          </p>
+      
+     
+        <p>
+            <label for="id_group">Group:</label>
+            <select name="group" id="id_group">
+                <option value="" selected="">Select Group</option>
+                {% for group in groups %}
+                    <option value="{{ group.id }}">{{ group.name }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        
+        <p>
+            <label for="id_status">Status:</label>
+            <select name="status" id="id_status">
+                <option value="Activate" selected>Activate</option>
+                <option value="Deactivate">Deactivate</option>
+            </select>
+        </p>
+        
+          </div>
+      </div>
+      </div>
+    </div>
+</div>
+</div>
+
+</div>
+        <button class="btn btn-primary btn-block" type="submit">Create</button>
+    </form>
+</div>
+
+   
+</div>
+{% endblock %}
