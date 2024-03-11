@@ -8,7 +8,11 @@ urlpatterns = [
     path('register/', views.UserRegistrationView.as_view(), name='register'),
     path('user_list/', views.user_list, name='user_list'),
     path('view_grid/', views.view_grid, name='view_grid'),
-   
+    
+    path('add_employee/', views.add_employee, name='add_employee'),
+    path('check-email-exists/', views.check_email_exists, name='check_email_exists'),
+    path('check_contact_no_exists/', views.check_contact_no_exists, name='check_contact_no_exists'),
+    
     path('upload_grid/', views.upload_grid, name='upload_grid'),
     path('update_grid/', views.update_grid.as_view(), name='update_grid'),
     path('delete_grid/', views.delete_grid, name='delete_grid'),

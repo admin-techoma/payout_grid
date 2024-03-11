@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 # Create your models here.
 class Product(models.Model): 
 
@@ -99,4 +100,27 @@ class Grid_data(models.Model):
     created_on      =   models.DateField(default=timezone.now)
     
 
+from django.contrib.auth.models import Group
+class Employee(models.Model):
 
+    EMPLOYEE_STATUS = [
+    ('Active', 'Active'),
+    ('Deactive', 'Deactive'),
+    
+    ]
+    
+    emp_user        =   models.OneToOneField(User, on_delete=models.CASCADE, related_name='emp_user' ,null=True, blank=True)
+    emp_id          =   models.CharField(max_length=10, primary_key=True)  
+    group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, blank=True)
+    name            =   models.CharField(max_length=50) # as per aadhar card
+    contact_no      =   models.DecimalField(max_digits=10,decimal_places=0,blank=True,null=True)
+    email           =   models.EmailField(max_length=254, unique=True)
+    status = models.CharField(choices=EMPLOYEE_STATUS, default='Activate', max_length=100, null=True, blank=True)
+    password_changed = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.name  # You can customize this to display the employee's name or another attribute
+
+    class Meta:
+        verbose_name = 'Employee'
+        verbose_name_plural = 'Employees'
