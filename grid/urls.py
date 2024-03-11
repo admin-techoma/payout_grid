@@ -10,7 +10,7 @@ urlpatterns = [
     path('view_grid/', views.view_grid, name='view_grid'),
    
     path('upload_grid/', views.upload_grid, name='upload_grid'),
-    path('update_grid/', views.update_grid, name='update_grid'),
+    path('update_grid/', views.update_grid.as_view(), name='update_grid'),
     path('delete_grid/', views.delete_grid, name='delete_grid'),
 
     path('ajax_update_rate/', views.ajax_update_rate, name='ajax_update_rate'),
