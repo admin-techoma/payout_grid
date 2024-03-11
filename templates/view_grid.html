@@ -35,8 +35,19 @@
               <div class="row">
                 <div class="col-12">
                   <nav class="navbar navbar-light p-0" id="navbar-example2"><a class="navbar-brand" style=" color:#0c7097;">{{request.user.username}}</a>
-                   
-                    <div class="btn btn-primary-light" ><a href="{% url 'accounts:logout' %}" style="border-radius: 0px;
+                  
+                            <div class="btn btn-primary-light" ><a href="{% url 'accounts:password_change' request.user.username %}" style="border-radius: 0px;
+                                color: #fff;
+                                background-color: #0c7097;
+                                padding: 10px 25px;
+                                line-height: 1;
+                                font-weight: 600;
+                                display: block;
+                                " >
+                                Change Password</a>
+                              
+                            </div>
+                            <div class="btn btn-primary-light" ><a href="{% url 'accounts:logout' %}" style="border-radius: 0px;
                         color: #fff;
                         background-color: #0c7097;
                         padding: 10px 25px;
@@ -65,7 +76,7 @@
 
     
     
-        <form class="form theme-form >" method="POST" action="" enctype="multipart/form-data">
+        <form class="form theme-form" method="POST" action="" enctype="multipart/form-data">
             {% csrf_token %}
             {% comment %} <a href="#" value="{{request.user.username}}">{{request.user.username}}</a>
             <a href="{% url 'accounts:logout' %}">logout</a> {% endcomment %}
