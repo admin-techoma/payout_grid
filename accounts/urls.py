@@ -15,7 +15,7 @@ urlpatterns = [
     path('password_reset_complete/<uidb64>/<token>/',views.password_reset_complete,name="password_reset_complete"),
     path('index/', views.index, name='index'),
         #reset password
-    path('password_change/<str:emp_id>/', views.password_change, name='password_change'),
+    # path('password_change/<str:emp_id>/', views.password_change, name='password_change'),
 
     # Add other URLs as needed
     path('logout',views.logout,name="logout"),

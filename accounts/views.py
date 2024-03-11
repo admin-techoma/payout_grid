@@ -191,25 +191,25 @@ def logout(request):
     return redirect('accounts:login')
 
 
-def password_change(request, emp_id):
-    emp_data = get_object_or_404(Employee, emp_user=request.user)
+# def password_change(request, emp_id):
+#     emp_data = get_object_or_404(Employee, emp_user=request.user)
     
-    if request.method == 'POST':
-        form = CustomPasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)  # Important to prevent automatic logout
-            messages.success(request, 'Your password was successfully updated!')
-            # return redirect('accounts:index')
-            return redirect('accounts:index', id=request.user)
-        else:
-            messages.error(request, 'Please correct the error below.')
-    else:
-        form = PasswordChangeForm(request.user)
+#     if request.method == 'POST':
+#         form = CustomPasswordChangeForm(request.user, request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             update_session_auth_hash(request, user)  # Important to prevent automatic logout
+#             messages.success(request, 'Your password was successfully updated!')
+#             # return redirect('accounts:index')
+#             return redirect('accounts:index', id=request.user)
+#         else:
+#             messages.error(request, 'Please correct the error below.')
+#     else:
+#         form = PasswordChangeForm(request.user)
 
-    context = {'emp_data': emp_data, 'form': form}
-    # context.update(get_session(request))
-    # request.session.save()
+#     context = {'emp_data': emp_data, 'form': form}
+#     # context.update(get_session(request))
+#     # request.session.save()
 
-    return render(request, 'auth/password_change.html', context)
+#     return render(request, 'auth/password_change.html', context)
 

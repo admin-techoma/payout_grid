@@ -36,7 +36,7 @@
                 <div class="col-12">
                   <nav class="navbar navbar-light p-0" id="navbar-example2"><a class="navbar-brand" style=" color:#0c7097;">{{request.user.username}}</a>
                   
-                            <div class="btn btn-primary-light" ><a href="{% url 'accounts:password_change' request.user.username %}" style="border-radius: 0px;
+                            {% comment %} <div class="btn btn-primary-light" ><a href="{% url 'accounts:password_change' request.user.username %}" style="border-radius: 0px;
                                 color: #fff;
                                 background-color: #0c7097;
                                 padding: 10px 25px;
@@ -46,7 +46,7 @@
                                 " >
                                 Change Password</a>
                               
-                            </div>
+                            </div> {% endcomment %}
                             <div class="btn btn-primary-light" ><a href="{% url 'accounts:logout' %}" style="border-radius: 0px;
                         color: #fff;
                         background-color: #0c7097;
