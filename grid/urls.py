@@ -5,7 +5,7 @@ app_name = 'grid'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('register/', views.UserRegistrationView.as_view(), name='register'),
+   
     path('user_list/', views.user_list, name='user_list'),
     path('view_grid/', views.view_grid, name='view_grid'),
     
