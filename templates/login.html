@@ -69,7 +69,8 @@
                             <h6>Welcome back! Log in to your account.</h6>
                             <div class="form-group">
                                 <label for="id_username">Username</label>
-                                <div class="input-group"><span class="input-group-text"><i
+                                <div class="input-group">
+                                    <span class="input-group-text"><i
                                             class="icon-user"></i></span>
                                     <input
                                     type="text"
@@ -95,9 +96,14 @@
                                     class="form-control" placeholder="*********">                                   
                                 </div>
                             </div>
+                          
+                                Forgot
+                                        Password?
+                      
                             <div class="form-group">
                                 <button class="btn btn-primary btn-block" type="submit" value="login">Sign in</button>
                             </div>
+                            
                             <input type="hidden" name="next" value="{{ next }}" />
                                     {% csrf_token %}
                         </form>

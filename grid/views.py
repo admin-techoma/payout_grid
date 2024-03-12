@@ -16,7 +16,8 @@ from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 User = get_user_model()
 from django.views.generic import ListView
-
+from django.core.mail import  send_mail
+from core import settings
 from django.core.paginator import Paginator
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -416,15 +417,19 @@ from django.contrib.auth.models import Group
 def add_employee(request):
     emp = Employee.objects.all()
     emp_id = generate_next_emp_id()
-
     groups = Group.objects.all()  # Fetch all available groups
+    # Initialize email, contact_no, name, and status outside the if statement
+    email = None
+    contact_no = None
+    name = None
+    status = None
 
     if request.method == 'POST':
         emp_id = request.POST.get("emp_id")
         name = request.POST.get("name")
         email = request.POST.get("email")
         contact_no = request.POST.get("contact_no")
-        status = request.POST.get("status")
+        status = "Active"
         group_id = request.POST.get("group")  # Added to retrieve selected group ID
 
         # Check if email or contact number already exists
@@ -458,8 +463,32 @@ def add_employee(request):
 
             employee_instance.save()
 
+            # Send email to the employee with username and password
+            subject = 'Employee Portal Access Credentials Verification'
+            message = f"""Dear {name},
+
+            We trust this email finds you well. We would like to inform you that your details have been successfully verified, and we are pleased to provide you with the login credentials for accessing the Payout Grid Portal.
+
+            Here are your login details:
+            URL     : https://buybestfin.in/
+            Username: {employee_instance.email}
+            Password: {password}
+
+            please chnage givan password on first time login.    
+            Please ensure the confidentiality of your login credentials and do not share them with anyone. If you have any concerns or questions regarding the login process, feel free to reach out to our HR department.
+
+            Best Regards,
+            Techoma Technologies Pvt. Ltd.
+            Human Resources Department."""
+            
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [employee_instance.email]
+            send_mail(subject, message, email_from, recipient_list)
+
             messages.success(request, 'Employee Created Successfully!')
             return redirect('grid:user_list')
+
+
 
     context = {
         'emp_id': emp_id,
