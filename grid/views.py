@@ -366,21 +366,6 @@ def dash(request):
 
 
 
-
-class UserRegistrationView(CreateView):
-    template_name = 'register.html'
-    form_class = CustomUserCreationForm
-    success_url = reverse_lazy('grid:user_list')  # Default redirect URL
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-
-        # Check if the registered user is a superuser
-        if self.object.is_superuser:
-            # Update the success_url to redirect superusers to user_list view
-            self.success_url = reverse_lazy('grid:user_list')
-
-        return response
     
 
 def user_list(request):

@@ -97,17 +97,14 @@ def password_reset_request(request):
             subject = "Password Reset Request"
             email_template_name = "auth/password_reset_email.txt"
             c = {
-            "email":user.email,
-            'domain': '127.0.0.1:8000',
-            
-            # 'domain':'www.pragaticapitals.com',
-            # 'site_name': 'Website',
+            "email":user.email, #'domain': '127.0.0.1:8000',
+            'domain':'https://buybestfin.in/',
+            'site_name': 'Website',
             "uid": urlsafe_base64_encode(force_bytes(user.pk)),
             "user": user,
             'token': default_token_generator.make_token(user),
-            # "protocol" = 'http',
-         
-            }
+            'protocol' : 'https',
+         }
             email = render_to_string(email_template_name, c)
             try:
                 send_mail( subject,email, 'dvenila@gmail.com' , [user.email], fail_silently=False)
@@ -115,6 +112,7 @@ def password_reset_request(request):
                 
                 return HttpResponse('Invalid header found.')
             return redirect('accounts:password_reset_done')
+
         messages.info(request,'Invalid Email ID')
     return render(request,'auth/password_reset.html')
 
