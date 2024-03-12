@@ -8,33 +8,31 @@ class Command(BaseCommand):
         grids = Grid_data.objects.all()
 
         for grid in grids:
-            grid.state = grid.state.upper()
-            grid.vehical_type = grid.vehical_type.upper()
+            # grid.state = grid.state.upper()
+            # grid.vehical_type = grid.vehical_type.upper()
 
-            # Update vehical_subtype based on specific conditions
-            if grid.vehical_subtype == "GVW 12000 - 20000 kgs":
-                grid.vehical_subtype = "GVW 12000 - 20000"
-            elif grid.vehical_subtype == "GVW 20000 - 40000 kgs":
-                grid.vehical_subtype = "GVW 20000 - 40000"
-            elif grid.vehical_subtype == "GVW 2500 - 3500 kgs":
-                grid.vehical_subtype = "GVW 2500 - 3500"
-            elif grid.vehical_subtype == "GVW 3500 - 7500 kgs":
-                grid.vehical_subtype = "GVW 3500 - 7500"
-            elif grid.vehical_subtype == "GVW 7500 - 12000 kgs":
-                grid.vehical_subtype = "GVW 7500 - 12000"
-            elif grid.vehical_subtype == "GVW < 7500 kgs":
-                grid.vehical_subtype = "GVW < 7500"
-            elif grid.vehical_subtype == "GVW Up to 2500 kgs":
-                grid.vehical_subtype = "GVW Up to 2500"
-            elif grid.vehical_subtype == "GVW exceeding 40000 kgs":
-                grid.vehical_subtype = "GVW exceeding 40000"
+            # # Update vehical_subtype based on specific conditions
+            # if grid.vehical_subtype == "GVW 12000 - 20000 kgs":
+            #     grid.vehical_subtype = "GVW 12000 - 20000"
+            # elif grid.vehical_subtype == "GVW 20000 - 40000 kgs":
+            #     grid.vehical_subtype = "GVW 20000 - 40000"
+            # elif grid.vehical_subtype == "GVW 2500 - 3500 kgs":
+            #     grid.vehical_subtype = "GVW 2500 - 3500"
+            # elif grid.vehical_subtype == "GVW 3500 - 7500 kgs":
+            #     grid.vehical_subtype = "GVW 3500 - 7500"
+            # elif grid.vehical_subtype == "GVW 7500 - 12000 kgs":
+            #     grid.vehical_subtype = "GVW 7500 - 12000"
+            # elif grid.vehical_subtype == "GVW < 7500 kgs":
+            #     grid.vehical_subtype = "GVW < 7500"
+            # elif grid.vehical_subtype == "GVW Up to 2500 kgs":
+            #     grid.vehical_subtype = "GVW Up to 2500"
+            # elif grid.vehical_subtype == "GVW exceeding 40000 kgs":
+            #     grid.vehical_subtype = "GVW exceeding 40000"
 
-            elif grid.vehical_type == "Misc D":
+            if grid.vehical_type == "Misc.D":
                 grid.vehical_type = "Misc. D"
-            elif grid.vehical_type == "MISC. D":
-                grid.vehical_type = "Misc. D"
-            elif grid.vehical_type == "PVT CAR":
-                grid.vehical_type = "Pvt Car"
+            
+            
 
             grid.save()
 
